@@ -6,6 +6,7 @@ export default {
     return axios.get('/api/posts');
   },
   createPost: function(data) {
+    alert("Create post");
     return axios.post('/api/posts', data);
   },
   // // Gets the book with the given id

@@ -48,6 +48,7 @@ $(document).ready(function() {
 
   // Submits a new post and brings user to blog page upon completion
   function submitPost(Post) {
+    alert("Submit post");
     $.post("/api/posts/", Post, function() {
       window.location.href = "/blog";
     });

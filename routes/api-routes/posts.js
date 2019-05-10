@@ -2,6 +2,7 @@ const router = require('express').Router();
 const postsController = require('../../controllers/postsController');
 
 // Matches with "/api/books"
+console.log("Posts.js");
 router
   .route('/')
   .get(postsController.findAll)
