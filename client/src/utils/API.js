@@ -6,8 +6,17 @@ export default {
     return axios.get('/api/posts');
   },
   createPost: function(data) {
-    alert("Create post");
     return axios.post('/api/posts', data);
+  },
+  signup: function(data) {
+    return axios.post('/api/users/signup', data);
+  },
+  login: function(data) {
+    alert("Axios post to server - Username=" + data.username);
+    return axios.post('/api/users/login', data);
+  },
+  validateToken: function(t) {
+    return axios.post('/api/users/validate', { token: t });
   },
   // // Gets the book with the given id
   // getBook: function(id) {

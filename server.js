@@ -25,7 +25,6 @@ if (process.env.NODE_ENV === 'production') {
 }
 // Add routes, both API and view
 app.use(routes);
-console.log("Hello");
 
 // Syncing our sequelize models and then starting our Express app
 // =============================================================
