@@ -1,5 +1,26 @@
 var db = require('../models');
 var jwt = require('jsonwebtoken');
+var axios = require("axios");
+var fs = require("fs");
+var reader = require('filereader');
+// const JSON = require('circular-json');
+// const FileDownload = require('js-file-download');
+
+// Heroku IP address
+var IPaddress = "184.171.246.58";
+
+// UC Davis Extension IP address
+// var IPaddress = "10.0.20.228";
+var scenarioFolderPathname;
+var scenarioFilenames = ['Resource Classes.txt',
+                         'Model Parameters.txt',
+                         'Pools.txt',
+                         'Process Route.txt',
+                         'Resource Requirement Expressions.txt',
+                         'Resources.txt'];
+
+const c_ExtendSimModelPath = "C:/Users/Administrator/Documents/ExtendSim10ASP_Prod/ASP/ASP Servers/ExtendSim Models/ASP example model (GS).mox"
+
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
@@ -25,6 +46,47 @@ module.exports = {
     //     res.json({ email: u.email, token: token });
     //   });
     // });
+
+      // var queryURL = "http://" + IPaddress + ":8090/StreamingService/web/LoginToServer?username=" + username + "&password=" + password;
+      // var queryURL = "http://10.0.20.228:8090/StreamingService/web/LoginToServer?username=" + username + "&password=" + password;
+      var queryURL = "http://" + IPaddress + ":8090/StreamingService/web/LoginToServer";
+      // var queryURL = "http://10.0.20.228:8090/StreamingService/web/LoginToServer";
+  
+      myMethod = "POST"   
+      var myheaders = { 
+                accept: "application/json", 
+        }; 
+      
+      var options_textPOST = {method : "POST",
+                    accept : "application/json",
+                    contentType: "application/json;charset=utf-8",
+                    headers : myheaders,
+                    muteHttpExceptions : false};
+      console.log('ExtendSimASP_login entry. Logging into host ' + queryURL + " for username=" + req.body.username + " password=" + req.body.password);
+      axios({
+          url: queryURL,
+          method: 'post',
+          accept : 'application/json',
+          contentType: 'application/json;charset=utf-8',
+          headers : myheaders,
+          params: {
+              username: req.body.username,
+              password: req.body.password
+          }
+        }).then(function(response) {
+          console.log('ExtendSimASP_login: ' + response.data);
+          // db.scenario.create({
+          //     userLoginSessionID: response.data,
+          //     username: username,
+          //     scenarioID: null,
+          //     scenarioSubmissionDataTime: null,
+          //     scenarioCompletionDataTime: null
+          // }).then(function(dbTodo) {
+          //         // We have access to the new todo as an argument inside of the callback function
+          //     res.json(response.data);
+          // });
+          // res.json(response.data);
+      });
   },
   signup: function(req, res) {
     // validateEmailWithRegex(req.body.email)
