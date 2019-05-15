@@ -25,10 +25,9 @@ class App extends React.Component {
   handleLoginOnSubmitEvent = () => {
     alert('Submitting login data. Username=' + this.state.username + " password=" + this.state.password);
     API.login(this.state)
-    .then(res => alert("res.userSessionID=" + res.userSessionID))
-      // this.setState({ userSessionID: res.userSessionID})}
+    .then(res => this.setState({ userSessionID: res.userSessionID}))
     // .then(res => localStorage.setItem('current_user_token', res.data.token))
-    .catch(err => console.log(err));
+    .catch(err => console.log("handleLoginOnSubmitEvent error=" + err));
   }
 
   handleOnChangeEvents = key => e => this.setState({ [key]: e.target.value });
