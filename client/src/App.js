@@ -7,28 +7,53 @@ import Login from './pages/Login';
 import NoMatch from './pages/NoMatch';
 import Navbar from './components/Navbar';
 import { CounterProvider } from './context';
+import API from './utils/API';
 
 const initialState = { currentUser: {} };
 const UserContext = React.createContext(initialState);
 
-function App() {
-  return (
-    <Router>
-      <CounterProvider>
-        <div>
-          <Navbar />
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/login" component={Login} />
-            <Route exact path="/scenarios" component={Scenarios} />
-            <Route exact path="/results" component={Results} />
-            {/* <Route exact path="/signup" component={Signup} /> */}
-            <Route component={NoMatch} />
-          </Switch>
-        </div>
-      </CounterProvider>
-    </Router>
-  );
+// function App() 
+class App extends React.Component {
+  state = {
+    username: "",
+    password: "",
+    userSessionID: "",
+  };
+  componentDidMount () {
+  };
+
+  handleLoginOnSubmitEvent = () => {
+    alert('Submitting login data. Username=' + this.state.username + " password=" + this.state.password);
+    API.login(this.state)
+    .then(res => this.setState({ userSessionID: res.userSessionID}))
+    // .then(res => localStorage.setItem('current_user_token', res.data.token))
+    .catch(err => console.log(err));
+  }
+
+  handleOnChangeEvents = key => e => this.setState({ [key]: e.target.value });
+
+  render () {
+    return (
+      <Router>
+        <CounterProvider>
+          <div>
+            <Navbar />
+            <Switch>
+              <Route exact path="/" component={Home} />
+              {/* <Route exact path="/login" component={Login} /> */}
+              <Route exact path="/login" render={
+                (handleLoginOnSubmitEvent, handleOnChangeEvents) => (
+                <Login {...this} />)} />
+              <Route exact path="/scenarios" component={Scenarios} />
+              <Route exact path="/results" component={Results} />
+              {/* <Route exact path="/signup" component={Signup} /> */}
+              <Route component={NoMatch} />
+            </Switch>
+          </div>
+        </CounterProvider>
+      </Router>
+    );
+  }
 }
 
 export default App;

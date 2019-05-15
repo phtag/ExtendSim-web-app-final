@@ -12,7 +12,6 @@ export default {
     return axios.post('/api/users/signup', data);
   },
   login: function(data) {
-    alert("Axios post to server - Username=" + data.username);
     return axios.post('/api/users/login', data);
   },
   validateToken: function(t) {
