@@ -74,11 +74,12 @@ module.exports = {
               password: req.body.password
           }
         }).then(function(response) {
-          var serverResponse = {
-            userSessionID: '',
-            token: ''
-          };
           console.log('ExtendSimASP_login: ' + response.data);
+          return res.json({ userSessionID: response.data });
+          // var serverResponse = {
+          //   userSessionID: '',
+          //   token: ''
+          // };
           // db.scenario.create({
           //     userLoginSessionID: response.data,
           //     username: username,
@@ -89,8 +90,8 @@ module.exports = {
           //         // We have access to the new todo as an argument inside of the callback function
           //     res.json(response.data);
           // });
-          serverResponse.userSessionID = response.data;
-          res.json(serverResponse);
+          // serverResponse.userSessionID = response.data;
+          // res.json(serverResponse);
       });
   },
   signup: function(req, res) {

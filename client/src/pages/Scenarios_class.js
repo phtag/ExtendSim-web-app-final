@@ -1,7 +1,35 @@
 import React, { Component } from 'react';
 
 import API from '../utils/API';
-function Scenarios (props) {
+// // import { Link } from 'react-router-dom';
+// import RandomHomeComponent from '../components/RandomHomeComponent';
+
+class Scenarios extends Component {
+  state = {
+    email: '',
+    password: '',
+    userLoginID: ''
+  };
+
+  componentDidMount() {
+    const token = localStorage.getItem('current_user_token');
+
+    if (token) {
+      API.validateToken(token)
+        .then(() => this.props.history.push('/'))
+        .catch(() => localStorage.removeItem('current_user_token'));
+    }
+  }
+
+  onSubmit = () => {
+    API.login(this.state)
+      .then(res => localStorage.setItem('current_user_token', res.data.token))
+      .catch(err => console.log(err));
+  };
+
+  onChange = key => e => this.setState({ [key]: e.target.value });
+
+  render() {
     return (
 <div id="home">
   <div className="container my-scenario-container">
@@ -21,7 +49,7 @@ function Scenarios (props) {
        </form>
         <h3>Scenario Information:</h3>
         <label htmlFor="user-login-id" className="scenario-input-labels">User Login ID:</label>
-        <output name="userLoginID" id="user-login-id">{props.state.userSessionID}</output>
+        <output name="userLoginID" id="user-login-id">{this.userLoginID}</output>
         <br></br>
         <label htmlFor="scenario-id" className="scenario-input-labels">Scenario ID:</label>
         <output name="scenario_id" id="scenario-id"></output>
@@ -38,11 +66,6 @@ function Scenarios (props) {
         <br></br>
         <label htmlFor="drop-area" className="scenario-input-labels">Scenario Input Files Drop Zone:</label>
         <div id="drop-area">
-        <form className="my-form">
-          <p>Upload multiple files with the file dialog or by dragging and dropping images onto the dashed region</p>
-          <input type="file" id="fileElem" multiple accept="image/*" onchange="handleFiles(this.files)"></input>
-          <label className="button" for="fileElem">Select some files</label>
-        </form>
         </div>
       </div>
     </div>
@@ -71,6 +94,6 @@ function Scenarios (props) {
       // </div>
     );
   }
-// }
+}
 
 export default Scenarios;

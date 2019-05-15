@@ -23,6 +23,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "bcrypt": "^3.0.6",
+    "dropzone": "^5.5.1",
     "express": "^4.16.3",
     "filereader": "^0.10.3",
     "if-env": "^1.0.4",

@@ -20,23 +20,24 @@ class App extends React.Component {
     userSessionID: "",
   };
   componentDidMount () {
+      alert("ComponentDidMount - App");
   };
 
-  handleLoginOnSubmitEvent = () => {
-    alert('Submitting login data. Username=' + this.state.username + " password=" + this.state.password);
+  handleLoginOnSubmitEvent = (event) => {
+    event.preventDefault();
     API.login(this.state)
-    .then(res => console.log("handleLoginOnSubmitEvent response=" + res.userSessionID))
+    .then(res => this.setState({ userSessionID: res.data.userSessionID}))
     // .then(res => this.setState({ userSessionID: res.userSessionID}))
     // .then(res => localStorage.setItem('current_user_token', res.data.token))
     .catch(err => console.log("handleLoginOnSubmitEvent error=" + err));
-  }
+  };
 
   handleOnChangeEvents = key => e => this.setState({ [key]: e.target.value });
 
   render () {
     return (
       <Router>
-        <CounterProvider>
+        {/* <CounterProvider> */}
           <div>
             <Navbar />
             <Switch>
@@ -45,13 +46,16 @@ class App extends React.Component {
               <Route exact path="/login" render={
                 (handleLoginOnSubmitEvent, handleOnChangeEvents) => (
                 <Login {...this} />)} />
-              <Route exact path="/scenarios" component={Scenarios} />
+              <Route exact path="/scenarios" render={
+                (userSessionID) => (
+                <Scenarios {...this} />)} />
+              {/* <Route exact path="/scenarios" component={Scenarios} /> */}
               <Route exact path="/results" component={Results} />
               {/* <Route exact path="/signup" component={Signup} /> */}
               <Route component={NoMatch} />
             </Switch>
           </div>
-        </CounterProvider>
+        {/* </CounterProvider> */}
       </Router>
     );
   }

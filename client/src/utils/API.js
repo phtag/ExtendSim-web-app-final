@@ -12,7 +12,8 @@ export default {
     return axios.post('/api/users/signup', data);
   },
   login: function(data) {
-    return axios.post('/api/users/login', data);
+   return axios.post('/api/users/login', data)
+    // return axios.post('/api/users/login', data);
   },
   validateToken: function(t) {
     return axios.post('/api/users/validate', { token: t });
