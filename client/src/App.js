@@ -34,6 +34,12 @@ class App extends React.Component {
 
   handleOnChangeEvents = key => e => this.setState({ [key]: e.target.value });
 
+  handleDropEvents = (acceptedFiles) => {
+    
+    alert("Dropped a big one!");
+  
+  }
+
   render () {
     return (
       <Router>
@@ -47,7 +53,7 @@ class App extends React.Component {
                 (handleLoginOnSubmitEvent, handleOnChangeEvents) => (
                 <Login {...this} />)} />
               <Route exact path="/scenarios" render={
-                (userSessionID) => (
+                (userSessionID, handleDropEvents) => (
                 <Scenarios {...this} />)} />
               {/* <Route exact path="/scenarios" component={Scenarios} /> */}
               <Route exact path="/results" component={Results} />

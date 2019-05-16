@@ -46,6 +46,7 @@ nav.navbar.navbar-default {
   border-radius: 20px;
   /* width: 480px; */
   font-family: sans-serif;
-  margin: 100px auto;
+  margin-left: 100px auto;
+  margin-right: 100px auto;
   padding: 20px;
 }

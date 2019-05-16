@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import BasicDropArea from '../components/BasicDropArea';
 
-import API from '../utils/API';
+// import API from '../utils/API';
 function Scenarios (props) {
     return (
 <div id="home">
@@ -37,38 +38,11 @@ function Scenarios (props) {
         <output id="scenario-input-files-list"></output>
         <br></br>
         <label htmlFor="drop-area" className="scenario-input-labels">Scenario Input Files Drop Zone:</label>
-        <div id="drop-area">
-        <form className="my-form">
-          <p>Upload multiple files with the file dialog or by dragging and dropping images onto the dashed region</p>
-          <input type="file" id="fileElem" multiple accept="image/*" onchange="handleFiles(this.files)"></input>
-          <label className="button" for="fileElem">Select some files</label>
-        </form>
-        </div>
+        <BasicDropArea {...props}/>
       </div>
     </div>
   </div>
 </div>
-      // <div>
-      //   <h1>Login</h1>
-      //   <input
-      //     type="text"
-      //     value={this.state.email}
-      //     label="email"
-      //     onChange={this.onChange('email')}
-      //   />
-      //   <input
-      //     type="password"
-      //     value={this.state.password}
-      //     label="password"
-      //     onChange={this.onChange('password')}
-      //   />
-      //   <button
-      //     onClick={this.onSubmit}
-      //     disabled={!Boolean(this.state.email && this.state.password)}
-      //   >
-      //     Login
-      //   </button>
-      // </div>
     );
   }
 // }
