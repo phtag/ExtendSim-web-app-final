@@ -18,6 +18,7 @@ class App extends React.Component {
     username: "",
     password: "",
     userSessionID: "",
+    scenarioInputFiles: []
   };
   componentDidMount () {
       alert("ComponentDidMount - App");
@@ -35,9 +36,8 @@ class App extends React.Component {
   handleOnChangeEvents = key => e => this.setState({ [key]: e.target.value });
 
   handleDropEvents = (acceptedFiles) => {
-    
-    alert("Dropped a big one! Num files=" + acceptedFiles.length);
-  
+    this.setState({scenarioInputFiles: acceptedFiles});
+    alert("Dropped a big one! Num files=" + this.state.scenarioInputFiles.length);
   }
 
   render () {
