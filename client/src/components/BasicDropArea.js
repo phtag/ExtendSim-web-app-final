@@ -1,8 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component, useCallback } from 'react';
 import {useDropzone} from 'react-dropzone';
 
 function BasicDropArea(props) {
-  const onDrop = props.handleDropEvents;
+  // const onDrop = props.handleDropEvents;
+  const onDrop = useCallback(acceptedFiles => {
+    props.handleDropEvents(acceptedFiles)});
   const {acceptedFiles, getRootProps, getInputProps} = useDropzone({onDrop});
   
   const files = acceptedFiles.map(file => (

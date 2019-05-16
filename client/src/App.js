@@ -36,7 +36,7 @@ class App extends React.Component {
 
   handleDropEvents = (acceptedFiles) => {
     
-    alert("Dropped a big one!");
+    alert("Dropped a big one! Num files=" + acceptedFiles.length);
   
   }
 
