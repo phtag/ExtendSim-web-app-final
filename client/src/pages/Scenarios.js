@@ -15,7 +15,7 @@ function Scenarios (props) {
         <h2>ExtendSim Web Simulation Scenario Inputs</h2>
         <form className="clearfix mb-4" action="POST">
           <div className="form-group">
-            <label htmlFor="scenario-name-text" className="scenario-input-labels" oninput="validateScenarioInputs()">Scenario name:</label>
+            <label htmlFor="scenario-name-text" className="scenario-input-labels" onInput="validateScenarioInputs()">Scenario name:</label>
             <input onChange={props.handleOnChangeEvents('scenarioName')} type="text" id="scenario-name-text" className="form-control" aria-describedby="scenario-name-text" placeholder="Enter scenario name"></input>
           </div>          
           <button onClick={props.handleSubmitSimulationScenarioBtnClick} id="submit-simulation-scenario" className="btn btn-primary float-left">Submit simulation scenario</button>
@@ -34,7 +34,7 @@ function Scenarios (props) {
         <output name="scenarioRunStatus" id="scenario-run-status"></output>
         <button id="show-scenario-results" className="btn btn-primary float-right">Show scenario results</button>
         <br></br>
-        <label for="scenario-input-files-list" className="scenario-input-labels">Selected Scenario Input Files:</label>
+        <label htmlFor="scenario-input-files-list" className="scenario-input-labels">Selected Scenario Input Files:</label>
         <output id="scenario-input-files-list"></output>
         <br></br>
         <label htmlFor="drop-area" className="scenario-input-labels">Scenario Input Files Drop Zone:</label>

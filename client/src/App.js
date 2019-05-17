@@ -71,8 +71,9 @@ class App extends React.Component {
   handleSubmitSimulationScenarioBtnClick = (event) => {
     event.preventDefault();
     alert("handleSubmitSimulationScenarioBtnClick");
-    API.createScenarioFolder(myScenarioFolderName)
-    .then(res => console.log("handleSubmitSimulationScenarioBtnClick: res.data=" + res.data))
+    API.createScenarioFolder(this.state.scenarioName)
+    .then(res => this.setState({scenarioFolderPathname: res.data.scenarioFolderPathname}))
+    // .then(res => console.log("handleSubmitSimulationScenarioBtnClick: res.data.scenarioFolderPathname=" + res.data.scenarioFolderPathname))
   };
 
   render () {
