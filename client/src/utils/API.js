@@ -20,17 +20,14 @@ export default {
   },
   createScenarioFolder: function(scenarioFolderName) {
     return axios.post('/api/ExtendSim/createScenarioFolder', { scenarioFolderName: scenarioFolderName }); 
+  },
+  copyModelToScenarioFolder: function(modelPathname, scenarioFolderName, copyFolderContents) {
+    alert('copyModelToScenarioFolder: sendoff...');
+    return axios.post('/api/ExtendSim/copyModelToScenarioFolder', 
+      { 
+        modelPathname: modelPathname,
+        scenarioFolderName: scenarioFolderName,
+        copyFolderContents: false
+      }); 
   }
-  // // Gets the book with the given id
-  // getBook: function(id) {
-  //   return axios.get("/api/books/" + id);
-  // },
-  // // Deletes the book with the given id
-  // deleteBook: function(id) {
-  //   return axios.delete("/api/books/" + id);
-  // },
-  // // Saves a book to the database
-  // saveBook: function(bookData) {
-  //   return axios.post("/api/books", bookData);
-  // }
 };

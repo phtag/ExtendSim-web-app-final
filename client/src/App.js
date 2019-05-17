@@ -13,6 +13,11 @@ const initialState = { currentUser: {} };
 const UserContext = React.createContext(initialState);
 
 const urlPrefix = "";
+var ExtendSimModelName = "/ASP example model (GS).mox";
+// ExtendSim server (use this for Heroku)
+var ExtendSimModelPath =
+  "C:/Users/Administrator/Documents/ExtendSim10ASP_Prod/ASP/ASP Servers/ExtendSim Models" +
+  ExtendSimModelName;
 
 // function App() 
 class App extends React.Component {
@@ -34,6 +39,7 @@ class App extends React.Component {
         enabled: false
       },
     ],
+    modelPathname: ExtendSimModelPath,
     scenarioName: "",
     scenarioFolderPathname: "",
     scenarioInputFiles: []
@@ -49,30 +55,6 @@ class App extends React.Component {
       this.setState({validationObjects: myValidationObjects})
     }
   }
-  
-  ExtendSimASPcreateScenarioFolder = (myScenarioFolderName) => {
-    alert("ExtendSimASPcreateScenarioFolder - scenario name=" + myScenarioFolderName);
-    // Execute WCF service to create a scenario folder
-    // var queryURL = "http://184.171.246.58:8090/StreamingService/web/CreateScenarioFolder?scenarioFoldername=myScenarioFolder"
-    // var queryURL =
-    //   urlPrefix + "/api/createscenariofolder/" + myScenarioFolderName;
-      API.createScenarioFolder(myScenarioFolderName)
-      .then(res => console.log("ExtendSimASPcreateScenarioFolder: res.data=" + res.data))
-      // .then(res => this.setState({scenarioFolderPathname: res.data}))
-    // $.ajax({
-    //   url: queryURL,
-    //   method: "get",
-    //   accept: "application/json",
-    //   contentType: "application/json;charset=utf-8",
-    //   headers: myheaders,
-    //   muteHttpExceptions: false
-    // }).then(function(response) {
-    //   console.log("ExtendSimASPcreateScenarioFolder: " + response);
-    //   scenarioFolderPathname = response;
-    //   $("#scenario-folder-pathname").val(scenarioFolderPathname);
-    //   ExtendSimASPcopyModelToScenarioFolder(scenarioFolderPathname);
-    // });
-  };
 
   handleLoginOnSubmitEvent = (event) => {
     event.preventDefault();
@@ -87,11 +69,6 @@ class App extends React.Component {
     this.setState({ [key]: e.target.value })
     if (key === "scenarioName") {
       this.ValidatePageElements();
-      // var myValidationObjects = this.state.validationObjects;
-      // if (this.state.scenarioInputFiles.length > 0) {
-      //   myValidationObjects[1].enabled = true;
-      // }
-      // this.setState({validationObjects: myValidationObjects})
     }
   };
 
@@ -105,7 +82,14 @@ class App extends React.Component {
     event.preventDefault();
     alert("handleSubmitSimulationScenarioBtnClick");
     API.createScenarioFolder(this.state.scenarioName)
-    .then(res => this.setState({scenarioFolderPathname: res.data.scenarioFolderPathname}))
+    .then(res => {
+      this.setState({scenarioFolderPathname: res.data.scenarioFolderPathname});
+      alert("make call to copyModelToScenarioFolder");
+      API.copyModelToScenarioFolder(this.state.modelPathname, 
+                                    this.state.scenarioFolderName, 
+                                    false)
+      .then()
+    })
     // .then(res => console.log("handleSubmitSimulationScenarioBtnClick: res.data.scenarioFolderPathname=" + res.data.scenarioFolderPathname))
   };
 
