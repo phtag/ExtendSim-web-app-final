@@ -21,7 +21,11 @@ import API from '../utils/API';
                             <label htmlFor="password-text">Password</label>
                             <input onChange={props.handleOnChangeEvents('password')} type="password" id="password-text" className="form-control" aria-describedby="password-text"></input>
                         </div>
-                        <button onClick={props.handleLoginOnSubmitEvent} id="submit-login-info" className="btn btn-primary float-left">Submit</button>
+                        <button 
+                            onClick={props.handleLoginOnSubmitEvent}
+                            disabled={!props.state.validationObjects[props.state.validationObjects.findIndex(obj => obj.name==="loginSubmitButton")].enabled}
+                            id="submit-login-info" className="btn btn-primary float-left">Submit
+                        </button>
                     </form>
                 </div>
             </div>

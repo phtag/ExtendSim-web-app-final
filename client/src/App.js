@@ -49,7 +49,17 @@ class App extends React.Component {
   };
 
   ValidatePageElements = () => {
+    // user login data
     var myValidationObjects = this.state.validationObjects;
+
+    if ((this.state.username === "") || (this.state.password === "")) {
+      myValidationObjects[0].enabled = false;
+      this.setState({validationObjects: myValidationObjects})
+    } else {
+      myValidationObjects[0].enabled = true;
+      this.setState({validationObjects: myValidationObjects})
+    }
+
     if ((this.state.scenarioInputFiles.length > 0) && (this.state.scenarioName != "")) {
       myValidationObjects[1].enabled = true;
       this.setState({validationObjects: myValidationObjects})
@@ -108,7 +118,10 @@ class App extends React.Component {
               <Route exact path="/" component={Home} />
               {/* <Route exact path="/login" component={Login} /> */}
               <Route exact path="/login" render={
-                (handleLoginOnSubmitEvent, handleOnChangeEvents) => (
+                (
+                  validationObjects,
+                  handleLoginOnSubmitEvent, 
+                  handleOnChangeEvents) => (
                 <Login {...this} />)} />
               <Route exact path="/scenarios" render={
                 (
