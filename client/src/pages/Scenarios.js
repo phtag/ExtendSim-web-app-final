@@ -16,9 +16,9 @@ function Scenarios (props) {
         <form className="clearfix mb-4" action="POST">
           <div className="form-group">
             <label htmlFor="scenario-name-text" className="scenario-input-labels" oninput="validateScenarioInputs()">Scenario name:</label>
-            <input type="text" id="scenario-name-text" className="form-control" aria-describedby="scenario-name-text" placeholder="Enter scenario name"></input>
+            <input onChange={props.handleOnChangeEvents('scenarioName')} type="text" id="scenario-name-text" className="form-control" aria-describedby="scenario-name-text" placeholder="Enter scenario name"></input>
           </div>          
-          <button id="submit-simulation-scenario" className="btn btn-primary float-left">Submit simulation scenario</button>
+          <button onClick={props.handleSubmitSimulationScenarioBtnClick} id="submit-simulation-scenario" className="btn btn-primary float-left">Submit simulation scenario</button>
        </form>
         <h3>Scenario Information:</h3>
         <label htmlFor="user-login-id" className="scenario-input-labels">User Login ID:</label>

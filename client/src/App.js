@@ -12,16 +12,40 @@ import API from './utils/API';
 const initialState = { currentUser: {} };
 const UserContext = React.createContext(initialState);
 
+const urlPrefix = "";
+
 // function App() 
 class App extends React.Component {
   state = {
     username: "",
     password: "",
     userSessionID: "",
+    scenarioName: "",
     scenarioInputFiles: []
   };
   componentDidMount () {
       alert("ComponentDidMount - App");
+  };
+
+  ExtendSimASPcreateScenarioFolder = (myScenarioFolderName) => {
+    alert("ExtendSimASPcreateScenarioFolder - scenario name=" + myScenarioFolderName);
+    // Execute WCF service to create a scenario folder
+    // var queryURL = "http://184.171.246.58:8090/StreamingService/web/CreateScenarioFolder?scenarioFoldername=myScenarioFolder"
+    var queryURL =
+      urlPrefix + "/api/createscenariofolder/" + myScenarioFolderName;
+    // $.ajax({
+    //   url: queryURL,
+    //   method: "get",
+    //   accept: "application/json",
+    //   contentType: "application/json;charset=utf-8",
+    //   headers: myheaders,
+    //   muteHttpExceptions: false
+    // }).then(function(response) {
+    //   console.log("ExtendSimASPcreateScenarioFolder: " + response);
+    //   scenarioFolderPathname = response;
+    //   $("#scenario-folder-pathname").val(scenarioFolderPathname);
+    //   ExtendSimASPcopyModelToScenarioFolder(scenarioFolderPathname);
+    // });
   };
 
   handleLoginOnSubmitEvent = (event) => {
@@ -40,6 +64,13 @@ class App extends React.Component {
     alert("Dropped a big one! Num files=" + this.state.scenarioInputFiles.length);
   }
 
+  handleSubmitSimulationScenarioBtnClick = (event) => {
+    event.preventDefault();
+    alert("handleSubmitSimulationScenarioBtnClick");
+    // $scenarioRunStatus.val("Sending input data to server...");
+    this.ExtendSimASPcreateScenarioFolder(this.state.scenarioName);
+  };
+
   render () {
     return (
       <Router>
@@ -53,7 +84,7 @@ class App extends React.Component {
                 (handleLoginOnSubmitEvent, handleOnChangeEvents) => (
                 <Login {...this} />)} />
               <Route exact path="/scenarios" render={
-                (userSessionID, handleDropEvents) => (
+                (userSessionID, handleOnChangeEvents, handleDropEvents, handleSubmitSimulationScenarioBtnClick) => (
                 <Scenarios {...this} />)} />
               {/* <Route exact path="/scenarios" component={Scenarios} /> */}
               <Route exact path="/results" component={Results} />
