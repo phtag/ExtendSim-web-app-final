@@ -21,13 +21,13 @@ export default {
   createScenarioFolder: function(scenarioFolderName) {
     return axios.post('/api/ExtendSim/createScenarioFolder', { scenarioFolderName: scenarioFolderName }); 
   },
-  copyModelToScenarioFolder: function(modelPathname, scenarioFolderName, copyFolderContents) {
-    alert('copyModelToScenarioFolder: sendoff...');
+  copyModelToScenarioFolder: function(modelPathname, scenarioFolderPathname, copyFolderContents) {
+    alert('copyModelToScenarioFolder: scenarioFolderPathname=' + scenarioFolderPathname);
     return axios.post('/api/ExtendSim/copyModelToScenarioFolder', 
       { 
         modelPathname: modelPathname,
-        scenarioFolderName: scenarioFolderName,
-        copyFolderContents: false
+        scenarioFolderPathname: scenarioFolderPathname,
+        copyFolderContents: copyFolderContents
       }); 
   }
 };

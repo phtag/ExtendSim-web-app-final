@@ -49,9 +49,12 @@ class App extends React.Component {
   };
 
   ValidatePageElements = () => {
+    var myValidationObjects = this.state.validationObjects;
     if ((this.state.scenarioInputFiles.length > 0) && (this.state.scenarioName != "")) {
-      var myValidationObjects = this.state.validationObjects;
       myValidationObjects[1].enabled = true;
+      this.setState({validationObjects: myValidationObjects})
+    } else {
+      myValidationObjects[1].enabled = false;
       this.setState({validationObjects: myValidationObjects})
     }
   }
@@ -66,10 +69,7 @@ class App extends React.Component {
   };
 
   handleOnChangeEvents = key => e => {
-    this.setState({ [key]: e.target.value })
-    if (key === "scenarioName") {
-      this.ValidatePageElements();
-    }
+    this.setState({ [key]: e.target.value }, this.ValidatePageElements);
   };
 
   handleDropEvents = (acceptedFiles) => {
@@ -80,15 +80,12 @@ class App extends React.Component {
 
   handleSubmitSimulationScenarioBtnClick = (event) => {
     event.preventDefault();
-    alert("handleSubmitSimulationScenarioBtnClick");
     API.createScenarioFolder(this.state.scenarioName)
     .then(res => {
-      this.setState({scenarioFolderPathname: res.data.scenarioFolderPathname});
-      alert("make call to copyModelToScenarioFolder");
-      API.copyModelToScenarioFolder(this.state.modelPathname, 
-                                    this.state.scenarioFolderName, 
-                                    false)
-      .then()
+      this.setState({scenarioFolderPathname: res.data.scenarioFolderPathname},
+        API.copyModelToScenarioFolder(this.state.modelPathname, 
+                                      res.data.scenarioFolderPathname, 
+                                      true)); 
     })
     // .then(res => console.log("handleSubmitSimulationScenarioBtnClick: res.data.scenarioFolderPathname=" + res.data.scenarioFolderPathname))
   };

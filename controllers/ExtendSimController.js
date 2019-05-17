@@ -64,6 +64,7 @@ module.exports = {
         const modelPathname = req.body.modelPathname;
         const scenarioFolderPathname = req.body.scenarioFolderPathname;
         const copyFolderContents = req.body.copyFolderContents;
+        console.log("copyModelToScenarioFolder: scenarioFolderPathname=" + scenarioFolderPathname);
         // Execute WCF service to copy the model folder to the scenario folder 
           var myheaders = { 
               accept: "application/json", 
@@ -76,7 +77,6 @@ module.exports = {
               muteHttpExceptions : false
             };
             var queryURL = "http://" + IPaddress + ":8090/StreamingService/web/CopyModelToScenarioFolder";
-          console.log('copyModelToScenarioFolder: url=' + queryURL + " modelName=" + modelPathname + " scenario pathname=" + scenarioFolderPathname);
           axios({
               url: queryURL,
               method: 'post',
