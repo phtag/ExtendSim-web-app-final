@@ -28,7 +28,7 @@ function Scenarios (props) {
         <output name="scenario_id" id="scenario-id"></output>
         <br></br>
         <label htmlFor="scenario-folder-pathname" className="scenario-input-labels">Scenario folder path:</label>
-        <output name="scenario_folder_path" id="scenario-folder-pathname"></output>
+        <output name="scenario_folder_path" id="scenario-folder-pathname">{props.state.scenarioFolderPathname} </output>
         <br></br>
         <label htmlFor="scenario-run-status" className="scenario-input-labels">Scenario run status:</label>
         <output name="scenarioRunStatus" id="scenario-run-status"></output>

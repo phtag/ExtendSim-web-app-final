@@ -21,6 +21,7 @@ class App extends React.Component {
     password: "",
     userSessionID: "",
     scenarioName: "",
+    scenarioFolderPathname: "",
     scenarioInputFiles: []
   };
   componentDidMount () {
@@ -34,7 +35,7 @@ class App extends React.Component {
     // var queryURL =
     //   urlPrefix + "/api/createscenariofolder/" + myScenarioFolderName;
       API.createScenarioFolder(myScenarioFolderName)
-      .then()
+      .then(res => this.setState())
     // $.ajax({
     //   url: queryURL,
     //   method: "get",
@@ -86,7 +87,7 @@ class App extends React.Component {
                 (handleLoginOnSubmitEvent, handleOnChangeEvents) => (
                 <Login {...this} />)} />
               <Route exact path="/scenarios" render={
-                (userSessionID, handleOnChangeEvents, handleDropEvents, handleSubmitSimulationScenarioBtnClick) => (
+                (userSessionID, scenarioFolderPathname, handleOnChangeEvents, handleDropEvents, handleSubmitSimulationScenarioBtnClick) => (
                 <Scenarios {...this} />)} />
               {/* <Route exact path="/scenarios" component={Scenarios} /> */}
               <Route exact path="/results" component={Results} />
