@@ -35,7 +35,7 @@ class App extends React.Component {
     // var queryURL =
     //   urlPrefix + "/api/createscenariofolder/" + myScenarioFolderName;
       API.createScenarioFolder(myScenarioFolderName)
-      .then(res => this.setState())
+      .then(res => this.setState({scenarioFolderPathname: res.data}))
     // $.ajax({
     //   url: queryURL,
     //   method: "get",
