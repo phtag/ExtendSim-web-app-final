@@ -71,8 +71,8 @@ class App extends React.Component {
   handleSubmitSimulationScenarioBtnClick = (event) => {
     event.preventDefault();
     alert("handleSubmitSimulationScenarioBtnClick");
-    // $scenarioRunStatus.val("Sending input data to server...");
-    this.ExtendSimASPcreateScenarioFolder(this.state.scenarioName);
+    API.createScenarioFolder(myScenarioFolderName)
+    .then(res => console.log("handleSubmitSimulationScenarioBtnClick: res.data=" + res.data))
   };
 
   render () {
