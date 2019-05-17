@@ -57,7 +57,7 @@ module.exports = {
         }).then(function(response) {
             console.log('createScenarioFolder: response=' + response.data);
             scenarioFolderPathname = response.data;
-            res.json(scenarioFolderPathname);
+            return res.json({ scenarioFolderPathname: response.data });
         });
     }
 };
