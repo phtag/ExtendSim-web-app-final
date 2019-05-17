@@ -91,7 +91,7 @@ module.exports = {
               }
           }).then(function(response) {
               console.log('copyModelToScenarioFolder: ' + response.data); 
-              return res.json(response.data);
+              return res.json({result: response.data});
         });
     }      
 };

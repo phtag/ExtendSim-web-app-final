@@ -78,14 +78,20 @@ class App extends React.Component {
     alert("Dropped a big one! Num files=" + this.state.scenarioInputFiles.length);
   }
 
+  copyModelToScenarioFolder = (modelPathname, scenarioFolderPathname, copyFolderContents) => {
+    API.copyModelToScenarioFolder(modelPathname, 
+                                  scenarioFolderPathname, 
+                                  copyFolderContents);
+  };
+
   handleSubmitSimulationScenarioBtnClick = (event) => {
     event.preventDefault();
     API.createScenarioFolder(this.state.scenarioName)
     .then(res => {
       this.setState({scenarioFolderPathname: res.data.scenarioFolderPathname},
-        API.copyModelToScenarioFolder(this.state.modelPathname, 
-                                      res.data.scenarioFolderPathname, 
-                                      true)); 
+        this.copyModelToScenarioFolder(this.state.modelPathname, 
+                                  res.data.scenarioFolderPathname, 
+                                  true)); 
     })
     // .then(res => console.log("handleSubmitSimulationScenarioBtnClick: res.data.scenarioFolderPathname=" + res.data.scenarioFolderPathname))
   };
