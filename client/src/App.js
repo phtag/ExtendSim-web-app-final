@@ -31,8 +31,10 @@ class App extends React.Component {
     alert("ExtendSimASPcreateScenarioFolder - scenario name=" + myScenarioFolderName);
     // Execute WCF service to create a scenario folder
     // var queryURL = "http://184.171.246.58:8090/StreamingService/web/CreateScenarioFolder?scenarioFoldername=myScenarioFolder"
-    var queryURL =
-      urlPrefix + "/api/createscenariofolder/" + myScenarioFolderName;
+    // var queryURL =
+    //   urlPrefix + "/api/createscenariofolder/" + myScenarioFolderName;
+      API.createScenarioFolder(myScenarioFolderName)
+      .then()
     // $.ajax({
     //   url: queryURL,
     //   method: "get",

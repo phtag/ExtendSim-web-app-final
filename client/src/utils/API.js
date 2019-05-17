@@ -18,6 +18,9 @@ export default {
   validateToken: function(t) {
     return axios.post('/api/users/validate', { token: t });
   },
+  createScenarioFolder: function(scenarioFolderName) {
+    return axios.post('/api/ExtendSim/createScenarioFolder', { scenarioFolderName: scenarioFolderName }); 
+  }
   // // Gets the book with the given id
   // getBook: function(id) {
   //   return axios.get("/api/books/" + id);
