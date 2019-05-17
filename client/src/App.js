@@ -20,14 +20,36 @@ class App extends React.Component {
     username: "",
     password: "",
     userSessionID: "",
+    validationObjects: [
+      {
+        name: "loginSubmitButton",
+        enabled: false
+      },
+      {
+        name: "SubmitScenarioButton",
+        enabled: false
+      },
+      {
+        name: "ShowResultsButton",
+        enabled: false
+      },
+    ],
     scenarioName: "",
     scenarioFolderPathname: "",
     scenarioInputFiles: []
   };
   componentDidMount () {
-      alert("ComponentDidMount - App");
+      alert("ComponentDidMount - App");      
   };
 
+  ValidatePageElements = () => {
+    if ((this.state.scenarioInputFiles.length > 0) && (this.state.scenarioName != "")) {
+      var myValidationObjects = this.state.validationObjects;
+      myValidationObjects[1].enabled = true;
+      this.setState({validationObjects: myValidationObjects})
+    }
+  }
+  
   ExtendSimASPcreateScenarioFolder = (myScenarioFolderName) => {
     alert("ExtendSimASPcreateScenarioFolder - scenario name=" + myScenarioFolderName);
     // Execute WCF service to create a scenario folder
@@ -61,10 +83,21 @@ class App extends React.Component {
     .catch(err => console.log("handleLoginOnSubmitEvent error=" + err));
   };
 
-  handleOnChangeEvents = key => e => this.setState({ [key]: e.target.value });
+  handleOnChangeEvents = key => e => {
+    this.setState({ [key]: e.target.value })
+    if (key === "scenarioName") {
+      this.ValidatePageElements();
+      // var myValidationObjects = this.state.validationObjects;
+      // if (this.state.scenarioInputFiles.length > 0) {
+      //   myValidationObjects[1].enabled = true;
+      // }
+      // this.setState({validationObjects: myValidationObjects})
+    }
+  };
 
   handleDropEvents = (acceptedFiles) => {
     this.setState({scenarioInputFiles: acceptedFiles});
+    this.ValidatePageElements();
     alert("Dropped a big one! Num files=" + this.state.scenarioInputFiles.length);
   }
 
@@ -75,6 +108,8 @@ class App extends React.Component {
     .then(res => this.setState({scenarioFolderPathname: res.data.scenarioFolderPathname}))
     // .then(res => console.log("handleSubmitSimulationScenarioBtnClick: res.data.scenarioFolderPathname=" + res.data.scenarioFolderPathname))
   };
+
+
 
   render () {
     return (
@@ -89,7 +124,14 @@ class App extends React.Component {
                 (handleLoginOnSubmitEvent, handleOnChangeEvents) => (
                 <Login {...this} />)} />
               <Route exact path="/scenarios" render={
-                (userSessionID, scenarioFolderPathname, handleOnChangeEvents, handleDropEvents, handleSubmitSimulationScenarioBtnClick) => (
+                (
+                  userSessionID, 
+                  scenarioFolderPathname, 
+                  validationObjects,
+                  handleOnChangeEvents, 
+                  handleDropEvents, 
+                  handleSubmitSimulationScenarioBtnClick
+                ) => (
                 <Scenarios {...this} />)} />
               {/* <Route exact path="/scenarios" component={Scenarios} /> */}
               <Route exact path="/results" component={Results} />

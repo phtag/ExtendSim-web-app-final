@@ -18,7 +18,12 @@ function Scenarios (props) {
             <label htmlFor="scenario-name-text" className="scenario-input-labels" onInput="validateScenarioInputs()">Scenario name:</label>
             <input onChange={props.handleOnChangeEvents('scenarioName')} type="text" id="scenario-name-text" className="form-control" aria-describedby="scenario-name-text" placeholder="Enter scenario name"></input>
           </div>          
-          <button onClick={props.handleSubmitSimulationScenarioBtnClick} id="submit-simulation-scenario" className="btn btn-primary float-left">Submit simulation scenario</button>
+          <button 
+            onClick={props.handleSubmitSimulationScenarioBtnClick} 
+            disabled={!props.state.validationObjects[props.state.validationObjects.findIndex(obj => obj.name==="SubmitScenarioButton")].enabled}
+            id="submit-simulation-scenario" 
+            className="btn btn-primary float-left">Submit simulation scenario
+          </button>
        </form>
         <h3>Scenario Information:</h3>
         <label htmlFor="user-login-id" className="scenario-input-labels">User Login ID:</label>
