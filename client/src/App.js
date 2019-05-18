@@ -13,9 +13,9 @@ const initialState = { currentUser: {} };
 const UserContext = React.createContext(initialState);
 
 const urlPrefix = "";
-var ExtendSimModelName = "/ASP example model (GS).mox";
+const ExtendSimModelName = "/ASP example model (GS).mox";
 // ExtendSim server (use this for Heroku)
-var ExtendSimModelPath =
+const ExtendSimModelPath =
   "C:/Users/Administrator/Documents/ExtendSim10ASP_Prod/ASP/ASP Servers/ExtendSim Models" +
   ExtendSimModelName;
 
@@ -45,7 +45,6 @@ class App extends React.Component {
     scenarioInputFiles: []
   };
   componentDidMount () {
-      alert("ComponentDidMount - App");      
   };
 
   ValidatePageElements = () => {
@@ -91,8 +90,33 @@ class App extends React.Component {
     API.copyModelToScenarioFolder(modelPathname, 
                                   scenarioFolderPathname, 
                                   copyFolderContents)
-    .then(res => console.log(res.data))
+    .then(res => ExtendSimASPsendFiles(0))
   };
+
+  ExtendSimASPsendFiles = (fileIndex) => {
+    var queryNameURL = "/api/ExtendSim/sendfilename/";
+    if (this.state.scenarioInputFiles.length) {
+      var reader = new FileReader();
+      reader.onload = function(event) {
+        var filename = this.state.scenarioInputFiles[fileIndex].name;
+        event.preventDefault();
+        alert("Sending file="+filename);
+        API.sendFile(this.state.userloginSessionID,
+                     filename,
+                     reader.result)
+        .then(res => {
+          fileIndex++;
+          if (fileIndex < this.state.scenarioInputFiles.length) {
+            // recursively call until all files have been sent to the server
+            ExtendSimASPsendFiles(fileIndex);
+          } else {
+            alert("Submitting request to start running scenario");
+          }
+        })
+      };
+      reader.readAsBinaryString(files[fileIndex]);
+    }
+  }
 
   handleSubmitSimulationScenarioBtnClick = (event) => {
     event.preventDefault();

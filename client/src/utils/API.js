@@ -22,12 +22,20 @@ export default {
     return axios.post('/api/ExtendSim/createScenarioFolder', { scenarioFolderName: scenarioFolderName }); 
   },
   copyModelToScenarioFolder: function(modelPathname, scenarioFolderPathname, copyFolderContents) {
-    alert('copyModelToScenarioFolder: scenarioFolderPathname=' + scenarioFolderPathname);
     return axios.post('/api/ExtendSim/copyModelToScenarioFolder', 
       { 
         modelPathname: modelPathname,
         scenarioFolderPathname: scenarioFolderPathname,
         copyFolderContents: copyFolderContents
       }); 
+  },
+  sendFile: function(scenarioFolderPathname, filename, fileData) {
+    alert("Sending file data");
+    return axios.post('/api/ExtendSim/sendfiles', 
+    { 
+      scenarioFolderPathname: scenarioFolderPathname,
+      filename: filename,
+      fileData: fileData
+    }); 
   }
 };

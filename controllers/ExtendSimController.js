@@ -93,7 +93,36 @@ module.exports = {
               console.log('copyModelToScenarioFolder: ' + response.data); 
               return res.json({result: response.data});
         });
-    }      
+    },
+    sendfile: function(req, res) {
+        var myheaders = { 
+            accept: "application/json", 
+        };     
+        var queryURL =  "http://" + IPaddress + ":8090/StreamingService/web/UploadPathname?filepathname=" + encodeURIComponent(req.body.scenarioFolderPathname + "/" + req.body.filename);
+        console.log("ExtendSimASP_sendFile - send filename for scenarioFolderPathname=" + scenarioFolderPathname);
+        return axios({
+            url: queryURL,
+            method: 'post',
+            accept : "application/json",
+            contentType: "application/json;charset=utf-8",
+            headers : myheaders,
+            muteHttpExceptions : false
+        }).then(function(response) {
+            console.log("ExtendSimASP_sendFile - send filedata =" + filedata);
+            var queryURL =  "http://" + IPaddress + ":8090/StreamingService/web/UploadStream"
+            return axios({
+                url: queryURL,
+                method: 'post',
+                accept : 'application/json',
+                //    contentType: 'application/json;charset=utf-8',
+                contentType: 'multipart/form-data',
+                headers : myheaders,
+                data: req.body.filedata,
+                //    payload : result,
+                muteHttpExceptions : false
+            })
+        });
+    }          
 };
 
 //   function sendFile(scenarioFolderPathname, files, fileIndex) {
