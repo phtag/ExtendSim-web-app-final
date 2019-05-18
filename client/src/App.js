@@ -85,13 +85,13 @@ class App extends React.Component {
   handleDropEvents = (acceptedFiles) => {
     this.setState({scenarioInputFiles: acceptedFiles});
     this.ValidatePageElements();
-    alert("Dropped a big one! Num files=" + this.state.scenarioInputFiles.length);
   }
 
   copyModelToScenarioFolder = (modelPathname, scenarioFolderPathname, copyFolderContents) => {
     API.copyModelToScenarioFolder(modelPathname, 
                                   scenarioFolderPathname, 
-                                  copyFolderContents);
+                                  copyFolderContents)
+    .then(res => console.log(res.data))
   };
 
   handleSubmitSimulationScenarioBtnClick = (event) => {
