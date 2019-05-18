@@ -90,7 +90,7 @@ class App extends React.Component {
     API.copyModelToScenarioFolder(modelPathname, 
                                   scenarioFolderPathname, 
                                   copyFolderContents)
-    .then(res => ExtendSimASPsendFiles(0))
+    .then(res => this.ExtendSimASPsendFiles(0))
   };
 
   ExtendSimASPsendFiles = (fileIndex) => {
@@ -108,13 +108,13 @@ class App extends React.Component {
           fileIndex++;
           if (fileIndex < this.state.scenarioInputFiles.length) {
             // recursively call until all files have been sent to the server
-            ExtendSimASPsendFiles(fileIndex);
+            this.ExtendSimASPsendFiles(fileIndex);
           } else {
             alert("Submitting request to start running scenario");
           }
         })
       };
-      reader.readAsBinaryString(files[fileIndex]);
+      reader.readAsBinaryString(this.state.scenarioInputFiles[fileIndex]);
     }
   }
 
