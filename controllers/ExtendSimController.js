@@ -124,6 +124,10 @@ module.exports = {
                 data: req.body.filedata,
                 //    payload : result,
                 muteHttpExceptions : false
+            }).then(function(uploadResponse) 
+            { 
+                console.log("Upload RETURN");
+                return res.json({result: uploadResponse.data})
             })
         })
     },

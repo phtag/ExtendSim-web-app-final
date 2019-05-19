@@ -37,6 +37,6 @@ export default {
       scenarioFolderPathname: scenarioFolderPathname,
       filename: filename,
       filedata: filedata
-    })
+    }).then((response) => {alert("Response...")})
   }
 };

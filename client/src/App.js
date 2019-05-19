@@ -101,6 +101,7 @@ class App extends React.Component {
   ExtendSimASPsendFiles = (fileIndex) => {
     var queryNameURL = "/api/ExtendSim/sendfilename/";
     if (this.state.scenarioInputFiles.length) {
+      const ExtendSimASPsendFiles = this.ExtendSimASPsendFiles;
       const files = this.state.scenarioInputFiles;
       const scenarioFolderPathname = this.state.scenarioFolderPathname;
       var reader = new FileReader();
@@ -112,11 +113,11 @@ class App extends React.Component {
                      filename,
                      reader.result)
         .then(res => {
-          alert("Sending data now...");
             fileIndex++;
             if (fileIndex < files.length) {
               // recursively call until all files have been sent to the server
-              this.ExtendSimASPsendFiles(fileIndex);
+              alert("Recursive call ExtendSimASPsendFiles with fileIndex=" + fileIndex);
+              ExtendSimASPsendFiles(fileIndex);
             } else {
               alert("Submitting request to start running scenario");
             }

@@ -15,7 +15,7 @@ function Scenarios (props) {
         <h2>ExtendSim Web Simulation Scenario Inputs</h2>
         <form className="clearfix mb-4" action="POST">
           <div className="form-group">
-            <label htmlFor="scenario-name-text" className="scenario-input-labels" onInput="validateScenarioInputs()">Scenario name:</label>
+            <label htmlFor="scenario-name-text" className="scenario-input-labels">Scenario name:</label>
             <input onChange={props.handleOnChangeEvents('scenarioName')} type="text" id="scenario-name-text" className="form-control" aria-describedby="scenario-name-text" placeholder="Enter scenario name"></input>
           </div>          
           <button 
