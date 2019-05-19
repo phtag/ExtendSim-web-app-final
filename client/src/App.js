@@ -92,29 +92,37 @@ class App extends React.Component {
                                   copyFolderContents)
     .then(res => this.ExtendSimASPsendFiles(0))
   };
+  ExtendSimSendfiledata = (filedata) => {
+    API.sendfiledata(filedata).then(res => {
+      alert("ExtendSimSendfiledata: return");
+      return})
+  }
 
   ExtendSimASPsendFiles = (fileIndex) => {
     var queryNameURL = "/api/ExtendSim/sendfilename/";
     if (this.state.scenarioInputFiles.length) {
+      const files = this.state.scenarioInputFiles;
+      const scenarioFolderPathname = this.state.scenarioFolderPathname;
       var reader = new FileReader();
       reader.onload = function(event) {
-        var filename = this.state.scenarioInputFiles[fileIndex].name;
+        // var filename = this.state.scenarioInputFiles[fileIndex].name;
+        var filename = files[fileIndex].name;
         event.preventDefault();
-        alert("Sending file="+filename);
-        API.sendFile(this.state.userloginSessionID,
+        API.sendfile(scenarioFolderPathname,
                      filename,
                      reader.result)
         .then(res => {
-          fileIndex++;
-          if (fileIndex < this.state.scenarioInputFiles.length) {
-            // recursively call until all files have been sent to the server
-            this.ExtendSimASPsendFiles(fileIndex);
-          } else {
-            alert("Submitting request to start running scenario");
-          }
-        })
+          alert("Sending data now...");
+            fileIndex++;
+            if (fileIndex < files.length) {
+              // recursively call until all files have been sent to the server
+              this.ExtendSimASPsendFiles(fileIndex);
+            } else {
+              alert("Submitting request to start running scenario");
+            }
+          })
       };
-      reader.readAsBinaryString(this.state.scenarioInputFiles[fileIndex]);
+      reader.readAsBinaryString(files[fileIndex]);
     }
   }
 

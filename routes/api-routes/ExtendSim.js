@@ -1,7 +1,8 @@
 const router = require('express').Router();
-const usersController = require('../../controllers/ExtendSimController');
+const ExtendSimController = require('../../controllers/ExtendSimController');
 
-router.route('/createScenarioFolder').post(usersController.createScenarioFolder);
-router.route('/copyModelToScenarioFolder').post(usersController.copyModelToScenarioFolder);
+router.route('/createScenarioFolder').post(ExtendSimController.createScenarioFolder);
+router.route('/copyModelToScenarioFolder').post(ExtendSimController.copyModelToScenarioFolder);
+router.route('/sendfile').post(ExtendSimController.sendfile);
 
 module.exports = router;

@@ -29,13 +29,14 @@ export default {
         copyFolderContents: copyFolderContents
       }); 
   },
-  sendFile: function(scenarioFolderPathname, filename, fileData) {
-    alert("Sending file data");
-    return axios.post('/api/ExtendSim/sendfiles', 
+  sendfile: function(scenarioFolderPathname, filename, filedata) {
+    alert("sendfilepathname: Sending file data " + filedata);
+    // return axios.post('/api/ExtendSim/sendfilepathname', 
+    return axios.post('/api/ExtendSim/sendfile', 
     { 
       scenarioFolderPathname: scenarioFolderPathname,
       filename: filename,
-      fileData: fileData
-    }); 
+      filedata: filedata
+    })
   }
 };
