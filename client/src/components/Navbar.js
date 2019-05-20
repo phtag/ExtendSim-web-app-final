@@ -7,6 +7,7 @@ const Navbar = () => {
   const { currentUser } = useContext(CounterContext);
   return (
     <div>
+      <Link className="navbar-menu-items" to="/">Home</Link>
       <Link className="navbar-menu-items" to="/login">Login</Link>
       <Link className="navbar-menu-items" to="/scenarios">Scenarios</Link>
       <Link className="navbar-menu-items" to="/results">Results</Link>
