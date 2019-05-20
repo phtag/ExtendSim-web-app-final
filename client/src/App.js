@@ -1,13 +1,13 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, withRouter } from 'react-router-dom';
 import Home from './pages/Home';
 import Scenarios from './pages/Scenarios';
 import Results from './pages/Results';
 import Login from './pages/Login';
 import NoMatch from './pages/NoMatch';
 import Navbar from './components/Navbar';
-import { CounterProvider } from './context';
 import API from './utils/API';
+import history from "./pages/History";
 
 const initialState = { currentUser: {} };
 const UserContext = React.createContext(initialState);
@@ -45,6 +45,7 @@ class App extends React.Component {
     scenarioInputFiles: []
   };
   componentDidMount () {
+    alert("Did mount");
   };
 
   ValidatePageElements = () => {
@@ -68,12 +69,15 @@ class App extends React.Component {
     }
   }
 
-  handleLoginOnSubmitEvent = (event) => {
+  handleLoginOnSubmitEvent = history => event => {
     event.preventDefault();
     API.login(this.state)
-    .then(res => this.setState({ userSessionID: res.data.userSessionID}))
-    // .then(res => this.setState({ userSessionID: res.userSessionID}))
-    // .then(res => localStorage.setItem('current_user_token', res.data.token))
+    .then(res => {
+      // this.props.history.push('/scenarios');
+      this.setState({ userSessionID: res.data.userSessionID});
+      alert("Push to scenarios=" + this.props);
+      history.push('/scenarios');
+    })
     .catch(err => console.log("handleLoginOnSubmitEvent error=" + err));
   };
 
@@ -92,11 +96,6 @@ class App extends React.Component {
                                   copyFolderContents)
     .then(res => this.ExtendSimASPsendFiles(0))
   };
-  ExtendSimSendfiledata = (filedata) => {
-    API.sendfiledata(filedata).then(res => {
-      alert("ExtendSimSendfiledata: return");
-      return})
-  }
 
   ExtendSimASPsendFiles = (fileIndex) => {
     var queryNameURL = "/api/ExtendSim/sendfilename/";
@@ -116,7 +115,6 @@ class App extends React.Component {
             fileIndex++;
             if (fileIndex < files.length) {
               // recursively call until all files have been sent to the server
-              alert("Recursive call ExtendSimASPsendFiles with fileIndex=" + fileIndex);
               ExtendSimASPsendFiles(fileIndex);
             } else {
               alert("Submitting request to start running scenario");

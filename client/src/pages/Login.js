@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {withRouter} from "react-router-dom";
 
 import API from '../utils/API';
   function Login(props) {
@@ -22,7 +23,7 @@ import API from '../utils/API';
                             <input onChange={props.handleOnChangeEvents('password')} type="password" id="password-text" className="form-control" aria-describedby="password-text"></input>
                         </div>
                         <button 
-                            onClick={props.handleLoginOnSubmitEvent}
+                            onClick={props.handleLoginOnSubmitEvent(props.history)}
                             disabled={!props.state.validationObjects[props.state.validationObjects.findIndex(obj => obj.name==="loginSubmitButton")].enabled}
                             id="submit-login-info" className="btn btn-primary float-left">Submit
                         </button>
@@ -34,4 +35,4 @@ import API from '../utils/API';
     );
   }
 
-export default Login;
+export default withRouter(Login);

@@ -30,13 +30,12 @@ export default {
       }); 
   },
   sendfile: function(scenarioFolderPathname, filename, filedata) {
-    alert("sendfilepathname: Sending file data " + filedata);
     // return axios.post('/api/ExtendSim/sendfilepathname', 
     return axios.post('/api/ExtendSim/sendfile', 
     { 
       scenarioFolderPathname: scenarioFolderPathname,
       filename: filename,
       filedata: filedata
-    }).then((response) => {alert("Response...")})
+    })
   }
 };
