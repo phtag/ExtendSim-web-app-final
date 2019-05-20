@@ -1,0 +1,59 @@
+nav.navbar.navbar-default {
+  margin-bottom: 0;
+}
+.navbar-menu-items {
+  margin: 20px;
+}
+.list-group-item {
+  line-height: 2.5;
+}
+.my-scenario-container {
+  margin-left: 100px;
+}
+.scenario-input-labels {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.button {
+  display: inline-block;
+  padding: 10px;
+  background: #ccc;
+  cursor: pointer;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+.button:hover {
+  background: #ddd;
+}
+#fileElem {
+  display: none;
+}
+#ExtendSim-header {
+  background-image:url(https://extendsim.com/templates/extendsim/images/ES_logo.gif);
+  background-repeat:no-repeat;
+  float:left;
+  height:98px;
+  width:510px;
+}
+#ExtendSim-home-billboard {
+  background-image:url(https://extendsim.com/templates/extendsim/images/ES_logo.gif);
+  background-repeat:no-repeat;
+  /* float:left; */
+  /* height:98px; */
+  width:100%;
+}
+#drop-area {
+  text-align: center;
+  height: 200px;
+  width: 100%;
+  /* border: 2px solid gray; */
+  background-color: transparent;
+  border: 2px dashed #ccc;
+  border-radius: 20px;
+  /* width: 480px; */
+  font-family: sans-serif;
+  margin-left: 100px auto;
+  margin-right: 100px auto;
+  padding: 20px;
+}

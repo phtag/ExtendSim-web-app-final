@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { CounterContext } from '../context';
 import { Link } from 'react-router-dom';
-import "./style.css";
+import "../assets/css/style.css";
 
 const Navbar = () => {
   const { currentUser } = useContext(CounterContext);

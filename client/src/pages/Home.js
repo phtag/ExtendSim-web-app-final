@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import "../assets/css/style.css";
 
 function Home() {
   return (
@@ -14,7 +15,11 @@ function Home() {
               </div>
           </div>
       </div>
-  </div>
+      <div className="container">
+        <img src="../assets/images/es10-home-billboard-hover.png" alt="ExtendSim billboard" id="ExtendSim-home-billboard-image "></img>
+      </div>
+      </div>
+  
   );
 }
 

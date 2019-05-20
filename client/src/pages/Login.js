@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import {withRouter} from "react-router-dom";
-
+import {withRouter} from "react-router-dom";    // NOTE: This must be done to enable this component to pass history to button click event handler
 import API from '../utils/API';
   function Login(props) {
     return (
@@ -23,7 +22,7 @@ import API from '../utils/API';
                             <input onChange={props.handleOnChangeEvents('password')} type="password" id="password-text" className="form-control" aria-describedby="password-text"></input>
                         </div>
                         <button 
-                            onClick={props.handleLoginOnSubmitEvent(props.history)}
+                            onClick={props.handleLoginOnSubmitEvent(props.history)} // Must pass router history to parent so that it can redirect to another page
                             disabled={!props.state.validationObjects[props.state.validationObjects.findIndex(obj => obj.name==="loginSubmitButton")].enabled}
                             id="submit-login-info" className="btn btn-primary float-left">Submit
                         </button>
