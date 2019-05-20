@@ -45,7 +45,6 @@ class App extends React.Component {
     scenarioInputFiles: []
   };
   componentDidMount () {
-    alert("Did mount");
   };
 
   ValidatePageElements = () => {
