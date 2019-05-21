@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import Scenarios from './pages/Scenarios';
 import Results from './pages/Results';
 import Login from './pages/Login';
+import Signup from './pages/Signup';
 import NoMatch from './pages/NoMatch';
 import Navbar from './components/Navbar';
 import API from './utils/API';
@@ -38,6 +39,22 @@ class App extends React.Component {
         name: "ShowResultsButton",
         enabled: false
       },
+      {
+        name: "Signup-navbar-option",
+        enabled: true      
+      },
+      {
+        name: "Login-navbar-option",
+        enabled: true      
+      },
+      {
+        name: "Scenario-navbar-option",
+        enabled: false      
+      },
+      {
+        name: "Results-navbar-option",
+        enabled: false      
+      }
     ],
     modelPathname: ExtendSimModelPath,
     scenarioName: "",
@@ -74,11 +91,16 @@ class App extends React.Component {
   }
 
   handleLoginOnSubmitEvent = history => event => {
+    var myValidationObjects = this.state.validationObjects;
+
     event.preventDefault();
     API.login(this.state)
     .then(res => {
       this.setState({ userLoginSessionID: res.data.userLoginSessionID}, this.updateHistory(history, "/scenarios"));
-    })
+      // Enable scenario navbar link
+      myValidationObjects[5].enabled = true;
+      this.setState({validationObjects: myValidationObjects})
+   })
     .catch(err => console.log("handleLoginOnSubmitEvent error=" + err));
   };
 
@@ -168,10 +190,16 @@ class App extends React.Component {
       <Router>
         {/* <CounterProvider> */}
           <div>
-            <Navbar />
+            <Navbar {...this}/>
             <Switch>
               <Route exact path="/" component={Home} />
               {/* <Route exact path="/login" component={Login} /> */}
+              <Route exact path="/signup" render={
+                (
+                  validationObjects,
+                  handleLoginOnSubmitEvent, 
+                  handleOnChangeEvents) => (
+                <Signup {...this} />)} />
               <Route exact path="/login" render={
                 (
                   validationObjects,
