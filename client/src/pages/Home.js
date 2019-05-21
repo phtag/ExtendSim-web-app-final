@@ -11,7 +11,7 @@ function Home() {
           </div>
           <div className="row">
               <div className="col-8 offset-2">
-                  <h2>ExtendSim Web Simulation Home Page</h2>
+                  <h2>ExtendSim ASP Home Page</h2>
               </div>
           </div>
       </div>

@@ -27,7 +27,7 @@ function Scenarios (props) {
        </form>
         <h3>Scenario Information:</h3>
         <label htmlFor="user-login-id" className="scenario-input-labels">User Login ID:</label>
-        <output name="userLoginID" id="user-login-id">{props.state.userSessionID}</output>
+        <output name="userLoginID" id="user-login-id">{props.state.userLoginSessionID}</output>
         <br></br>
         <label htmlFor="scenario-id" className="scenario-input-labels">Scenario ID:</label>
         <output name="scenario_id" id="scenario-id"></output>

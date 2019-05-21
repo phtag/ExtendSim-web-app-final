@@ -29,13 +29,29 @@ export default {
         copyFolderContents: copyFolderContents
       }); 
   },
-  sendfile: function(scenarioFolderPathname, filename, filedata) {
+  sendfile: function(
+    scenarioFolderPathname, 
+    filename, 
+    filedata) {
     // return axios.post('/api/ExtendSim/sendfilepathname', 
     return axios.post('/api/ExtendSim/sendfile', 
     { 
       scenarioFolderPathname: scenarioFolderPathname,
       filename: filename,
       filedata: filedata
+    })
+  },
+  submitSimulationScenario: function(
+    userLoginSessionID,
+    modelPathname,
+    removeFolderOnCompletion) {
+    // Invoke call to server
+    alert("submitSimulationScenario: userLoginSessionID=" + userLoginSessionID);
+    return axios.post('/api/ExtendSim/submitsimulationscenario', 
+    { 
+      userLoginSessionID: userLoginSessionID,
+      modelPathname: modelPathname,
+      removeFolderOnCompletion: removeFolderOnCompletion
     })
   }
 };

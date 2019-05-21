@@ -75,7 +75,18 @@ module.exports = {
           }
         }).then(function(response) {
           console.log('ExtendSimASP_login: ' + response.data);
-          return res.json({ userSessionID: response.data });
+          db.scenario.create({
+            userLoginSessionID: response.data,
+            username: req.body.username,
+            scenarioID: null,
+            scenarioSubmissionDataTime: null,
+            scenarioCompletionDataTime: null
+        }).then(function(dbResponse) {
+                // We have access to the new todo as an argument inside of the callback function
+              return res.json({ userLoginSessionID: response.data });
+            });
+
+          // return res.json({ userLoginSessionID: response.data });
           // var serverResponse = {
           //   userSessionID: '',
           //   token: ''

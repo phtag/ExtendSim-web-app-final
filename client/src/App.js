@@ -24,7 +24,7 @@ class App extends React.Component {
   state = {
     username: "",
     password: "",
-    userSessionID: "",
+    userLoginSessionID: "",
     validationObjects: [
       {
         name: "loginSubmitButton",
@@ -42,6 +42,7 @@ class App extends React.Component {
     modelPathname: ExtendSimModelPath,
     scenarioName: "",
     scenarioFolderPathname: "",
+    ExtendSimModelName: "/ASP example model (GS).mox",
     scenarioInputFiles: []
   };
   componentDidMount () {
@@ -68,14 +69,15 @@ class App extends React.Component {
     }
   }
 
+  updateHistory = (history, route) => {
+    history.push(route);
+  }
+
   handleLoginOnSubmitEvent = history => event => {
     event.preventDefault();
     API.login(this.state)
     .then(res => {
-      // this.props.history.push('/scenarios');
-      this.setState({ userSessionID: res.data.userSessionID});
-      alert("Push to scenarios=" + this.props);
-      history.push('/scenarios');
+      this.setState({ userLoginSessionID: res.data.userLoginSessionID}, this.updateHistory(history, "/scenarios"));
     })
     .catch(err => console.log("handleLoginOnSubmitEvent error=" + err));
   };
@@ -102,6 +104,10 @@ class App extends React.Component {
       const ExtendSimASPsendFiles = this.ExtendSimASPsendFiles;
       const files = this.state.scenarioInputFiles;
       const scenarioFolderPathname = this.state.scenarioFolderPathname;
+      const userLoginSessionID = this.state.userLoginSessionID;
+      const modelPathname = this.state.scenarioFolderPathname + this.state.ExtendSimModelName;
+      const ExtendSimASPsubmitSimulationScenario = this.ExtendSimASPsubmitSimulationScenario;
+
       var reader = new FileReader();
       reader.onload = function(event) {
         // var filename = this.state.scenarioInputFiles[fileIndex].name;
@@ -116,13 +122,32 @@ class App extends React.Component {
               // recursively call until all files have been sent to the server
               ExtendSimASPsendFiles(fileIndex);
             } else {
-              alert("Submitting request to start running scenario");
+              alert("Submitting request to start running scenario: userLoginSessionID=" + userLoginSessionID);
+              ExtendSimASPsubmitSimulationScenario(
+                userLoginSessionID,
+                modelPathname,
+                true);
             }
           })
       };
       reader.readAsBinaryString(files[fileIndex]);
     }
   }
+
+  ExtendSimASPsubmitSimulationScenario = (
+    userLoginSessionID, 
+    modelPathname, 
+    removeFolderOnCompletion) => {
+    //  Submit the scenario to the server
+    alert('ExtendSimASPsubmitSimulationScenario: submitting simulation scenario');
+    API.submitSimulationScenario(
+      userLoginSessionID, 
+      modelPathname, 
+      removeFolderOnCompletion)
+    .then(res => {
+      alert("ExtendSimASPsubmitSimulationScenario: Successfully submitted!!");
+    })
+  };
 
   handleSubmitSimulationScenarioBtnClick = (event) => {
     event.preventDefault();
@@ -155,7 +180,7 @@ class App extends React.Component {
                 <Login {...this} />)} />
               <Route exact path="/scenarios" render={
                 (
-                  userSessionID, 
+                  userLoginSessionID, 
                   scenarioFolderPathname, 
                   validationObjects,
                   handleOnChangeEvents, 

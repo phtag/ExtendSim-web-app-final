@@ -131,4 +131,44 @@ module.exports = {
             })
         })
     },
+    submitsimulationscenario: function(req, res) {
+        const myheaders = { 
+            accept: "application/json", 
+        };
+        const userLoginSessionID = req.body.userLoginSessionID;
+        const modelPathname = req.body.modelPathname;
+        const removeFolderOnCompletion = req.body.modelPathname;
+        var scenarioID;
+        var queryURL = "http://" + IPaddress + ":8080/ExtendSimService/web/SubmitSimulationScenario_TF";
+        console.log("ExtendSimSubmitScenario: submitting simulation scenario for userLoginSessionID=" + req.body.userLoginSessionID);
+        return axios({
+            url: queryURL,
+            method: 'post',
+            accept : "application/json",
+            contentType: "application/json;charset=utf-8",
+            headers : myheaders,
+            muteHttpExceptions : false,
+            params: 
+            {
+                userLoginSession_ID: req.body.userLoginSessionID,
+                modelPathname: req.body.modelPathname,
+                removeScenarioFolderOnCompletion: req.body.removeFolderOnCompletion
+            }
+        }).then(function(response) {
+            scenarioID = response.data;
+            // ExtendSimCheckModelRunStatus(userLoginSessionID);
+            console.log("ExtendSimSubmitScenario: scenarioID=" + response.data);
+            // update the user's scenario ID and submission time in the database
+            db.scenario.update({
+                scenarioID: response.data,
+                scenarioSubmissionDataTime: new Date(),
+            }, {
+                where: {
+                    userLoginSessionID: userLoginSessionID
+                }
+            }).then(function(dbresponse) {
+                return res.json({scenarioID: response.data});     
+            });
+        });
+    }
 };
