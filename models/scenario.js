@@ -5,6 +5,7 @@ module.exports = function(sequelize, DataTypes) {
     userLoginSessionID: DataTypes.STRING,
     username: DataTypes.STRING,
     scenarioID: DataTypes.INTEGER,
+    scenarioFolderPathname: DataTypes.STRING,
     scenarioSubmissionDataTime: DataTypes.DATE,
     scenarioCompletionDataTime: DataTypes.DATE
   });

@@ -18,8 +18,12 @@ export default {
   validateToken: function(t) {
     return axios.post('/api/users/validate', { token: t });
   },
-  createScenarioFolder: function(scenarioFolderName) {
-    return axios.post('/api/ExtendSim/createScenarioFolder', { scenarioFolderName: scenarioFolderName }); 
+  createScenarioFolder: function(userLoginSessionID, scenarioFolderName) {
+    return axios.post('/api/ExtendSim/createScenarioFolder', 
+    { 
+      userLoginSessionID: userLoginSessionID, 
+      scenarioFolderName: scenarioFolderName 
+    }); 
   },
   copyModelToScenarioFolder: function(modelPathname, scenarioFolderPathname, copyFolderContents) {
     return axios.post('/api/ExtendSim/copyModelToScenarioFolder', 

@@ -151,7 +151,7 @@ class App extends React.Component {
 
   handleSubmitSimulationScenarioBtnClick = (event) => {
     event.preventDefault();
-    API.createScenarioFolder(this.state.scenarioName)
+    API.createScenarioFolder(this.state.userLoginSessionID, this.state.scenarioName)
     .then(res => {
       this.setState({scenarioFolderPathname: res.data.scenarioFolderPathname},
         this.copyModelToScenarioFolder(this.state.modelPathname, 

@@ -16,7 +16,9 @@ function Home() {
           </div>
       </div>
       <div className="container">
+      <a href="https://extendsim.com/">
         <img src="../assets/images/es10-home-billboard-hover.png" alt="ExtendSim billboard" id="ExtendSim-home-billboard-image "></img>
+      </a>
       </div>
       </div>
   

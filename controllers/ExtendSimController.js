@@ -57,7 +57,16 @@ module.exports = {
         }).then(function(response) {
             console.log('createScenarioFolder: response=' + response.data);
             scenarioFolderPathname = response.data;
-            return res.json({ scenarioFolderPathname: response.data });
+            // return res.json({ scenarioFolderPathname: response.data });
+            db.scenario.update({
+                scenarioFolderPathname: response.data,
+            }, {
+                where: {
+                    userLoginSessionID: req.body.userLoginSessionID
+                }
+            }).then(function(dbresponse) {
+                return res.json({ scenarioFolderPathname: response.data });
+            });
         });
     },
     copyModelToScenarioFolder: function(req, res) {
