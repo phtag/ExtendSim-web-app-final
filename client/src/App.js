@@ -206,6 +206,7 @@ class App extends React.Component {
     API.getScenarioResults(cycleTimeResultsFilename, this.state.userLoginSessionID)
     .then(res => {
       alert("Successfully got scenario results");
+      this.updateHistory(history, "/results");
     })
     // .then(res => console.log("handleSubmitSimulationScenarioBtnClick: res.data.scenarioFolderPathname=" + res.data.scenarioFolderPathname))
   };
