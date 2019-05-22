@@ -27,6 +27,9 @@ class App extends React.Component {
   state = {
     username: "",
     password: "",
+    signupusername: "",
+    signuppassword: "",
+    signuprepeatpassword: "",
     userLoginSessionID: "",
     validationObjects: [
       {

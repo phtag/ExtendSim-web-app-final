@@ -1,57 +1,41 @@
 import React, { Component } from 'react';
-
+import {withRouter} from "react-router-dom";    // NOTE: This must be done to enable this component to pass history to button click event handler
 import API from '../utils/API';
-// import { Redirect } from 'react-router-dom';
-
-class Signup extends Component {
-  state = {
-    email: '',
-    password: '',
-  };
-
-  componentDidMount() {
-    const token = localStorage.getItem('current_user_token');
-
-    if (token) {
-      API.validateToken(token)
-        .then(() => this.props.history.push('/'))
-        .catch(() => localStorage.removeItem('current_user_token'));
-    }
-  }
-
-  onSubmit = () => {
-    API.signup(this.state)
-      .then(res => localStorage.setItem('current_user_token', res.data.token))
-      .catch(err => console.log(err));
-  };
-
-  onChange = key => e => this.setState({ [key]: e.target.value });
-
-  render() {
+  function Signup(props) {
     return (
-      <div>
-        <h1>Sign up</h1>
-        <input
-          type="text"
-          value={this.state.email}
-          label="email"
-          onChange={this.onChange('email')}
-        />
-        <input
-          type="password"
-          value={this.state.password}
-          label="password"
-          onChange={this.onChange('password')}
-        />
-        <button
-          onClick={this.onSubmit}
-          disabled={!this.state.email || !this.state.password}
-        >
-          signup
-        </button>
-      </div>
+      <div id="home">
+        <div className="container">
+            <div className="row">
+                <header id="ExtendSim-header">
+                </header>
+            </div>
+            <div className="row">
+                <div className="col-8 offset-2">
+                    <h2>ExtendSim ASP signup page</h2>
+                    <form className="clearfix mb-4" action="POST">
+                        <div className="form-group">
+                            <label htmlFor="example-text">Username</label>
+                            <input onChange={props.handleOnChangeEvents('username')} type="text" id="username-text" className="form-control" aria-describedby="example-text" placeholder="Enter username"></input>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="password-text">Password</label>
+                            <input onChange={props.handleOnChangeEvents('signup-password')} type="password" id="password-text" className="form-control" aria-describedby="password-text"></input>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="repeat-password-text">Re-enter password</label>
+                            <input onChange={props.handleOnChangeEvents('signup-repeat-password')} type="password" id="repeat-password-text" className="form-control" aria-describedby="password-text"></input>
+                        </div>
+                        <button 
+                            onClick={props.handleLoginOnSubmitEvent(props.history)} // Must pass router history to parent so that it can redirect to another page
+                            disabled={!props.state.validationObjects[props.state.validationObjects.findIndex(obj => obj.name==="loginSubmitButton")].enabled}
+                            id="submit-login-info" className="btn btn-primary float-left">Submit
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     );
   }
-}
 
-export default Signup;
+export default withRouter(Signup);
