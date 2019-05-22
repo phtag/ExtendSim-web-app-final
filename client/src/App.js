@@ -205,7 +205,7 @@ class App extends React.Component {
     // .then(res => console.log("handleSubmitSimulationScenarioBtnClick: res.data.scenarioFolderPathname=" + res.data.scenarioFolderPathname))
   };
 
-  handleShowResultsButtonClick =  history => event => {
+  handleShowResultsButtonClick = event => {
     alert("handleShowResultsButtonClick");
     event.preventDefault();
     API.getScenarioResults(cycleTimeResultsFilename, this.state.userLoginSessionID)
