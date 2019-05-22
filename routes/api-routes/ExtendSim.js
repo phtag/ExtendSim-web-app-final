@@ -6,5 +6,6 @@ router.route('/copyModelToScenarioFolder').post(ExtendSimController.copyModelToS
 router.route('/sendfile').post(ExtendSimController.sendfile);
 router.route('/submitsimulationscenario').post(ExtendSimController.submitsimulationscenario);
 router.route('/checkmodelrunstatus').post(ExtendSimController.checkmodelrunstatus);
+router.route('/getscenarioresults').post(ExtendSimController.getscenarioresults);
 
 module.exports = router;

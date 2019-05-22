@@ -63,5 +63,13 @@ export default {
     { 
       scenarioID: scenarioID,
     })
+  },
+  getScenarioResults: function (filepathname, userLoginSessionID) {
+      return axios.post('/api/ExtendSim/getscenarioresults',
+      {
+        filepathname: filepathname,
+        userLoginSessionID: userLoginSessionID
+      });
+      // return response.data;
   }
 };

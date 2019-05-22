@@ -202,5 +202,65 @@ module.exports = {
             console.log("ExtendSimCheckModelRunStatus: Model run status=" + modelRunStatus);
             return res.json({modelRunStatus: response.data});
         });
+    },
+    getscenarioresults: function(req, res) {
+        var queryURL = "http://" + IPaddress + ":8090/StreamingService/web/GetServerFileStream";
+        var myheaders = { 
+            accept: "application/json", 
+            }; 
+        var scenarioResults;
+        console.log("ExtendSimASPgetScenarioResults: Getting scenario results from server...");
+        return axios({
+            url: queryURL,
+            method: 'post',
+            accept : "application/json",
+            // contentType: "application/octet-stream",
+            responseType: "blob",
+            headers : myheaders,
+            muteHttpExceptions : false,
+            params: 
+            {
+                filename: req.body.filepathname
+            }
+        }).then(function(response) {
+            scenarioResults = response.data;
+            console.log("ExtendSimASPgetScenarioResults: response=" + response.data);
+            db.scenario.update({
+                scenarioCompletionDataTime: new Date(),
+            }, {
+                where: {
+                    userLoginSessionID: req.body.userLoginSessionID
+                }
+            }).then(function(dbresponse) {
+                // reader.readAsText(scenarioResults);
+                // reader.readAsBinaryString(scenarioResults);
+                var myResult = JSON.stringify(scenarioResults);
+                console.log("MyResult=" + myResult);
+                var textArr = myResult.split(/\r\n|\r|\n/g);
+                console.log("textArr.length =" + textArr.length);
+                var scenarioResultsArray = scenarioResults.split('\r\n').map(function(ln){
+                    return ln.split('\t');
+                });
+                // Remove last empty element from array
+                scenarioResultsArray.pop();
+                console.log("scenarioResultsArray.length =" + scenarioResultsArray.length);
+                var row = 1;
+                scenarioResultsArray.forEach(function(element) {
+                    db.cycletime.create({
+                        stepname: element[0],
+                        resourceRequirement: element[1],
+                        totalJobsProcessed: element[2],
+                        totalProcessTime: element[3],
+                        totalWaitTime: element[4],
+                        avgProcessTime: element[5],
+                        avgWaitTime: element[6],
+                        avgCycleTime: element[7],
+                        CoVarrivals: element[8],
+                        CoVdepartures: element[9]
+                    });
+                });
+                // console.log("splitArray =" + splitArray);            
+                return res.json({scenarioResults: scenarioResults});     
+            });    
     }
 };

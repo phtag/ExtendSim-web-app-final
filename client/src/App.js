@@ -17,6 +17,7 @@ const ExtendSimModelName = "/ASP example model (GS).mox";
 const ExtendSimModelPath =
   "C:/Users/Administrator/Documents/ExtendSim10ASP_Prod/ASP/ASP Servers/ExtendSim Models" +
   ExtendSimModelName;
+const cycleTimeResultsFilename = "/Cycle Time Results.txt";
 
 var checkModelStatusTimer;
 const runCompletedScenarioStatus = 3;
@@ -200,7 +201,14 @@ class App extends React.Component {
     // .then(res => console.log("handleSubmitSimulationScenarioBtnClick: res.data.scenarioFolderPathname=" + res.data.scenarioFolderPathname))
   };
 
-
+  handleShowResultsButtonClick = (event) => {
+    event.preventDefault();
+    API.getScenarioResults(cycleTimeResultsFilename, this.state.userLoginSessionID)
+    .then(res => {
+      alert("Successfully got scenario results");
+    })
+    // .then(res => console.log("handleSubmitSimulationScenarioBtnClick: res.data.scenarioFolderPathname=" + res.data.scenarioFolderPathname))
+  };
 
   render () {
     return (
@@ -230,7 +238,8 @@ class App extends React.Component {
                   validationObjects,
                   handleOnChangeEvents, 
                   handleDropEvents, 
-                  handleSubmitSimulationScenarioBtnClick
+                  handleSubmitSimulationScenarioBtnClick,
+                  handleShowResultsButtonClick
                 ) => (
                 <Scenarios {...this} />)} />
               {/* <Route exact path="/scenarios" component={Scenarios} /> */}
