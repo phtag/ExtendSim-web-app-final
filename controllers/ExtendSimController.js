@@ -262,5 +262,6 @@ module.exports = {
                 // console.log("splitArray =" + splitArray);            
                 return res.json({scenarioResults: scenarioResults});     
             });    
+        });
     }
 };
