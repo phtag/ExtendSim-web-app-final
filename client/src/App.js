@@ -71,6 +71,7 @@ class App extends React.Component {
   componentDidMount () {
   };
 
+    ValidateSignu
   ValidatePageElements = () => {
     // user login data
     var myValidationObjects = this.state.validationObjects;
@@ -205,6 +206,7 @@ class App extends React.Component {
   };
 
   handleShowResultsButtonClick =  history => event => {
+    alert("handleShowResultsButtonClick");
     event.preventDefault();
     API.getScenarioResults(cycleTimeResultsFilename, this.state.userLoginSessionID)
     .then(res => {
