@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import BasicDropArea from '../components/BasicDropArea';
+import {withRouter} from "react-router-dom";    // NOTE: This must be done to enable this component to pass history to button click event handler
 
 // import API from '../utils/API';
 function Scenarios (props) {
