@@ -40,7 +40,7 @@ function Scenarios (props) {
             <output name="scenarioRunStatus" id="scenario-run-status"></output>
             <button 
               id="show-scenario-results" 
-              onClick={props.handleShowResultsButtonClick}
+              onClick={() => props.handleShowResultsButtonClick(props.history)}
               className="btn btn-primary float-right"
               disabled={!props.state.validationObjects[props.state.validationObjects.findIndex(obj => obj.name==="ShowResultsButton")].enabled}>
               Show scenario results
