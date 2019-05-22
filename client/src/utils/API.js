@@ -50,12 +50,18 @@ export default {
     modelPathname,
     removeFolderOnCompletion) {
     // Invoke call to server
-    alert("submitSimulationScenario: userLoginSessionID=" + userLoginSessionID);
     return axios.post('/api/ExtendSim/submitsimulationscenario', 
     { 
       userLoginSessionID: userLoginSessionID,
       modelPathname: modelPathname,
       removeFolderOnCompletion: removeFolderOnCompletion
+    })
+  },
+  checkmodelrunstatus: function(
+    scenarioID) {
+    return axios.post('/api/ExtendSim/checkmodelrunstatus', 
+    { 
+      scenarioID: scenarioID,
     })
   }
 };

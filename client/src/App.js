@@ -12,13 +12,14 @@ import history from "./pages/History";
 
 const initialState = { currentUser: {} };
 const UserContext = React.createContext(initialState);
-
-const urlPrefix = "";
 const ExtendSimModelName = "/ASP example model (GS).mox";
 // ExtendSim server (use this for Heroku)
 const ExtendSimModelPath =
   "C:/Users/Administrator/Documents/ExtendSim10ASP_Prod/ASP/ASP Servers/ExtendSim Models" +
   ExtendSimModelName;
+
+var checkModelStatusTimer;
+const runCompletedScenarioStatus = 3;
 
 // function App() 
 class App extends React.Component {
@@ -58,6 +59,7 @@ class App extends React.Component {
     ],
     modelPathname: ExtendSimModelPath,
     scenarioName: "",
+    scenarioID: -1,
     scenarioFolderPathname: "",
     ExtendSimModelName: "/ASP example model (GS).mox",
     scenarioInputFiles: []
@@ -168,9 +170,24 @@ class App extends React.Component {
       removeFolderOnCompletion)
     .then(res => {
       alert("ExtendSimASPsubmitSimulationScenario: Successfully submitted!!");
+      this.setState({scenarioID: res.data.scenarioID});
+      checkModelStatusTimer = setInterval(this.ExtendSimASPCheckModelRunStatus, 1000);
     })
   };
 
+  ExtendSimASPCheckModelRunStatus = () => {
+    API.checkmodelrunstatus(
+      this.state.scenarioID)
+    .then(res => {
+      if (res.data.modelRunStatus == runCompletedScenarioStatus) {
+        clearInterval(checkModelStatusTimer);
+        var myValidationObjects = this.state.validationObjects;
+        myValidationObjects[2].enabled = true;
+        this.setState({validationObjects: myValidationObjects})
+      }
+    })
+
+  }
   handleSubmitSimulationScenarioBtnClick = (event) => {
     event.preventDefault();
     API.createScenarioFolder(this.state.userLoginSessionID, this.state.scenarioName)

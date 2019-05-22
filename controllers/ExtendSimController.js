@@ -179,5 +179,28 @@ module.exports = {
                 return res.json({scenarioID: response.data});     
             });
         });
+    },
+    checkmodelrunstatus: function(req, res) {
+        var myheaders = { 
+            accept: "application/json", 
+        };
+        var queryURL = "http://" + IPaddress + ":8080/ExtendSimService/web/CheckModelRunStatus";
+        console.log("ExtendSimCheckModelRunStatus: Making call to server...");
+        return axios({
+            url: queryURL,
+            method: 'get',
+            accept : "application/json",
+            contentType: "application/json;charset=utf-8",
+            headers : myheaders,
+            muteHttpExceptions : false,
+            params: 
+            {
+                scenario_ID: req.body.scenarioID
+            }
+        }).then(function(response) {
+            var modelRunStatus = response.data;
+            console.log("ExtendSimCheckModelRunStatus: Model run status=" + modelRunStatus);
+            return res.json({modelRunStatus: response.data});
+        });
     }
 };

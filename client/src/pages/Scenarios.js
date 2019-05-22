@@ -37,7 +37,12 @@ function Scenarios (props) {
         <br></br>
         <label htmlFor="scenario-run-status" className="scenario-input-labels">Scenario run status:</label>
         <output name="scenarioRunStatus" id="scenario-run-status"></output>
-        <button id="show-scenario-results" className="btn btn-primary float-right">Show scenario results</button>
+        <button 
+          id="show-scenario-results" 
+          className="btn btn-primary float-right"
+          disabled={!props.state.validationObjects[props.state.validationObjects.findIndex(obj => obj.name==="ShowResultsButton")].enabled}>
+          Show scenario results
+        </button>
         <br></br>
         <label htmlFor="scenario-input-files-list" className="scenario-input-labels">Selected Scenario Input Files:</label>
         <output id="scenario-input-files-list"></output>
