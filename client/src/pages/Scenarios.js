@@ -5,9 +5,9 @@ import UserContext from '../utils/UserContext';
 
 class Scenarios extends React.Component {
   state = {
-  }
+  };
 
-  handleChange = (event, key, onChangeFunction) => {
+  handleChange = (event, key, onChangeFunction, validationObjects) => {
     const { name, value } = event.target;
     onChangeFunction(key, value);
   }
@@ -36,7 +36,7 @@ class Scenarios extends React.Component {
                     <div className="form-group">
                       <label htmlFor="scenario-name-text" className="scenario-input-labels">Scenario name:</label>
                       <input 
-                        onChange={(e) => this.handleChange(e, 'scenarioName', handleUserInputChange)}
+                        onChange={(e) => this.handleChange(e, 'scenarioName', handleUserInputChange, validationObjects)}
                         type="text" id="scenario-name-text" 
                         className="form-control" 
                         aria-describedby="scenario-name-text" 
@@ -45,7 +45,7 @@ class Scenarios extends React.Component {
                     </div>          
                     <button 
                       onClick={(e) => this.handleScenarioSubmission(e, handleSubmitSimulationScenario)} 
-                      disabled={validationObjects[validationObjects.findIndex(obj => obj.name==="SubmitScenarioButton")].enabled}
+                      disabled={!validationObjects[validationObjects.findIndex(obj => obj.name==="SubmitScenarioButton")].enabled}
                       id="submit-simulation-scenario" 
                       className="btn btn-primary float-left">Submit simulation scenario
                     </button>
@@ -66,14 +66,14 @@ class Scenarios extends React.Component {
                     <button
                       // onClick={() => props.handleShowResultsButtonClick.bind(props.history)}
                       // onClick={() => props.handleShowResultsButtonClick.bind(props)}
-                      id="show-scenario-results" 
+                      id="show-scenario-results"
                       className="btn btn-primary float-right"
-                      disabled={validationObjects[validationObjects.findIndex(obj => obj.name==="ShowResultsButton")].enabled}>
+                      disabled={!validationObjects[validationObjects.findIndex(obj => obj.name==="ShowResultsButton")].enabled}>
                       Show scenario results
                     </button>
                   </form>
                   <br></br>
-                  <BasicDropArea {...handleDropEvents}/>
+                  <BasicDropArea handleDropEvents = {handleDropEvents}/>
                 </div>
               </div>
             </div>

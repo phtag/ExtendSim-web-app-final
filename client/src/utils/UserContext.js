@@ -60,7 +60,7 @@ export class UserProvider extends React.Component {
     ExtendSimModelName: "/ASP example model (GS).mox",
     scenarioInputFiles: []
   }
-
+// Validation functions
   ValidatePageElements = () => {
     // user login data
     var myValidationObjects = this.state.validationObjects;
@@ -82,7 +82,80 @@ export class UserProvider extends React.Component {
     }
   }
 
+// API calling functions
 
+  copyModelToScenarioFolder = (modelPathname, scenarioFolderPathname, copyFolderContents) => {
+    API.copyModelToScenarioFolder(modelPathname, 
+                                  scenarioFolderPathname, 
+                                  copyFolderContents)
+    .then(res => this.ExtendSimASPsendFiles(0))
+  };
+
+  ExtendSimASPsendFiles = (fileIndex) => {
+    var queryNameURL = "/api/ExtendSim/sendfilename/";
+    if (this.state.scenarioInputFiles.length) {
+      const ExtendSimASPsendFiles = this.ExtendSimASPsendFiles;
+      const files = this.state.scenarioInputFiles;
+      const scenarioFolderPathname = this.state.scenarioFolderPathname;
+      const userLoginSessionID = this.state.userLoginSessionID;
+      const modelPathname = this.state.scenarioFolderPathname + this.state.ExtendSimModelName;
+      const ExtendSimASPsubmitSimulationScenario = this.ExtendSimASPsubmitSimulationScenario;
+
+      var reader = new FileReader();
+      reader.onload = function(event) {
+        // var filename = this.state.scenarioInputFiles[fileIndex].name;
+        var filename = files[fileIndex].name;
+        event.preventDefault();
+        API.sendfile(scenarioFolderPathname,
+                      filename,
+                      reader.result)
+        .then(res => {
+            fileIndex++;
+            if (fileIndex < files.length) {
+              // recursively call until all files have been sent to the server
+              ExtendSimASPsendFiles(fileIndex);
+            } else {
+              ExtendSimASPsubmitSimulationScenario(
+                userLoginSessionID,
+                modelPathname,
+                true);
+            }
+          })
+      };
+      reader.readAsBinaryString(files[fileIndex]);
+    }
+  }
+
+  ExtendSimASPsubmitSimulationScenario = (
+    userLoginSessionID, 
+    modelPathname, 
+    removeFolderOnCompletion) => {
+    //  Submit the scenario to the server
+    API.submitSimulationScenario(
+      userLoginSessionID, 
+      modelPathname, 
+      removeFolderOnCompletion)
+    .then(res => {
+      alert("ExtendSimASPsubmitSimulationScenario: Successfully submitted!!");
+      this.setState({scenarioID: res.data.scenarioID});
+      checkModelStatusTimer = setInterval(this.ExtendSimASPCheckModelRunStatus, 1000);
+    })
+  };
+
+  ExtendSimASPCheckModelRunStatus = () => {
+    API.checkmodelrunstatus(
+      this.state.scenarioID)
+    .then(res => {
+      if (res.data.modelRunStatus == runCompletedScenarioStatus) {
+        clearInterval(checkModelStatusTimer);
+        var myValidationObjects = this.state.validationObjects;
+        myValidationObjects[2].enabled = true;
+        this.setState({validationObjects: myValidationObjects})
+      }
+    })
+  }
+
+// Event handlers
   handleUserInputChange = (key, value) => {
     this.setState({ [key]: value }, this.ValidatePageElements);
   };
@@ -102,13 +175,12 @@ export class UserProvider extends React.Component {
       // Enable scenario navbar link
       myValidationObjects[5].enabled = true;
       this.setState({validationObjects: myValidationObjects});
-      alert('Push to scenarios page');
       history.push('/scenarios');
    })
     .catch(err => console.log("handleLoginOnSubmitEvent error=" + err));
   };
 
-  handleSubmitSimulationScenario = (event, history) => {
+  handleSubmitSimulationScenario = (event) => {
     event.preventDefault();
     API.createScenarioFolder(this.state.userLoginSessionID, this.state.scenarioName)
     .then(res => {
@@ -120,8 +192,7 @@ export class UserProvider extends React.Component {
     // .then(res => console.log("handleSubmitSimulationScenarioBtnClick: res.data.scenarioFolderPathname=" + res.data.scenarioFolderPathname))
   };
 
-
-  render(){
+  render() {
     return (
       <Context.Provider value={{
         user: this.state.currentUser,

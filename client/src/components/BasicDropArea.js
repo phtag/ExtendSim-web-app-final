@@ -2,7 +2,6 @@ import React, { Component, useCallback } from 'react';
 import {useDropzone} from 'react-dropzone';
 
 function BasicDropArea(props) {
-  // const onDrop = props.handleDropEvents;
   const onDrop = useCallback(acceptedFiles => {
     props.handleDropEvents(acceptedFiles)});
   const {acceptedFiles, getRootProps, getInputProps} = useDropzone({onDrop});
@@ -28,16 +27,6 @@ function BasicDropArea(props) {
         </form>
       </div>
     </div>
-    // <section className="container">
-    //   <div {...getRootProps({className: 'dropzone'})}>
-    //     <input {...getInputProps()} />
-    //     <p>Drag 'n' drop some files here, or click to select files</p>
-    //   </div>
-    //   <aside>
-    //     <h4>Files</h4>
-    //     <ul>{files}</ul>
-    //   </aside>
-    // </section>
   );
 }
 
