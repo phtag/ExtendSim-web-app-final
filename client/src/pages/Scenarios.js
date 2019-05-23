@@ -25,7 +25,8 @@ function Scenarios (props) {
                 id="submit-simulation-scenario" 
                 className="btn btn-primary float-left">Submit simulation scenario
               </button>
-          </form>
+            </form>
+            <form className="clearfix mb-4" action="POST">
             <h3>Scenario Information:</h3>
             <label htmlFor="user-login-id" className="scenario-input-labels">User Login ID:</label>
             <output name="userLoginID" id="user-login-id">{props.state.userLoginSessionID}</output>
@@ -38,18 +39,16 @@ function Scenarios (props) {
             <br></br>
             <label htmlFor="scenario-run-status" className="scenario-input-labels">Scenario run status:</label>
             <output name="scenarioRunStatus" id="scenario-run-status"></output>
-            <button 
+            <button
+              // onClick={() => props.handleShowResultsButtonClick.bind(props.history)}
+              onClick={() => props.handleShowResultsButtonClick.bind(props)}
               id="show-scenario-results" 
-              onClick={() => props.handleShowResultsButtonClick(props.history)}
               className="btn btn-primary float-right"
               disabled={!props.state.validationObjects[props.state.validationObjects.findIndex(obj => obj.name==="ShowResultsButton")].enabled}>
               Show scenario results
             </button>
+            </form>
             <br></br>
-            <label htmlFor="scenario-input-files-list" className="scenario-input-labels">Selected Scenario Input Files:</label>
-            <output id="scenario-input-files-list"></output>
-            <br></br>
-            <label htmlFor="drop-area" className="scenario-input-labels">Scenario Input Files Drop Zone:</label>
             <BasicDropArea {...props}/>
           </div>
         </div>

@@ -14,8 +14,12 @@ import API from '../utils/API';
                     <h2>ExtendSim ASP signup page</h2>
                     <form className="clearfix mb-4" action="POST">
                         <div className="form-group">
-                            <label htmlFor="example-text">Username</label>
-                            <input onChange={props.handleOnChangeEvents('username')} type="text" id="username-text" className="form-control" aria-describedby="example-text" placeholder="Enter username"></input>
+                            <label htmlFor="username-text">Username</label>
+                            <input onChange={props.handleOnChangeEvents('signup-username')} type="text" id="username-text" className="form-control" aria-describedby="example-text" placeholder="Enter username"></input>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="activationkey-text">Activation key</label>
+                            <input onChange={props.handleOnChangeEvents('signup-activationkey')} type="text" id="activationkey-text" className="form-control" aria-describedby="example-text" placeholder="Enter username"></input>
                         </div>
                         <div className="form-group">
                             <label htmlFor="password-text">Password</label>

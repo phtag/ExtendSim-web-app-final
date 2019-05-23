@@ -1,37 +1,70 @@
-import React, { Component } from 'react';
-import {withRouter} from "react-router-dom";    // NOTE: This must be done to enable this component to pass history to button click event handler
+import React from 'react';
 import API from '../utils/API';
-  function Login(props) {
-    return (
-      <div id="home">
-        <div className="container">
-            <div className="row">
-                <header id="ExtendSim-header">
-                </header>
-            </div>
-            <div className="row">
-                <div className="col-8 offset-2">
-                    <h2>ExtendSim Web Simulation Login</h2>
-                    <form className="clearfix mb-4" action="POST">
-                        <div className="form-group">
-                            <label htmlFor="example-text">Username</label>
-                            <input onChange={props.handleOnChangeEvents('username')} type="text" id="username-text" className="form-control" aria-describedby="example-text" placeholder="Enter username"></input>
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="password-text">Password</label>
-                            <input onChange={props.handleOnChangeEvents('password')} type="password" id="password-text" className="form-control" aria-describedby="password-text"></input>
-                        </div>
-                        <button 
-                            onClick={props.handleLoginOnSubmitEvent(props.history)} // Must pass router history to parent so that it can redirect to another page
-                            disabled={!props.state.validationObjects[props.state.validationObjects.findIndex(obj => obj.name==="loginSubmitButton")].enabled}
-                            id="submit-login-info" className="btn btn-primary float-left">Submit
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    );
+import UserContext from '../utils/UserContext'; 
+
+class Login extends React.Component {
+  state = {
+    username: "",
+    password: "",
+    error: "",
+    currentUser: null
   }
 
-export default withRouter(Login);
+  handleChange = (event, key, onChangeFunction) => {
+    const { name, value } = event.target;
+    onChangeFunction(key, value);
+  }
+
+  handleLogin = (text, onLogin) => {
+      alert('Handle submit');
+    const { history } = this.props;
+    const { username, password } = this.state;
+    // API.login({ username, password })
+    //   .then(res => {
+    //     onLogin(res.data);
+    //     history.push('/')
+    //   })
+    //   .catch(err => {
+    //     this.setState({ error: err.response.data.error })
+    //   });
+  }
+
+  render() {
+    const { username, password, error } = this.state;
+    return (
+      <UserContext.Consumer>
+        {({handleUserInputChange, handleLoginSubmit, username, password, validationObjects}) => (
+          <div>
+            <h1>Login</h1>
+            <label htmlFor="name">Username</label>
+            <input
+              autoComplete="off"
+              type="text"
+              name="username"
+              value={username}
+              onChange={(e) => this.handleChange(e, 'username', handleUserInputChange)}
+            />
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              name="password"
+              value={password}
+              onChange={(e) => this.handleChange(e, 'password', handleUserInputChange)}
+            />
+
+            <button onClick={() => this.handleLogin(handleLoginSubmit)}>Sign up</button>
+            <br />
+            { error && (
+              <div className="alert">
+                {error}
+              </div>
+            )}
+            <pre>{JSON.stringify(this.state, null, 2)}</pre>
+          </div>
+        )}
+      </UserContext.Consumer>
+    );
+  }
+}
+
+export default Login;

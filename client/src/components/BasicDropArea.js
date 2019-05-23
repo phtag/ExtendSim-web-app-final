@@ -15,19 +15,19 @@ function BasicDropArea(props) {
 
   return (
     <div>
-    <div {...getRootProps({className: 'dropzone'})} id="drop-area">
-    <form className="my-form">
-      <p>Upload multiple files with the file dialog or by dragging and dropping images onto the dashed region</p>
-      <input {...getInputProps()} type="file" id="fileElem" multiple onChange={props.handleDropEvents}></input>
-      <label className="button" htmlFor="fileElem">Select some files</label>
-    </form>
-    </div>
-    <aside>
-      <h4>Files</h4>
-        <ul>{files}</ul>
+      <aside>
+          <label htmlFor="scenario-input-files-list" className="scenario-input-labels">Selected Scenario Input Files:</label>
+          <ul>{files}</ul>        
       </aside>
+      <label htmlFor="drop-area" className="scenario-input-labels">Scenario Input Files Drop Zone:</label>
+      <div {...getRootProps({className: 'dropzone'})} id="drop-area">
+         <form className="my-form">
+          <p>Upload multiple files with the file dialog or by dragging and dropping images onto the dashed region</p>
+          <input {...getInputProps()} type="file" id="fileElem" multiple onChange={props.handleDropEvents}></input>
+          <label className="button" htmlFor="fileElem">Select some files</label>
+        </form>
+      </div>
     </div>
-
     // <section className="container">
     //   <div {...getRootProps({className: 'dropzone'})}>
     //     <input {...getInputProps()} />
