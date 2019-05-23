@@ -15,10 +15,11 @@ class Login extends React.Component {
     onChangeFunction(key, value);
   }
 
-  handleLogin = (text, onLogin) => {
+  handleLogin = (event, onSubmitLoginFunction) => {
       alert('Handle submit');
     const { history } = this.props;
     const { username, password } = this.state;
+    onSubmitLoginFunction(event);
     // API.login({ username, password })
     //   .then(res => {
     //     onLogin(res.data);
@@ -72,25 +73,30 @@ class Login extends React.Component {
                     <h2>ExtendSim Web Simulation Login</h2>
                     <form className="clearfix mb-4" action="POST">
                         <div className="form-group">
-                            <label htmlFor="example-text">Username</label>
+                            <label htmlFor="username-text">Username</label>
                             <input 
-                            onChange={(e) => this.handleChange(e, 'username', handleUserInputChange)}
-                            type="text" id="username-text" 
-                            className="form-control" 
-                            aria-describedby="example-text" 
-                            placeholder="Enter username"></input>
+                                onChange={(e) => this.handleChange(e, 'username', handleUserInputChange)}
+                                type="text" 
+                                id="username-text" 
+                                className="form-control" 
+                                aria-describedby="username-text" 
+                                placeholder="Enter username"
+                                value={username}>
+                            </input>
                         </div>
                         <div className="form-group">
                             <label htmlFor="password-text">Password</label>
                             <input 
-                            onChange={(e) => this.handleChange(e, 'username', handleUserInputChange)}
-                            type="password" 
-                            id="password-text" 
-                            className="form-control" 
-                            aria-describedby="password-text"></input>
+                                onChange={(e) => this.handleChange(e, 'password', handleUserInputChange)}
+                                type="password" 
+                                id="password-text" 
+                                className="form-control" 
+                                aria-describedby="password-text"
+                                value={password}>
+                            </input>                            
                         </div>
                         <button 
-                            onClick={() => this.handleLogin(handleLoginSubmit)}
+                            onClick={(e) => this.handleLogin(e, handleLoginSubmit)}
                             disabled={!validationObjects[validationObjects.findIndex(obj => obj.name==="loginSubmitButton")].enabled}
                             id="submit-login-info" className="btn btn-primary float-left">Submit
                         </button>

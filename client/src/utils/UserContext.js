@@ -65,6 +65,8 @@ export class UserProvider extends React.Component {
     // user login data
     var myValidationObjects = this.state.validationObjects;
 
+    alert("Validating page elements  for username=" + this.state.username + " password=" + this.state.password)
+
     if ((this.state.username === "") || (this.state.password === "")) {
       myValidationObjects[0].enabled = false;
       this.setState({validationObjects: myValidationObjects})
@@ -87,16 +89,18 @@ export class UserProvider extends React.Component {
     this.setState({ [key]: value }, this.ValidatePageElements);
   };
 
-  handleLoginSubmit = history => event => {
+  handleLoginSubmit = (event, history) => {
     var myValidationObjects = this.state.validationObjects;
 
     event.preventDefault();
+    alert("Logging in for username=" + this.state.username + " password=" + this.state.password)
     API.login(this.state)
     .then(res => {
       this.setState({ userLoginSessionID: res.data.userLoginSessionID});
       // Enable scenario navbar link
       myValidationObjects[5].enabled = true;
-      this.setState({validationObjects: myValidationObjects})
+      this.setState({validationObjects: myValidationObjects});
+      history.push('/scenarios');
    })
     .catch(err => console.log("handleLoginOnSubmitEvent error=" + err));
   };
