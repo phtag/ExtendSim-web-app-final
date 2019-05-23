@@ -65,8 +65,6 @@ export class UserProvider extends React.Component {
     // user login data
     var myValidationObjects = this.state.validationObjects;
 
-    alert("Validating page elements  for username=" + this.state.username + " password=" + this.state.password)
-
     if ((this.state.username === "") || (this.state.password === "")) {
       myValidationObjects[0].enabled = false;
       this.setState({validationObjects: myValidationObjects})
@@ -89,21 +87,39 @@ export class UserProvider extends React.Component {
     this.setState({ [key]: value }, this.ValidatePageElements);
   };
 
+  handleDropEvents = (acceptedFiles) => {
+    this.setState({scenarioInputFiles: acceptedFiles});
+    this.ValidatePageElements();
+  }
+
   handleLoginSubmit = (event, history) => {
     var myValidationObjects = this.state.validationObjects;
 
     event.preventDefault();
-    alert("Logging in for username=" + this.state.username + " password=" + this.state.password)
     API.login(this.state)
     .then(res => {
       this.setState({ userLoginSessionID: res.data.userLoginSessionID});
       // Enable scenario navbar link
       myValidationObjects[5].enabled = true;
       this.setState({validationObjects: myValidationObjects});
+      alert('Push to scenarios page');
       history.push('/scenarios');
    })
     .catch(err => console.log("handleLoginOnSubmitEvent error=" + err));
   };
+
+  handleSubmitSimulationScenario = (event, history) => {
+    event.preventDefault();
+    API.createScenarioFolder(this.state.userLoginSessionID, this.state.scenarioName)
+    .then(res => {
+      this.setState({scenarioFolderPathname: res.data.scenarioFolderPathname},
+        this.copyModelToScenarioFolder(this.state.modelPathname, 
+                                       res.data.scenarioFolderPathname, 
+                                       true)); 
+    })
+    // .then(res => console.log("handleSubmitSimulationScenarioBtnClick: res.data.scenarioFolderPathname=" + res.data.scenarioFolderPathname))
+  };
+
 
   render(){
     return (
@@ -111,9 +127,13 @@ export class UserProvider extends React.Component {
         user: this.state.currentUser,
         username: this.state.username,
         password: this.state.password,
+        userLoginSessionID: this.state.userLoginSessionID,
+        scenarioName: this.state.scenarioName,
         validationObjects: this.state.validationObjects,
         handleUserInputChange: this.handleUserInputChange,
-        handleLoginSubmit: this.handleLoginSubmit
+        handleDropEvents: this.handleDropEvents,
+        handleLoginSubmit: this.handleLoginSubmit,
+        handleSubmitSimulationScenario: this.handleSubmitSimulationScenario
       }}>
         {this.props.children}
       </Context.Provider>

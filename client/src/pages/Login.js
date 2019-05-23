@@ -16,18 +16,9 @@ class Login extends React.Component {
   }
 
   handleLogin = (event, onSubmitLoginFunction) => {
-      alert('Handle submit');
     const { history } = this.props;
     const { username, password } = this.state;
-    onSubmitLoginFunction(event);
-    // API.login({ username, password })
-    //   .then(res => {
-    //     onLogin(res.data);
-    //     history.push('/')
-    //   })
-    //   .catch(err => {
-    //     this.setState({ error: err.response.data.error })
-    //   });
+    onSubmitLoginFunction(event, history);
   }
 
   render() {
@@ -35,33 +26,6 @@ class Login extends React.Component {
     return (
       <UserContext.Consumer>
         {({handleUserInputChange, handleLoginSubmit, username, password, validationObjects}) => (
-        //   <div>
-        //     <h1>Login</h1>
-        //     <label htmlFor="name">Username</label>
-        //     <input
-        //       autoComplete="off"
-        //       type="text"
-        //       name="username"
-        //       value={username}
-        //       onChange={(e) => this.handleChange(e, 'username', handleUserInputChange)}
-        //     />
-        //     <label htmlFor="password">Password</label>
-        //     <input
-        //       type="password"
-        //       name="password"
-        //       value={password}
-        //       onChange={(e) => this.handleChange(e, 'password', handleUserInputChange)}
-        //     />
-
-        //     <button onClick={() => this.handleLogin(handleLoginSubmit)}>Sign up</button>
-        //     <br />
-        //     { error && (
-        //       <div className="alert">
-        //         {error}
-        //       </div>
-        //     )}
-        //     <pre>{JSON.stringify(this.state, null, 2)}</pre>
-        //   </div>
         <div id="home">
         <div className="container">
             <div className="row">
@@ -70,7 +34,7 @@ class Login extends React.Component {
             </div>
             <div className="row">
                 <div className="col-8 offset-2">
-                    <h2>ExtendSim Web Simulation Login</h2>
+                    <h2>ExtendSim ASP Login Page</h2>
                     <form className="clearfix mb-4" action="POST">
                         <div className="form-group">
                             <label htmlFor="username-text">Username</label>
