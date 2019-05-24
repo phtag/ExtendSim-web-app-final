@@ -23,7 +23,7 @@ class App extends React.Component {
                 <Route exact path="/signup" component={Signup} />
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/scenarios" component={Scenarios} />
-                {/* <Route exact path="/results" component={Results} /> */}
+                <Route exact path="/results" component={Results} />
                 <Route component={NoMatch} />
               </Switch>
             </div>

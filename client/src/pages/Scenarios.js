@@ -68,7 +68,7 @@ class Scenarios extends React.Component {
                     <label htmlFor="scenario-run-status" className="scenario-input-labels">Scenario run status:</label>
                     <output name="scenarioRunStatus" id="scenario-run-status"></output>
                     <button
-                      onClick={(e) => handleShowResultsClick(e, handleShowResults)}
+                      onClick={(e) => this.handleShowResultsClick(e, handleShowResults)}
                       id="show-scenario-results"
                       className="btn btn-primary float-right"
                       disabled={!validationObjects[validationObjects.findIndex(obj => obj.name==="ShowResultsButton")].enabled}>

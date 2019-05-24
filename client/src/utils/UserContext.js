@@ -194,7 +194,7 @@ export class UserProvider extends React.Component {
 
   handleShowResults = (event, history) => {
     event.preventDefault();
-    alert("handleShowResultsButtonClick: value=" + props);
+    alert("handleShowResults");
     API.getScenarioResults(cycleTimeResultsFilename, this.state.userLoginSessionID)
     .then(res => {
       alert("Successfully got scenario results");
