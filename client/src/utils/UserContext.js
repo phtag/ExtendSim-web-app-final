@@ -192,6 +192,17 @@ export class UserProvider extends React.Component {
     // .then(res => console.log("handleSubmitSimulationScenarioBtnClick: res.data.scenarioFolderPathname=" + res.data.scenarioFolderPathname))
   };
 
+  handleShowResults = (event, history) => {
+    event.preventDefault();
+    alert("handleShowResultsButtonClick: value=" + props);
+    API.getScenarioResults(cycleTimeResultsFilename, this.state.userLoginSessionID)
+    .then(res => {
+      alert("Successfully got scenario results");
+      this.updateHistory(history, "/results");
+    })
+  };
+
+
   render() {
     return (
       <Context.Provider value={{
@@ -204,7 +215,8 @@ export class UserProvider extends React.Component {
         handleUserInputChange: this.handleUserInputChange,
         handleDropEvents: this.handleDropEvents,
         handleLoginSubmit: this.handleLoginSubmit,
-        handleSubmitSimulationScenario: this.handleSubmitSimulationScenario
+        handleSubmitSimulationScenario: this.handleSubmitSimulationScenario,
+        handleShowResults: this.handleShowResults
       }}>
         {this.props.children}
       </Context.Provider>

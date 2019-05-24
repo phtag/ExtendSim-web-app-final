@@ -189,16 +189,16 @@ export class UserProvider extends React.Component {
     //     // .then(res => console.log("handleSubmitSimulationScenarioBtnClick: res.data.scenarioFolderPathname=" + res.data.scenarioFolderPathname))
     //   };
     
-    //   handleShowResultsButtonClick = props => event => {
-    //     event.preventDefault();
-    //     alert("handleShowResultsButtonClick: value=" + props);
-    //     API.getScenarioResults(cycleTimeResultsFilename, this.state.userLoginSessionID)
-    //     .then(res => {
-    //       alert("Successfully got scenario results");
-    //       this.updateHistory(props.history, "/results");
-    //     })
-    //     // .then(res => console.log("handleSubmitSimulationScenarioBtnClick: res.data.scenarioFolderPathname=" + res.data.scenarioFolderPathname))
-    //   };
+    handleShowResultsButtonClick = (event, history) => {
+        event.preventDefault();
+        alert("call getScenarioResults");
+        API.getScenarioResults(cycleTimeResultsFilename, this.state.userLoginSessionID)
+        .then(res => {
+            alert("Successfully got scenario results");
+            this.updateHistory(history, "/results");
+        })
+        // .then(res => console.log("handleSubmitSimulationScenarioBtnClick: res.data.scenarioFolderPathname=" + res.data.scenarioFolderPathname))
+    };
       
   render()
   {

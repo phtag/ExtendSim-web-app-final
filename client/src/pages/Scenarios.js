@@ -12,17 +12,21 @@ class Scenarios extends React.Component {
     onChangeFunction(key, value);
   }
 
-  handleScenarioSubmission = (event, onSubmitScenarioFunction) => {
+  handleScenarioSubmissionClick = (event, onSubmitScenarioClickFunction) => {
     const { history } = this.props;
-    const { username, password } = this.state;
-    onSubmitScenarioFunction(event, history);
+    onSubmitScenarioClickFunction(event, history);
+  }
+
+  handleShowResultsClick = (event, onShowResultsClickFunction) => {
+    const { history } = this.props;
+    onShowResultsClickFunction(event, history);
   }
 
   render() {
     const { username, password, error } = this.state;
     return (
       <UserContext.Consumer>
-        {({handleUserInputChange, handleDropEvents, handleSubmitSimulationScenario, userLoginSessionID, scenarioFolderPathname, validationObjects}) => (
+        {({handleUserInputChange, handleDropEvents, handleSubmitSimulationScenario, handleShowResults, userLoginSessionID, scenarioFolderPathname, validationObjects}) => (
           <div id="home">
             <div className="container my-scenario-container">
               <div className="row">
@@ -44,7 +48,7 @@ class Scenarios extends React.Component {
                       </input>
                     </div>          
                     <button 
-                      onClick={(e) => this.handleScenarioSubmission(e, handleSubmitSimulationScenario)} 
+                      onClick={(e) => this.handleScenarioSubmissionClick(e, handleSubmitSimulationScenario)} 
                       disabled={!validationObjects[validationObjects.findIndex(obj => obj.name==="SubmitScenarioButton")].enabled}
                       id="submit-simulation-scenario" 
                       className="btn btn-primary float-left">Submit simulation scenario
@@ -64,8 +68,7 @@ class Scenarios extends React.Component {
                     <label htmlFor="scenario-run-status" className="scenario-input-labels">Scenario run status:</label>
                     <output name="scenarioRunStatus" id="scenario-run-status"></output>
                     <button
-                      // onClick={() => props.handleShowResultsButtonClick.bind(props.history)}
-                      // onClick={() => props.handleShowResultsButtonClick.bind(props)}
+                      onClick={(e) => handleShowResultsClick(e, handleShowResults)}
                       id="show-scenario-results"
                       className="btn btn-primary float-right"
                       disabled={!validationObjects[validationObjects.findIndex(obj => obj.name==="ShowResultsButton")].enabled}>
