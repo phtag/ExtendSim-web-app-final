@@ -12,6 +12,7 @@ const ExtendSimModelPath =
 const cycleTimeResultsFilename = "/Cycle Time Results.txt";
 
 var checkModelStatusTimer;
+const runInProcessScenarioStatus = 2;
 const runCompletedScenarioStatus = 3;
 
 export class UserProvider extends React.Component {
@@ -23,6 +24,7 @@ export class UserProvider extends React.Component {
     signuppassword: "",
     signuprepeatpassword: "",
     userLoginSessionID: "",
+    scenarioRunStatus: "",
     validationObjects: [
       {
         name: "loginSubmitButton",
@@ -150,7 +152,10 @@ export class UserProvider extends React.Component {
         clearInterval(checkModelStatusTimer);
         var myValidationObjects = this.state.validationObjects;
         myValidationObjects[2].enabled = true;
-        this.setState({validationObjects: myValidationObjects})
+        this.setState({validationObjects: myValidationObjects});
+        this.setState({scenarioRunStatus: "Completed"})
+      } else if (res.data.modelRunStatus == runInProcessScenarioStatus) {
+        this.setState({scenarioRunStatus: "Running"})
       }
     })
   }
@@ -212,6 +217,7 @@ export class UserProvider extends React.Component {
         userLoginSessionID: this.state.userLoginSessionID,
         scenarioName: this.state.scenarioName,
         validationObjects: this.state.validationObjects,
+        scenarioRunStatus: this.state.scenarioRunStatus,
         handleUserInputChange: this.handleUserInputChange,
         handleDropEvents: this.handleDropEvents,
         handleLoginSubmit: this.handleLoginSubmit,

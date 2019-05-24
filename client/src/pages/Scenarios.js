@@ -26,7 +26,14 @@ class Scenarios extends React.Component {
     const { username, password, error } = this.state;
     return (
       <UserContext.Consumer>
-        {({handleUserInputChange, handleDropEvents, handleSubmitSimulationScenario, handleShowResults, userLoginSessionID, scenarioFolderPathname, validationObjects}) => (
+        {({handleUserInputChange, 
+           handleDropEvents, 
+           handleSubmitSimulationScenario, 
+           handleShowResults, 
+           userLoginSessionID, 
+           scenarioFolderPathname, 
+           scenarioRunStatus,
+           validationObjects}) => (
           <div id="home">
             <div className="container my-scenario-container">
               <div className="row">
@@ -66,7 +73,7 @@ class Scenarios extends React.Component {
                     <output name="scenario_folder_path" id="scenario-folder-pathname">{scenarioFolderPathname} </output>
                     <br></br>
                     <label htmlFor="scenario-run-status" className="scenario-input-labels">Scenario run status:</label>
-                    <output name="scenarioRunStatus" id="scenario-run-status"></output>
+                    <output name="scenarioRunStatus" id="scenario-run-status">{scenarioRunStatus}</output>
                     <button
                       onClick={(e) => this.handleShowResultsClick(e, handleShowResults)}
                       id="show-scenario-results"
