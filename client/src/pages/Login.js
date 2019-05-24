@@ -9,6 +9,9 @@ class Login extends React.Component {
     error: "",
     currentUser: null
   }
+  
+  componentDidMount () {
+  };
 
   handleChange = (event, key, onChangeFunction) => {
     const { name, value } = event.target;
@@ -40,6 +43,7 @@ class Login extends React.Component {
                             <label htmlFor="username-text">Username</label>
                             <input 
                                 onChange={(e) => this.handleChange(e, 'username', handleUserInputChange)}
+                                autoComplete="off"
                                 type="text" 
                                 id="username-text" 
                                 className="form-control" 
@@ -52,6 +56,7 @@ class Login extends React.Component {
                             <label htmlFor="password-text">Password</label>
                             <input 
                                 onChange={(e) => this.handleChange(e, 'password', handleUserInputChange)}
+                                autoComplete="off"
                                 type="password" 
                                 id="password-text" 
                                 className="form-control" 
