@@ -43,6 +43,12 @@ nav.navbar.navbar-default {
   height: auto;
   width: 100%;
 }
+#scenario-run-status {
+  padding: 5px;
+  border: 2px solid black; 
+  color: red"
+}
+
 #drop-area {
   text-align: center;
   height: 200px;
