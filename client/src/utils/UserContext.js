@@ -190,7 +190,7 @@ export class UserProvider extends React.Component {
     API.createScenarioFolder(this.state.userLoginSessionID, this.state.scenarioName)
     .then(res => {
       this.setState({scenarioRunStatus: "Submitted"});
-      this.setState({scenarioFolderPathname: res.data.scenarioFolderPathname};
+      this.setState({scenarioFolderPathname: res.data.scenarioFolderPathname});
       this.copyModelToScenarioFolder(this.state.modelPathname, 
                                      res.data.scenarioFolderPathname, 
                                       true); 
