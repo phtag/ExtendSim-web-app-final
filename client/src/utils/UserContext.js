@@ -189,21 +189,25 @@ export class UserProvider extends React.Component {
     event.preventDefault();
     API.createScenarioFolder(this.state.userLoginSessionID, this.state.scenarioName)
     .then(res => {
-      this.setState({scenarioFolderPathname: res.data.scenarioFolderPathname},
-        this.copyModelToScenarioFolder(this.state.modelPathname, 
-                                       res.data.scenarioFolderPathname, 
-                                       true)); 
+      this.setState({scenarioRunStatus: "Submitted"});
+      this.setState({scenarioFolderPathname: res.data.scenarioFolderPathname};
+      this.copyModelToScenarioFolder(this.state.modelPathname, 
+                                     res.data.scenarioFolderPathname, 
+                                      true); 
+      // this.setState({scenarioFolderPathname: res.data.scenarioFolderPathname},
+      //     this.copyModelToScenarioFolder(this.state.modelPathname, 
+      //                                  res.data.scenarioFolderPathname, 
+      //                                  true)); 
     })
     // .then(res => console.log("handleSubmitSimulationScenarioBtnClick: res.data.scenarioFolderPathname=" + res.data.scenarioFolderPathname))
   };
 
   handleShowResults = (event, history) => {
     event.preventDefault();
-    alert("handleShowResults");
     API.getScenarioResults(cycleTimeResultsFilename, this.state.userLoginSessionID)
     .then(res => {
       alert("Successfully got scenario results");
-      this.updateHistory(history, "/results");
+      history.push('/results');
     })
   };
 
