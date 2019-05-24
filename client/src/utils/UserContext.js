@@ -193,7 +193,7 @@ export class UserProvider extends React.Component {
       this.setState({scenarioFolderPathname: res.data.scenarioFolderPathname});
       this.copyModelToScenarioFolder(this.state.modelPathname, 
                                      res.data.scenarioFolderPathname, 
-                                      true); 
+                                    true); 
       // this.setState({scenarioFolderPathname: res.data.scenarioFolderPathname},
       //     this.copyModelToScenarioFolder(this.state.modelPathname, 
       //                                  res.data.scenarioFolderPathname, 
@@ -207,6 +207,7 @@ export class UserProvider extends React.Component {
     API.getScenarioResults(cycleTimeResultsFilename, this.state.userLoginSessionID)
     .then(res => {
       alert("Successfully got scenario results");
+      console.log('scenario results=' + res.data);
       history.push('/results');
     })
   };
@@ -220,6 +221,7 @@ export class UserProvider extends React.Component {
         password: this.state.password,
         userLoginSessionID: this.state.userLoginSessionID,
         scenarioName: this.state.scenarioName,
+        scenarioFolderPathname: this.state.scenarioFolderPathname,
         validationObjects: this.state.validationObjects,
         scenarioRunStatus: this.state.scenarioRunStatus,
         handleUserInputChange: this.handleUserInputChange,

@@ -44,6 +44,7 @@ nav.navbar.navbar-default {
   width: 100%;
 }
 #scenario-run-status {
+  margin-left: 10px;
   padding: 5px;
   border: 2px solid black; 
   color: red;
