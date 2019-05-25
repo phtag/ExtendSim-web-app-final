@@ -209,7 +209,7 @@ module.exports = {
             accept: "application/json", 
             }; 
         var scenarioResults;
-        console.log("ExtendSimASPgetScenarioResults: Getting scenario results from server for filename=" + req.body.filepathname);
+        console.log("ExtendSimASPgetScenarioResults: Getting scenario results from server for userSessionID=" + req.body.userLoginSessionID + " filename=" + req.body.filepathname);
         return axios({
             url: queryURL,
             method: 'post',
