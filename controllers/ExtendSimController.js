@@ -247,6 +247,7 @@ module.exports = {
                 var row = 1;
                 scenarioResultsArray.forEach(function(element) {
                     db.cycletime.create({
+                        scenarioID: req.body.scenarioID,
                         stepname: element[0],
                         resourceRequirement: element[1],
                         totalJobsProcessed: element[2],
