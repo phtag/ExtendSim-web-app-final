@@ -209,7 +209,7 @@ module.exports = {
             accept: "application/json", 
             }; 
         var scenarioResults;
-        console.log("ExtendSimASPgetScenarioResults: Getting scenario results from server...");
+        console.log("ExtendSimASPgetScenarioResults: Getting scenario results from server for filename=" + req.body.filepathname);
         return axios({
             url: queryURL,
             method: 'post',
@@ -247,7 +247,7 @@ module.exports = {
                 var row = 1;
                 scenarioResultsArray.forEach(function(element) {
                     db.cycletime.create({
-                        scenarioID: req.body.scenarioID,
+                        userLoginSessionID: req.body.userLoginSessionID,
                         stepname: element[0],
                         resourceRequirement: element[1],
                         totalJobsProcessed: element[2],
