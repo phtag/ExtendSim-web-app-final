@@ -264,5 +264,21 @@ module.exports = {
                 return res.json({scenarioResults: scenarioResults});     
             });    
         });
+    },
+    getuserscenarios: function(req, res) {
+        var queryURL = "http://" + IPaddress + ":8090/StreamingService/web/GetServerFileStream";
+        var myheaders = { 
+            accept: "application/json", 
+            }; 
+        var scenarioResults;
+        console.log("ExtendSimASPgetScenarioResults: Getting scenario results from server for userSessionID=" + req.body.userLoginSessionID + " filename=" + req.body.filepathname);
+        db.scenario.findAll({
+            where: {
+                userLoginSessionID: req.body.userLoginSessionID
+            }
+          }).then(function(dbresponse) {            
+                return res.json({userScenarios: dbresponse.data});     
+            });    
     }
+
 };
