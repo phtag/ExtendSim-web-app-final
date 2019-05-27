@@ -60,7 +60,8 @@ export class UserProvider extends React.Component {
     scenarioID: -1,
     scenarioFolderPathname: "",
     ExtendSimModelName: "/ASP example model (GS).mox",
-    scenarioInputFiles: []
+    scenarioInputFiles: [],
+    userScenarios: []
   }
 // Validation functions
   ValidatePageElements = () => {
@@ -206,16 +207,36 @@ export class UserProvider extends React.Component {
     API.getScenarioResults(this.state.scenarioFolderPathname + cycleTimeResultsFilename, this.state.userLoginSessionID)
     .then(res1 => {
       console.log('scenario results=' + res1.data);
-      history.push('/results');
       API.getUserScenarios(this.state.userLoginSessionID)
       .then(res2 => {
-        const userScenarios = res2.data.userScenarios;
-        alert("Successfully got user scenarios for username=" + userScenarios[0].username);
+        this.setState({userScenarios: res2.data.userScenarios});
+        alert("Successfully got user scenarios for username=" + this.state.userScenarios[0].username);
         console.log('scenario results=' + JSON.stringify(res2));
+        history.push('/results');
       });
     })
   };
 
+  renderUserScenariosTableData = () => {
+    alert('renderUserScenariosTableData entry...this.state.userScenarios=' + this.state.userScenarios);
+    return this.state.userScenarios.map((scenario, index) => {
+      const { userLoginSessionID, 
+              username, 
+              scenarioID, 
+              scenarioFolderPathname, 
+              scenarioSubmissionDateTime,
+              scenarioCompletionDateTime} = scenario //destructuring
+       return (
+          <tr key={scenarioID}>
+             <td>{scenarioID}</td>
+             <td>{username}</td>
+             <td>{scenarioFolderPathname}</td>
+             <td>{scenarioSubmissionDateTime}</td>
+             <td>{scenarioCompletionDateTime}</td>
+          </tr>
+       )
+    })
+ }
 
   render() {
     return (
@@ -232,7 +253,8 @@ export class UserProvider extends React.Component {
         handleDropEvents: this.handleDropEvents,
         handleLoginSubmit: this.handleLoginSubmit,
         handleSubmitSimulationScenario: this.handleSubmitSimulationScenario,
-        handleShowResults: this.handleShowResults
+        handleShowResults: this.handleShowResults,
+        renderUserScenariosTableData: this.renderUserScenariosTableData
       }}>
         {this.props.children}
       </Context.Provider>

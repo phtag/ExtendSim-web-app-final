@@ -8,10 +8,16 @@ class Results extends React.Component {
 
 
   render() {
-    const { username, password, error } = this.state;
     return (
       <UserContext.Consumer>
-        {({handleUserInputChange, handleDropEvents, handleSubmitSimulationScenario, handleShowResults, userLoginSessionID, scenarioFolderPathname, validationObjects}) => (
+        {({handleUserInputChange, 
+           handleDropEvents, 
+           handleSubmitSimulationScenario, 
+           handleShowResults,
+           renderUserScenariosTableData,
+           userLoginSessionID, 
+           scenarioFolderPathname, 
+           validationObjects}) => (
           <div id="home">
             <div className="container my-scenario-container">
               <div className="row">
@@ -21,6 +27,20 @@ class Results extends React.Component {
               <div className="row">
                 <div className="col-8">
                   <h2>ExtendSim Web Simulation Scenario Results</h2>
+                  <table id='user-scenarios' border="1">
+                    <tr>
+                      <th>scenarioID</th>
+                      <th>username</th>
+                      <th>scenarioFolderPathname</th>
+                      <th>scenarioSubmissionDateTime</th>
+                      <th>scenarioCompletionDateTime</th>
+                      <th>Results</th>
+                      <th>Delete</th>
+                    </tr>
+                    <tbody>
+                        {renderUserScenariosTableData()}
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
