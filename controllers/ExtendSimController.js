@@ -170,7 +170,7 @@ module.exports = {
             // update the user's scenario ID and submission time in the database
             db.scenario.update({
                 scenarioID: response.data,
-                scenarioSubmissionDataTime: new Date(),
+                scenarioSubmissionDateTime: new Date(),
             }, {
                 where: {
                     userLoginSessionID: userLoginSessionID
@@ -226,7 +226,7 @@ module.exports = {
             scenarioResults = response.data;
             console.log("ExtendSimASPgetScenarioResults: response=" + response.data);
             db.scenario.update({
-                scenarioCompletionDataTime: new Date(),
+                scenarioCompletionDateTime: new Date(),
             }, {
                 where: {
                     userLoginSessionID: req.body.userLoginSessionID

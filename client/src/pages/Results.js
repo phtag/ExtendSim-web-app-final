@@ -5,7 +5,9 @@ import UserContext from '../utils/UserContext';
 class Results extends React.Component {
   state = {
   };
-
+  handleTableRowResults = (scenarioID, event) => {
+    console.log('handleTableRowResults - scenarioID=' + scenarioID + ' event.target =' + event.target);
+  }
 
   render() {
     return (
@@ -38,7 +40,7 @@ class Results extends React.Component {
                       <th>Delete</th>
                     </tr>
                     <tbody>
-                        {renderUserScenariosTableData()}
+                      {renderUserScenariosTableData((event) => this.handleTableRowResults(event))}
                     </tbody>
                   </table>
                 </div>

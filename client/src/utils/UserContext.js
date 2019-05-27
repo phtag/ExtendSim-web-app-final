@@ -210,29 +210,29 @@ export class UserProvider extends React.Component {
       API.getUserScenarios(this.state.userLoginSessionID)
       .then(res2 => {
         this.setState({userScenarios: res2.data.userScenarios});
-        alert("Successfully got user scenarios for username=" + this.state.userScenarios[0].username);
         console.log('scenario results=' + JSON.stringify(res2));
         history.push('/results');
       });
     })
   };
 
-  renderUserScenariosTableData = () => {
-    alert('renderUserScenariosTableData entry...this.state.userScenarios=' + this.state.userScenarios);
+  renderUserScenariosTableData = (handleTableRowResults) => {
     return this.state.userScenarios.map((scenario, index) => {
       const { userLoginSessionID, 
               username, 
               scenarioID, 
               scenarioFolderPathname, 
               scenarioSubmissionDateTime,
-              scenarioCompletionDateTime} = scenario //destructuring
+              scenarioCompletionDateTime} = scenario; //destructuring
        return (
-          <tr key={scenarioID}>
+          <tr data-index={scenarioID}>
              <td>{scenarioID}</td>
              <td>{username}</td>
              <td>{scenarioFolderPathname}</td>
              <td>{scenarioSubmissionDateTime}</td>
              <td>{scenarioCompletionDateTime}</td>
+             <td><button onClick={(event) => handleTableRowResults(scenarioID, event)}>Show</button></td>
+             <td><button>Delete</button></td>
           </tr>
        )
     })
