@@ -270,14 +270,14 @@ module.exports = {
         var myheaders = { 
             accept: "application/json", 
             }; 
-        var scenarioResults;
-        console.log("ExtendSimASPgetScenarioResults: Getting scenario results from server for userSessionID=" + req.body.userLoginSessionID + " filename=" + req.body.filepathname);
+        console.log("ExtendSimASPgetScenarioResults: Getting scenario results from server for userSessionID=" + req.body.userLoginSessionID);
         db.scenario.findAll({
             where: {
                 userLoginSessionID: req.body.userLoginSessionID
             }
-          }).then(function(dbresponse) {            
-                return res.json({userScenarios: dbresponse.data});     
+          }).then(function(dbresponse) {
+              console.log("Response=" + dbresponse[0].userLoginSessionID + " length=" + dbresponse.length);         
+                return res.json({userScenarios: dbresponse});     
             });    
     }
 

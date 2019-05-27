@@ -65,11 +65,17 @@ export default {
     })
   },
   getScenarioResults: function (filepathname, userLoginSessionID) {
-      return axios.post('/api/ExtendSim/getscenarioresults',
-      {
-        filepathname: filepathname,
-        userLoginSessionID: userLoginSessionID
-      });
-      // return response.data;
+    return axios.post('/api/ExtendSim/getscenarioresults',
+    {
+      filepathname: filepathname,
+      userLoginSessionID: userLoginSessionID
+    });
+    // return response.data;
+  },
+  getUserScenarios: function (userLoginSessionID) {
+    return axios.post('/api/ExtendSim/getuserscenarios',
+    {
+      userLoginSessionID: userLoginSessionID
+    });
   }
 };

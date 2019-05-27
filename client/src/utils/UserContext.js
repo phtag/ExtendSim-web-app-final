@@ -138,7 +138,6 @@ export class UserProvider extends React.Component {
       modelPathname, 
       removeFolderOnCompletion)
     .then(res => {
-      alert("ExtendSimASPsubmitSimulationScenario: Successfully submitted!!");
       this.setState({scenarioID: res.data.scenarioID});
       checkModelStatusTimer = setInterval(this.ExtendSimASPCheckModelRunStatus, 1000);
     })
@@ -206,14 +205,13 @@ export class UserProvider extends React.Component {
     event.preventDefault();
     API.getScenarioResults(this.state.scenarioFolderPathname + cycleTimeResultsFilename, this.state.userLoginSessionID)
     .then(res1 => {
-      alert("Successfully got scenario results");
       console.log('scenario results=' + res1.data);
       history.push('/results');
       API.getUserScenarios(this.state.userLoginSessionID)
       .then(res2 => {
-        alert("Successfully got user scenarios");
-        console.log('scenario results=' + res2.data);
-  
+        const userScenarios = res2.data.userScenarios;
+        alert("Successfully got user scenarios for username=" + userScenarios[0].username);
+        console.log('scenario results=' + JSON.stringify(res2));
       });
     })
   };

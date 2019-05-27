@@ -6,8 +6,8 @@ module.exports = function(sequelize, DataTypes) {
     username: DataTypes.STRING,
     scenarioID: DataTypes.INTEGER,
     scenarioFolderPathname: DataTypes.STRING,
-    scenarioSubmissionDataTime: DataTypes.DATE,
-    scenarioCompletionDataTime: DataTypes.DATE
+    scenarioSubmissionDateTime: DataTypes.DATE,
+    scenarioCompletionDateTime: DataTypes.DATE
   });
   return scenario;
 };
