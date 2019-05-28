@@ -56,12 +56,14 @@ export class UserProvider extends React.Component {
       }
     ],
     modelPathname: ExtendSimModelPath,
+    cycleTimeResultsFilename: "/Cycle Time Results.txt",
     scenarioName: "",
     scenarioID: -1,
     scenarioFolderPathname: "",
     ExtendSimModelName: "/ASP example model (GS).mox",
     scenarioInputFiles: [],
-    userScenarios: []
+    userScenarios: [],
+    cycleTimeData: []
   }
 // Validation functions
   ValidatePageElements = () => {
@@ -211,11 +213,59 @@ export class UserProvider extends React.Component {
       .then(res2 => {
         this.setState({userScenarios: res2.data.userScenarios});
         console.log('scenario results=' + JSON.stringify(res2));
-        history.push('/results');
+        history.push('/scenarios-summary');
       });
     })
   };
 
+  handleShowTableRowResults = (event,
+                               userLoginSessionID, 
+                               scenarioFolderPathname, 
+                               cycleTimeResultsFilename
+                              ) => {
+      event.preventDefault();
+      const { history } = this.props;
+      console.log('handleTableRowResults - event.target.id =' + event.target.getAttribute('id'));
+      console.log('handleTableRowResults - this.props =' + this.props);
+      API.getScenarioResults(scenarioFolderPathname + cycleTimeResultsFilename, userLoginSessionID)
+      .then(res1 => {
+      console.log('scenario results=' + res1.data);
+      cycleTimeData = res1.data;
+      history.push('/cycle-time-results');
+    });
+  }
+
+  renderCycleTimeTableData = (cycleTimeData, event) => {
+    event.preventDefault();
+    return cycleTimeData.map((rowData, index) => {
+      const {
+              stepname, 
+              resourceRequirement, 
+              totalJobsProcessed, 
+              totalProcessTime, 
+              totalWaitTime,
+              avgProcessTime,
+              avgWaitTime,
+              avgCycleTime,
+              CoVarrivals,
+              CoVdepartures
+            } = rowData; //destructuring
+       return (
+          <tr>
+             <td>{stepname}</td>
+             <td>{resourceRequirement}</td>
+             <td>{totalJobsProcessed}</td>
+             <td>{totalProcessTime}</td>
+             <td>{totalWaitTime}</td>
+             <td>{avgProcessTime}</td>
+             <td>{avgWaitTime}</td>
+             <td>{avgCycleTime}</td>
+             <td>{CoVarrivals}</td>
+             <td>{CoVdepartures}</td>
+          </tr> 
+       )
+    })  
+  }
   renderUserScenariosTableData = (handleTableRowResults) => {
     return this.state.userScenarios.map((scenario, index) => {
       const { userLoginSessionID, 
@@ -225,14 +275,20 @@ export class UserProvider extends React.Component {
               scenarioSubmissionDateTime,
               scenarioCompletionDateTime} = scenario; //destructuring
        return (
-          <tr data-index={scenarioID}>
+          <tr key={scenarioID}>
              <td>{scenarioID}</td>
+             <td>{userLoginSessionID}</td>
              <td>{username}</td>
-             <td>{scenarioFolderPathname}</td>
              <td>{scenarioSubmissionDateTime}</td>
              <td>{scenarioCompletionDateTime}</td>
-             <td><button onClick={(event) => handleTableRowResults(scenarioID, event)}>Show</button></td>
-             <td><button>Delete</button></td>
+             <td>
+               <button id={userLoginSessionID} onClick={(event) => handleTableRowResults(event)}>
+               Show
+               </button></td>
+             <td>
+               <button>
+                 Delete
+                </button></td>
           </tr>
        )
     })
@@ -245,16 +301,19 @@ export class UserProvider extends React.Component {
         username: this.state.username,
         password: this.state.password,
         userLoginSessionID: this.state.userLoginSessionID,
+        scenarioID: this.state.scenarioID,
         scenarioName: this.state.scenarioName,
         scenarioFolderPathname: this.state.scenarioFolderPathname,
         validationObjects: this.state.validationObjects,
         scenarioRunStatus: this.state.scenarioRunStatus,
+        cycleTimeData: this.state.cycleTimeData,
         handleUserInputChange: this.handleUserInputChange,
         handleDropEvents: this.handleDropEvents,
         handleLoginSubmit: this.handleLoginSubmit,
         handleSubmitSimulationScenario: this.handleSubmitSimulationScenario,
         handleShowResults: this.handleShowResults,
-        renderUserScenariosTableData: this.renderUserScenariosTableData
+        renderUserScenariosTableData: this.renderUserScenariosTableData,
+        renderCycleTimeTableData: this.renderCycleTimeTableData
       }}>
         {this.props.children}
       </Context.Provider>

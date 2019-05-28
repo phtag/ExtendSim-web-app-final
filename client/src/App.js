@@ -2,7 +2,8 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch, withRouter } from 'react-router-dom';
 import Home from './pages/Home';
 import Scenarios from './pages/Scenarios';
-import Results from './pages/Results';
+import CycleTimeResults from './pages/CycleTimeResults';
+import ScenariosSummary from './pages/ScenariosSummary';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import NoMatch from './pages/NoMatch';
@@ -23,7 +24,8 @@ class App extends React.Component {
                 <Route exact path="/signup" component={Signup} />
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/scenarios" component={Scenarios} />
-                <Route exact path="/results" component={Results} />
+                <Route exact path="/scenarios-summary" component={ScenariosSummary} />
+                <Route exact path="/cycle-time-results" component={CycleTimeResults} />
                 <Route component={NoMatch} />
               </Switch>
             </div>

@@ -2,11 +2,12 @@ import React from 'react';
 import API from '../utils/API';
 import UserContext from '../utils/UserContext'; 
 
-class Results extends React.Component {
+class CycleTimeResults extends React.Component {
   state = {
   };
   handleTableRowResults = (event) => {
     console.log('handleTableRowResults - event.target.id =' + event.target.getAttribute('id'));
+    const { history } = this.props;
   }
 
   render() {
@@ -16,10 +17,10 @@ class Results extends React.Component {
            handleDropEvents, 
            handleSubmitSimulationScenario, 
            handleShowResults,
-           renderUserScenariosTableData,
+           renderCycleTimeTableData,
            userLoginSessionID, 
-           scenarioFolderPathname, 
-           validationObjects}) => (
+           scenarioID, 
+           cycleTimeData}) => (
           <div id="home">
             <div className="container my-scenario-container">
               <div className="row">
@@ -28,19 +29,22 @@ class Results extends React.Component {
               </div>
               <div className="row">
                 <div className="col-8">
-                  <h2>ExtendSim Web Simulation Scenario Results</h2>
+                  <h2>Cycle-Time Results for ScenarioID={scenarioID}</h2>
                   <table id='user-scenarios' border="1">
                     <tr>
-                      <th>scenarioID</th>
-                      <th>username</th>
-                      <th>scenarioFolderPathname</th>
-                      <th>scenarioSubmissionDateTime</th>
-                      <th>scenarioCompletionDateTime</th>
-                      <th>Results</th>
-                      <th>Delete</th>
+                      <th>stepname</th>
+                      <th>resourceRequirement</th>
+                      <th>totalJobsProcessed</th>
+                      <th>totalProcessTime</th>
+                      <th>totalWaitTime</th>
+                      <th>avgProcessTime</th>
+                      <th>avgWaitTime</th>
+                      <th>avgCycleTime</th>
+                      <th>CoVarrivals</th>
+                      <th>CoVdepartures</th>
                     </tr>
                     <tbody>
-                      {renderUserScenariosTableData((event) => this.handleTableRowResults(event))}
+                      {(event) => renderCycleTimeTableData(cycleTimeData, event)}
                     </tbody>
                   </table>
                 </div>
@@ -53,4 +57,4 @@ class Results extends React.Component {
   }
 }
 
-export default Results;
+export default CycleTimeResults;

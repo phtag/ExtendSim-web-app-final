@@ -2,11 +2,12 @@ import React from 'react';
 import API from '../utils/API';
 import UserContext from '../utils/UserContext'; 
 
-class Results extends React.Component {
+class Summary extends React.Component {
   state = {
   };
   handleTableRowResults = (event) => {
     console.log('handleTableRowResults - event.target.id =' + event.target.getAttribute('id'));
+    const { history } = this.props;
   }
 
   render() {
@@ -53,4 +54,4 @@ class Results extends React.Component {
   }
 }
 
-export default Results;
+export default Summary;
