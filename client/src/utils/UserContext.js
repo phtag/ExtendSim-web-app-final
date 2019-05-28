@@ -222,7 +222,7 @@ export class UserProvider extends React.Component {
                             this.state.scenarioID)
     .then(res1 => {
       console.log('scenario results=' + res1.data);
-      API.getUserScenarios(this.state.userLoginSessionID)
+      API.getUserScenarios(this.state.username)
       .then(res2 => {
         this.setState({userScenarios: res2.data.userScenarios});
         console.log('scenario results=' + JSON.stringify(res2));

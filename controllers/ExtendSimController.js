@@ -290,7 +290,7 @@ module.exports = {
         console.log("ExtendSimASPgetScenarioResults: Getting scenario results from server for userSessionID=" + req.body.userLoginSessionID);
         db.scenario.findAll({
             where: {
-                userLoginSessionID: req.body.userLoginSessionID
+                username: req.body.username
             }
           }).then(function(dbresponse) {
               console.log("Response=" + dbresponse[0].userLoginSessionID + " length=" + dbresponse.length);         

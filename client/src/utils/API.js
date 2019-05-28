@@ -73,10 +73,10 @@ export default {
     });
     // return response.data;
   },
-  getUserScenarios: function (userLoginSessionID) {
+  getUserScenarios: function (username) {
     return axios.post('/api/ExtendSim/getuserscenarios',
     {
-      userLoginSessionID: userLoginSessionID
+      username: username
     });
   },
   getScenarioCycletimeData: function (scenarioID, userLoginSessionID) {

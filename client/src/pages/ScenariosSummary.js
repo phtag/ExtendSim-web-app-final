@@ -26,7 +26,7 @@ class ScenariosSummary extends React.Component {
                 <header id="ExtendSim-header">
                 </header>
               </div>
-              <div className="row">
+              <div className="row no-gutters">
                 <div className="col-8">
                   <h2>Scenarios Summary</h2>
                   <table id='user-scenarios' border="1">
