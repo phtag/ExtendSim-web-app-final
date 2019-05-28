@@ -1,5 +1,6 @@
 module.exports = function(sequelize, DataTypes) {
   var cycletime = sequelize.define("cycletime", {
+    scenarioID: DataTypes.STRING,
     userLoginSessionID: DataTypes.STRING,
     stepname: DataTypes.STRING,
     resourceRequirement: DataTypes.STRING,

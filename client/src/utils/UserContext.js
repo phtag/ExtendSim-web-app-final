@@ -217,7 +217,9 @@ export class UserProvider extends React.Component {
 
   handleShowResults = (event, history) => {
     event.preventDefault();
-    API.getScenarioResults(this.state.scenarioFolderPathname + cycleTimeResultsFilename, this.state.userLoginSessionID)
+    API.getcycletimeresults(this.state.scenarioFolderPathname + cycleTimeResultsFilename, 
+                            this.state.userLoginSessionID,
+                            this.state.scenarioID)
     .then(res1 => {
       console.log('scenario results=' + res1.data);
       API.getUserScenarios(this.state.userLoginSessionID)
@@ -238,22 +240,26 @@ export class UserProvider extends React.Component {
     const selectedScenario = this.getMatchingScenario(scenarioID);
     const scenarioFolderPathname = selectedScenario.scenarioFolderPathname;
     const {userLoginSessionID, cycleTimeResultsFilename} = this.state;
-    alert("scenarioFolderPathname=" + scenarioFolderPathname + 
+    console.log("scenarioFolderPathname=" + scenarioFolderPathname + 
           " cycleTimeResultsFilename=" + cycleTimeResultsFilename + 
           " userLoginSessionID=" +userLoginSessionID);
-
-    API.getScenarioResults(scenarioFolderPathname + cycleTimeResultsFilename, userLoginSessionID)
+    API.getScenarioCycletimeData (scenarioID, userLoginSessionID) 
     .then(res1 => {
       alert('Successfully returned cycle-time data');
-      console.log('scenario results=' + res1.data);
-      this.setState({cycleTimeData: res1.data.cycleTimeData}) ;
+      console.log('scenario cycleTimeData=' + res1.data.cycleTimeData);
+      // var parsedArray = res1.data.cycleTimeData.split('\r\n').map(function(ln){
+      //   return ln.split('\t');
+      // });
+      // console.log('parsedArray=' + parsedArray);
+      this.setState({cycleTimeData: res1.data.cycleTimeData});
       history.push('/cycle-time-results');
     });
   }
 
-  renderCycleTimeTableData = (cycleTimeData, event) => {
-    event.preventDefault();
-    return cycleTimeData.map((rowData, index) => {
+  renderCycleTimeTableData = () => {
+    // event.preventDefault();
+    alert('this.state.cycleTimeData.length=' + this.state.cycleTimeData.length);
+    return this.state.cycleTimeData.map((rowData, key) => {
       const {
               stepname, 
               resourceRequirement, 
@@ -267,18 +273,18 @@ export class UserProvider extends React.Component {
               CoVdepartures
             } = rowData; //destructuring
        return (
-          <tr>
-             <td>{stepname}</td>
-             <td>{resourceRequirement}</td>
-             <td>{totalJobsProcessed}</td>
-             <td>{totalProcessTime}</td>
-             <td>{totalWaitTime}</td>
-             <td>{avgProcessTime}</td>
-             <td>{avgWaitTime}</td>
-             <td>{avgCycleTime}</td>
-             <td>{CoVarrivals}</td>
-             <td>{CoVdepartures}</td>
-          </tr> 
+        <tr key={key}>             
+          <td>{stepname}</td>
+            <td>{resourceRequirement}</td>
+            <td>{totalJobsProcessed}</td>
+            <td>{totalProcessTime}</td>
+            <td>{totalWaitTime}</td>
+            <td>{avgProcessTime}</td>
+            <td>{avgWaitTime}</td>
+            <td>{avgCycleTime}</td>
+            <td>{CoVarrivals}</td>
+            <td>{CoVdepartures}</td>
+        </tr> 
        )
     })  
   }

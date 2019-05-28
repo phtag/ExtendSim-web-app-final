@@ -5,22 +5,15 @@ import UserContext from '../utils/UserContext';
 class CycleTimeResults extends React.Component {
   state = {
   };
-  handleTableRowResults = (event) => {
-    console.log('handleTableRowResults - event.target.id =' + event.target.getAttribute('id'));
-    const { history } = this.props;
-  }
 
   render() {
     return (
       <UserContext.Consumer>
-        {({handleUserInputChange, 
-           handleDropEvents, 
-           handleSubmitSimulationScenario, 
-           handleShowResults,
-           renderCycleTimeTableData,
-           userLoginSessionID, 
-           scenarioID, 
-           cycleTimeData}) => (
+        {({
+            renderCycleTimeTableData,
+            scenarioID, 
+            cycleTimeData
+        }) => (
           <div id="home">
             <div className="container my-scenario-container">
               <div className="row">
@@ -46,7 +39,7 @@ class CycleTimeResults extends React.Component {
                         </tr>
                     </thead>
                     <tbody>
-                      {(event) => renderCycleTimeTableData(cycleTimeData, event)}
+                      {renderCycleTimeTableData()}
                     </tbody>
                   </table>
                 </div>

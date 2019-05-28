@@ -203,7 +203,7 @@ module.exports = {
             return res.json({modelRunStatus: response.data});
         });
     },
-    getscenarioresults: function(req, res) {
+    getcycletimeresults: function(req, res) {
         var queryURL = "http://" + IPaddress + ":8090/StreamingService/web/GetServerFileStream";
         var myheaders = { 
             accept: "application/json", 
@@ -247,6 +247,7 @@ module.exports = {
                 var row = 1;
                 scenarioResultsArray.forEach(function(element) {
                     db.cycletime.create({
+                        scenarioID: req.body.scenarioID,
                         userLoginSessionID: req.body.userLoginSessionID,
                         stepname: element[0],
                         resourceRequirement: element[1],
@@ -264,6 +265,22 @@ module.exports = {
                 return res.json({cycleTimeData: scenarioResults});     
             });    
         });
+    },
+    getscenariocycletimedata: function(req, res) {
+        var queryURL = "http://" + IPaddress + ":8090/StreamingService/web/GetServerFileStream";
+        var myheaders = { 
+            accept: "application/json", 
+            }; 
+        console.log("getscenariocycletimedata:Querying database for userLoginSessionID=" + req.body.userLoginSessionID);
+        db.cycletime.findAll({
+            where: {
+                scenarioID: req.body.scenarioID,
+                userLoginSessionID: req.body.userLoginSessionID
+            }
+          }).then(function(dbresponse) {
+            console.log("Response=" + dbresponse);
+            return res.json({cycleTimeData: dbresponse});     
+        });    
     },
     getuserscenarios: function(req, res) {
         var queryURL = "http://" + IPaddress + ":8090/StreamingService/web/GetServerFileStream";

@@ -64,17 +64,25 @@ export default {
       scenarioID: scenarioID,
     })
   },
-  getScenarioResults: function (filepathname, userLoginSessionID) {
-    return axios.post('/api/ExtendSim/getscenarioresults',
+  getcycletimeresults: function (filepathname, userLoginSessionID, scenarioID) {
+    return axios.post('/api/ExtendSim/getcycletimeresults',
     {
       filepathname: filepathname,
-      userLoginSessionID: userLoginSessionID
+      userLoginSessionID: userLoginSessionID,
+      scenarioID: scenarioID
     });
     // return response.data;
   },
   getUserScenarios: function (userLoginSessionID) {
     return axios.post('/api/ExtendSim/getuserscenarios',
     {
+      userLoginSessionID: userLoginSessionID
+    });
+  },
+  getScenarioCycletimeData: function (scenarioID, userLoginSessionID) {
+    return axios.post('/api/ExtendSim/getscenariocycletimedata',
+    {
+      scenarioID: scenarioID,
       userLoginSessionID: userLoginSessionID
     });
   }

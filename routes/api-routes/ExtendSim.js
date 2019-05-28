@@ -7,5 +7,6 @@ router.route('/sendfile').post(ExtendSimController.sendfile);
 router.route('/submitsimulationscenario').post(ExtendSimController.submitsimulationscenario);
 router.route('/checkmodelrunstatus').post(ExtendSimController.checkmodelrunstatus);
 router.route('/getuserscenarios').post(ExtendSimController.getuserscenarios);
-router.route('/getscenarioresults').post(ExtendSimController.getscenarioresults);
+router.route('/getcycletimeresults').post(ExtendSimController.getcycletimeresults);
+router.route('/getscenariocycletimedata').post(ExtendSimController.getscenariocycletimedata);
 module.exports = router;
