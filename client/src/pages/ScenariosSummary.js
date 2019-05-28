@@ -5,23 +5,12 @@ import UserContext from '../utils/UserContext';
 class ScenariosSummary extends React.Component {
   state = {
   };
-  handleTableRowResults = (userLoginSessionID, 
-                           scenarioFolderPathname, 
-                           cycleTimeResultsFilename,
-                           cycleTimeData,
-                           event) => {
+  handleTableRowResultsClick = (handleShowTableRowResults, event) => {
     event.preventDefault();
-    alert('userLoginSessionID=' + userLoginSessionID);
     const { history } = this.props;
-
-    console.log('handleTableRowResults - event.target.id =' + event.target.getAttribute('id'));
-    console.log('handleTableRowResults - this.props =' + this.props);
-    API.getScenarioResults(scenarioFolderPathname + cycleTimeResultsFilename, userLoginSessionID)
-    .then(res1 => {
-        console.log('scenario results=' + res1.data);
-        cycleTimeData = res1.data;
-        history.push('/cycle-time-results');
-    });
+    const scenarioID = event.target.getAttribute('id');
+    alert("scenarioID=" + scenarioID);
+    handleShowTableRowResults(event, scenarioID, history);
   }
 
   render() {
@@ -29,10 +18,7 @@ class ScenariosSummary extends React.Component {
       <UserContext.Consumer>
         {({
             renderUserScenariosTableData,
-            userLoginSessionID, 
-            scenarioFolderPathname, 
-            cycleTimeResultsFilename,
-            cycleTimeData
+            handleShowTableRowResults
         }) => (
           <div id="home">
             <div className="container my-scenario-container">
@@ -57,11 +43,7 @@ class ScenariosSummary extends React.Component {
                     </thead>
                     <tbody>
                       {renderUserScenariosTableData((event) => 
-                        this.handleTableRowResults(userLoginSessionID, 
-                                                   scenarioFolderPathname, 
-                                                   cycleTimeResultsFilename,
-                                                   cycleTimeData,
-                                                   event))}
+                        this.handleTableRowResultsClick(handleShowTableRowResults, event))}
                     </tbody>
                   </table>
                 </div>

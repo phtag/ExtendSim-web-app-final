@@ -31,18 +31,20 @@ class CycleTimeResults extends React.Component {
                 <div className="col-8">
                   <h2>Cycle-Time Results for ScenarioID={scenarioID}</h2>
                   <table id='user-scenarios' border="1">
-                    <tr>
-                      <th>stepname</th>
-                      <th>resourceRequirement</th>
-                      <th>totalJobsProcessed</th>
-                      <th>totalProcessTime</th>
-                      <th>totalWaitTime</th>
-                      <th>avgProcessTime</th>
-                      <th>avgWaitTime</th>
-                      <th>avgCycleTime</th>
-                      <th>CoVarrivals</th>
-                      <th>CoVdepartures</th>
-                    </tr>
+                    <thead>
+                        <tr>
+                            <th>stepname</th>
+                            <th>resourceRequirement</th>
+                            <th>totalJobsProcessed</th>
+                            <th>totalProcessTime</th>
+                            <th>totalWaitTime</th>
+                            <th>avgProcessTime</th>
+                            <th>avgWaitTime</th>
+                            <th>avgCycleTime</th>
+                            <th>CoVarrivals</th>
+                            <th>CoVdepartures</th>
+                        </tr>
+                    </thead>
                     <tbody>
                       {(event) => renderCycleTimeTableData(cycleTimeData, event)}
                     </tbody>

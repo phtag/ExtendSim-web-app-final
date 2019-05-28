@@ -65,6 +65,17 @@ export class UserProvider extends React.Component {
     userScenarios: [],
     cycleTimeData: []
   }
+// Utilities
+  getMatchingScenario = (scenarioID) => {
+    console.log(this.state.userScenarios[0].scenarioID);
+    for (var i=0;i<this.state.userScenarios.length;i++) {
+      if (this.state.userScenarios[i].scenarioID == scenarioID) {
+        return this.state.userScenarios[i];
+      }
+    }
+    return null;
+  }
+
 // Validation functions
   ValidatePageElements = () => {
     // user login data
@@ -219,18 +230,23 @@ export class UserProvider extends React.Component {
   };
 
   handleShowTableRowResults = (event,
-                               userLoginSessionID, 
-                               scenarioFolderPathname, 
-                               cycleTimeResultsFilename
+                               scenarioID, 
+                               history
                               ) => {
-      event.preventDefault();
-      const { history } = this.props;
-      console.log('handleTableRowResults - event.target.id =' + event.target.getAttribute('id'));
-      console.log('handleTableRowResults - this.props =' + this.props);
-      API.getScenarioResults(scenarioFolderPathname + cycleTimeResultsFilename, userLoginSessionID)
-      .then(res1 => {
+    event.preventDefault();
+    // We need to lookup the scenario folder pathname using the scenario ID
+    const selectedScenario = this.getMatchingScenario(scenarioID);
+    const scenarioFolderPathname = selectedScenario.scenarioFolderPathname;
+    const {userLoginSessionID, cycleTimeResultsFilename} = this.state;
+    alert("scenarioFolderPathname=" + scenarioFolderPathname + 
+          " cycleTimeResultsFilename=" + cycleTimeResultsFilename + 
+          " userLoginSessionID=" +userLoginSessionID);
+
+    API.getScenarioResults(scenarioFolderPathname + cycleTimeResultsFilename, userLoginSessionID)
+    .then(res1 => {
+      alert('Successfully returned cycle-time data');
       console.log('scenario results=' + res1.data);
-      cycleTimeData = res1.data;
+      this.setState({cycleTimeData: res1.data.cycleTimeData}) ;
       history.push('/cycle-time-results');
     });
   }
@@ -282,7 +298,7 @@ export class UserProvider extends React.Component {
              <td>{scenarioSubmissionDateTime}</td>
              <td>{scenarioCompletionDateTime}</td>
              <td>
-               <button id={userLoginSessionID} onClick={(event) => handleTableRowResults(event)}>
+               <button id={scenarioID} onClick={(event) => handleTableRowResults(event)}>
                Show
                </button></td>
              <td>
@@ -312,6 +328,7 @@ export class UserProvider extends React.Component {
         handleLoginSubmit: this.handleLoginSubmit,
         handleSubmitSimulationScenario: this.handleSubmitSimulationScenario,
         handleShowResults: this.handleShowResults,
+        handleShowTableRowResults: this.handleShowTableRowResults,
         renderUserScenariosTableData: this.renderUserScenariosTableData,
         renderCycleTimeTableData: this.renderCycleTimeTableData
       }}>
