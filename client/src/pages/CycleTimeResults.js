@@ -30,7 +30,7 @@ class CycleTimeResults extends React.Component {
                             <th className="table-headers">Step Name</th>
                             <th className="table-headers">Resource Requirement</th>
                             <th className="table-headers">Total Jobs Processed</th>
-                            <th className="table-headers">TotalProcess Time</th>
+                            <th className="table-headers">Total Process Time</th>
                             <th className="table-headers">Total Wait Time</th>
                             <th className="table-headers">Avg. Process Time</th>
                             <th className="table-headers">Avg. Wait-Time</th>

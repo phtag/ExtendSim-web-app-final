@@ -31,13 +31,13 @@ class ScenariosSummary extends React.Component {
                   <table id='user-scenarios' border="1">
                   <thead>
                     <tr>
-                        <th>scenarioID</th>
-                        <th>username</th>
-                        <th>scenarioFolderPathname</th>
-                        <th>scenarioSubmissionDateTime</th>
-                        <th>scenarioCompletionDateTime</th>
-                        <th>Results</th>
-                        <th>Delete</th>
+                        <th className="table-headers">Scenario ID</th>
+                        <th className="table-headers">Username</th>
+                        <th className="table-headers">scenarioFolderPathname</th>
+                        <th className="table-headers">Scenario Submission Date/Time</th>
+                        <th className="table-headers">Scenario Completion Date/Time</th>
+                        <th className="table-headers">Results</th>
+                        <th className="table-headers">Delete</th>
                         </tr>
                     </thead>
                     <tbody>
