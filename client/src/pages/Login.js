@@ -35,7 +35,7 @@ class Login extends React.Component {
                 <header id="ExtendSim-header">
                 </header>
             </div>
-            <div className="container">
+            <div className="row">
                 <div className="col-8">
                     <h2>ExtendSim ASP Login Page</h2>
                     <form className="clearfix mb-4" action="POST">

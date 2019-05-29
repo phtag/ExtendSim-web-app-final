@@ -19,7 +19,7 @@ tr:nth-child(even) {
 }
 .table-headers {
   padding: 5px;
-  background-color: rgb(0, 0, 54);
+  background-color: #EB6864;
   color: white;
   text-align: center;
 }
