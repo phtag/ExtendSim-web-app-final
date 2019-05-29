@@ -11,7 +11,8 @@ class CycleTimeResults extends React.Component {
       <UserContext.Consumer>
         {({
             renderCycleTimeTableData,
-            scenarioID, 
+            scenarioID,
+            scenarioName,
             cycleTimeData
         }) => (
           <div id="home">
@@ -22,20 +23,20 @@ class CycleTimeResults extends React.Component {
               </div>
               <div className="row">
                 <div className="col-8">
-                  <h2>Cycle-Time Results for ScenarioID={scenarioID}</h2>
+                  <h2>Cycle-Time Results for Scenario={scenarioName} (scenario ID={scenarioID})</h2>
                   <table id='user-scenarios' border="1">
                     <thead>
                         <tr>
-                            <th>stepname</th>
-                            <th>resourceRequirement</th>
-                            <th>totalJobsProcessed</th>
-                            <th>totalProcessTime</th>
-                            <th>totalWaitTime</th>
-                            <th>avgProcessTime</th>
-                            <th>avgWaitTime</th>
-                            <th>avgCycleTime</th>
-                            <th>CoVarrivals</th>
-                            <th>CoVdepartures</th>
+                            <th className="table-headers">Step Name</th>
+                            <th className="table-headers">Resource Requirement</th>
+                            <th className="table-headers">Total Jobs Processed</th>
+                            <th className="table-headers">TotalProcess Time</th>
+                            <th className="table-headers">Total Wait Time</th>
+                            <th className="table-headers">Avg. Process Time</th>
+                            <th className="table-headers">Avg. Wait-Time</th>
+                            <th className="table-headers">Avg. Cycle-Time</th>
+                            <th className="table-headers">CoV Arrivals</th>
+                            <th className="table-headers">CoV Departures</th>
                         </tr>
                     </thead>
                     <tbody>

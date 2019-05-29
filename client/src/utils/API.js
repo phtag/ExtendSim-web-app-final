@@ -18,11 +18,12 @@ export default {
   validateToken: function(t) {
     return axios.post('/api/users/validate', { token: t });
   },
-  createScenarioFolder: function(userLoginSessionID, scenarioFolderName) {
+  createScenarioFolder: function(userLoginSessionID, scenarioFolderName, scenarioName) {
     return axios.post('/api/ExtendSim/createScenarioFolder', 
     { 
       userLoginSessionID: userLoginSessionID, 
-      scenarioFolderName: scenarioFolderName 
+      scenarioFolderName: scenarioFolderName,
+      scenarioName: scenarioName 
     }); 
   },
   copyModelToScenarioFolder: function(modelPathname, scenarioFolderPathname, copyFolderContents) {
@@ -64,12 +65,13 @@ export default {
       scenarioID: scenarioID,
     })
   },
-  getcycletimeresults: function (filepathname, userLoginSessionID, scenarioID) {
+  getcycletimeresults: function (filepathname, userLoginSessionID, scenarioID, username) {
     return axios.post('/api/ExtendSim/getcycletimeresults',
     {
       filepathname: filepathname,
       userLoginSessionID: userLoginSessionID,
-      scenarioID: scenarioID
+      scenarioID: scenarioID,
+      username: username
     });
     // return response.data;
   },
@@ -79,11 +81,11 @@ export default {
       username: username
     });
   },
-  getScenarioCycletimeData: function (scenarioID, userLoginSessionID) {
+  getScenarioCycletimeData: function (scenarioID, username) {
     return axios.post('/api/ExtendSim/getscenariocycletimedata',
     {
       scenarioID: scenarioID,
-      userLoginSessionID: userLoginSessionID
+      username: username
     });
   }
 };

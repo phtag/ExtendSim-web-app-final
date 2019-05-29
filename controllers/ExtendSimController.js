@@ -60,6 +60,7 @@ module.exports = {
             // return res.json({ scenarioFolderPathname: response.data });
             db.scenario.update({
                 scenarioFolderPathname: response.data,
+                scenarioName: req.body.scenarioName
             }, {
                 where: {
                     userLoginSessionID: req.body.userLoginSessionID
@@ -247,6 +248,7 @@ module.exports = {
                 var row = 1;
                 scenarioResultsArray.forEach(function(element) {
                     db.cycletime.create({
+                        username: req.body.username,
                         scenarioID: req.body.scenarioID,
                         userLoginSessionID: req.body.userLoginSessionID,
                         stepname: element[0],
@@ -275,8 +277,12 @@ module.exports = {
         db.cycletime.findAll({
             where: {
                 scenarioID: req.body.scenarioID,
-                userLoginSessionID: req.body.userLoginSessionID
-            }
+                username: req.body.username
+            },
+            order: [
+                ['id', 'ASC']
+                // ['totalWaitTime', 'DESC']
+            ],
           }).then(function(dbresponse) {
             console.log("Response=" + dbresponse);
             return res.json({cycleTimeData: dbresponse});     

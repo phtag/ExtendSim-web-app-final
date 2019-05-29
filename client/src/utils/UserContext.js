@@ -200,7 +200,7 @@ export class UserProvider extends React.Component {
 
   handleSubmitSimulationScenario = (event) => {
     event.preventDefault();
-    API.createScenarioFolder(this.state.userLoginSessionID, this.state.scenarioName)
+    API.createScenarioFolder(this.state.userLoginSessionID, this.state.scenarioName, this.state.scenarioName)
     .then(res => {
       this.setState({scenarioRunStatus: "Submitted"});
       this.setState({scenarioFolderPathname: res.data.scenarioFolderPathname});
@@ -219,7 +219,8 @@ export class UserProvider extends React.Component {
     event.preventDefault();
     API.getcycletimeresults(this.state.scenarioFolderPathname + cycleTimeResultsFilename, 
                             this.state.userLoginSessionID,
-                            this.state.scenarioID)
+                            this.state.scenarioID,
+                            this.state.username)
     .then(res1 => {
       console.log('scenario results=' + res1.data);
       API.getUserScenarios(this.state.username)
@@ -239,26 +240,28 @@ export class UserProvider extends React.Component {
     // We need to lookup the scenario folder pathname using the scenario ID
     const selectedScenario = this.getMatchingScenario(scenarioID);
     const scenarioFolderPathname = selectedScenario.scenarioFolderPathname;
-    const {userLoginSessionID, cycleTimeResultsFilename} = this.state;
+    const scenarioName = selectedScenario.scenarioName;
+    const {username, userLoginSessionID, cycleTimeResultsFilename} = this.state;
+    const currentScenarioID = scenarioID
     console.log("scenarioFolderPathname=" + scenarioFolderPathname + 
           " cycleTimeResultsFilename=" + cycleTimeResultsFilename + 
           " userLoginSessionID=" +userLoginSessionID);
-    API.getScenarioCycletimeData (scenarioID, userLoginSessionID) 
+    API.getScenarioCycletimeData (scenarioID, username) 
     .then(res1 => {
-      alert('Successfully returned cycle-time data');
       console.log('scenario cycleTimeData=' + res1.data.cycleTimeData);
       // var parsedArray = res1.data.cycleTimeData.split('\r\n').map(function(ln){
       //   return ln.split('\t');
       // });
       // console.log('parsedArray=' + parsedArray);
       this.setState({cycleTimeData: res1.data.cycleTimeData});
+      this.setState({scenarioID: currentScenarioID});
+      this.setState({scenarioName: scenarioName});
       history.push('/cycle-time-results');
     });
   }
 
   renderCycleTimeTableData = () => {
     // event.preventDefault();
-    alert('this.state.cycleTimeData.length=' + this.state.cycleTimeData.length);
     return this.state.cycleTimeData.map((rowData, key) => {
       const {
               stepname, 
@@ -274,16 +277,16 @@ export class UserProvider extends React.Component {
             } = rowData; //destructuring
        return (
         <tr key={key}>             
-          <td>{stepname}</td>
-            <td>{resourceRequirement}</td>
-            <td>{totalJobsProcessed}</td>
-            <td>{totalProcessTime}</td>
-            <td>{totalWaitTime}</td>
-            <td>{avgProcessTime}</td>
-            <td>{avgWaitTime}</td>
-            <td>{avgCycleTime}</td>
-            <td>{CoVarrivals}</td>
-            <td>{CoVdepartures}</td>
+          <td className="table-data-strings">{stepname}</td>
+          <td className="table-data-strings">{resourceRequirement}</td>
+          <td className="table-data-numbers">{totalJobsProcessed}</td>
+          <td className="table-data-numbers">{totalProcessTime.toFixed(2)}</td>
+          <td className="table-data-numbers">{totalWaitTime.toFixed(2)}</td>
+          <td className="table-data-numbers">{avgProcessTime.toFixed(2)}</td>
+          <td className="table-data-numbers">{avgWaitTime.toFixed(2)}</td>
+          <td className="table-data-numbers">{avgCycleTime.toFixed(2)}</td>
+          <td className="table-data-numbers">{CoVarrivals.toFixed(2)}</td>
+          <td className="table-data-numbers">{CoVdepartures.toFixed(2)}</td>
         </tr> 
        )
     })  

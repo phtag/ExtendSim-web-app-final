@@ -9,7 +9,6 @@ class ScenariosSummary extends React.Component {
     event.preventDefault();
     const { history } = this.props;
     const scenarioID = event.target.getAttribute('id');
-    alert("scenarioID=" + scenarioID);
     handleShowTableRowResults(event, scenarioID, history);
   }
 

@@ -78,6 +78,7 @@ module.exports = {
           db.scenario.create({
             userLoginSessionID: response.data,
             username: req.body.username,
+            scenarioName: "",
             scenarioID: null,
             scenarioSubmissionDataTime: null,
             scenarioCompletionDataTime: null
