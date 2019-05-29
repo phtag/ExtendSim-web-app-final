@@ -9,7 +9,12 @@ export default {
     return axios.post('/api/posts', data);
   },
   signup: function(data) {
-    return axios.post('/api/users/signup', data);
+    alert("Signup: username=" + data.username);
+    return axios.post('/api/users/signup', 
+    {
+      username: data.username,
+      password: data.password
+    });
   },
   login: function(data) {
    return axios.post('/api/users/login', data)

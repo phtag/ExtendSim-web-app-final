@@ -96,9 +96,16 @@ module.exports = {
   signup: function(req, res) {
     const password = bcrypt.hashSync(req.body.password, 10);
     const username = req.body.username;
+    console.log("signup: username=" + req.body.username + " password=" + password);
     db.user
       .create({ username, password })
-      .then(dbModel => res.json(dbModel))
-      .catch(err => res.status(422).json(err));
+      .then(function(dbResponse) {
+        console.log("dbResponse=" + JSON.stringify(dbResponse));
+        return res.json({response: dbResponse});
+      })
+      .catch(function(err) {
+        console.log("Error: " + err);
+        return res.status(422).json({error: err})
+      });
   }
 };

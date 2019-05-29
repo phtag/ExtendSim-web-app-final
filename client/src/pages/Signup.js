@@ -18,7 +18,6 @@ class Signup extends React.Component {
         if (username != "") {
             if (password != "") {
                 if (reenteredpassword != "") {
-                    alert("Bingo bad bump");
                     if (password === reenteredpassword) {
                         this.setState({ validInputs: true });
                     }               
@@ -34,6 +33,18 @@ class Signup extends React.Component {
         this.setState({
           [name]: value
         }, this.validateUserInputs);        
+    }
+
+    handleSignupSubmit = (event) => {
+        event.preventDefault();
+        const { username, password } = this.state;
+        API.signup(this.state)
+        .then(res => {
+            alert("successfully signed up");
+        })
+        .catch(err => {
+            alert("Error");
+        })
     }
     render() {
         return (
@@ -98,7 +109,7 @@ class Signup extends React.Component {
                                 </input>
                             </div>
                             <button 
-                                // onClick={props.handleLoginOnSubmitEvent(props.history)} // Must pass router history to parent so that it can redirect to another page
+                                onClick={this.handleSignupSubmit} // Must pass router history to parent so that it can redirect to another page
                                 disabled={!this.state.validInputs}
                                 id="submit-login-info" 
                                 className="btn btn-primary float-left">
