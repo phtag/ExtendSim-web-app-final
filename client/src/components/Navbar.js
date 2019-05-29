@@ -13,6 +13,7 @@ function Navbar() {
           </Link>
           {username ? (
             <div className="navbar-nav">
+              <div id="navbar-welcome">Welcome, {username}</div>
               <Link className="nav-link" to="/scenarios">Scenario setup</Link>
               <Link className="nav-link" to="/scenarios-summary">Scenarios summary</Link>
             </div>

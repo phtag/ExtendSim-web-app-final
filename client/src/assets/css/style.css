@@ -59,6 +59,11 @@ tr:nth-child(even) {
   height: auto;
   width: 100%;
 }
+#navbar-welcome {
+  padding: 8px 0px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
 #scenario-run-status {
   margin-left: 10px;
   padding: 5px;

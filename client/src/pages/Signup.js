@@ -6,13 +6,35 @@ class Signup extends React.Component {
     state = {
         username: "",
         password: "",
-        error: "",
-        currentUser: null
-      }
+        reenteredpassword: "",
+        validInputs: false
+    }
       
-      componentDidMount () {
-      };
+    componentDidMount () {
+    };
 
+    validateUserInputs = () => {
+        const { username, password, reenteredpassword } = this.state;
+        if (username != "") {
+            if (password != "") {
+                if (reenteredpassword != "") {
+                    alert("Bingo bad bump");
+                    if (password === reenteredpassword) {
+                        this.setState({ validInputs: true });
+                    }               
+                }
+            }
+        } else {
+            this.setState({ validInputs: false });
+        }
+    }
+
+    handleInputChange = (event) => {
+        const { name, value } = event.target;
+        this.setState({
+          [name]: value
+        }, this.validateUserInputs);        
+    }
     render() {
         return (
         <div id="home">
@@ -28,9 +50,11 @@ class Signup extends React.Component {
                             <div className="form-group">
                                 <label htmlFor="username-text">Username</label>
                                 <input 
-                                    // onChange={props.handleOnChangeEvents('signup-username')} 
+                                    onChange={(event) => this.handleInputChange(event)} 
                                     type="text" 
                                     id="username-text" 
+                                    name="username"
+                                    value={this.username}
                                     className="form-control" 
                                     aria-describedby="example-text" 
                                     placeholder="Enter username">
@@ -39,9 +63,11 @@ class Signup extends React.Component {
                             <div className="form-group">
                                 <label htmlFor="activationkey-text">Activation key</label>
                                 <input 
-                                    // onChange={props.handleOnChangeEvents('signup-activationkey')} 
+                                    onChange={(event) => this.handleInputChange(event)} 
                                     type="text" 
                                     id="activationkey-text" 
+                                    name="activationkey"
+                                    value={this.activationkey}
                                     className="form-control" 
                                     aria-describedby="example-text" 
                                     placeholder="Enter username">
@@ -50,9 +76,11 @@ class Signup extends React.Component {
                             <div className="form-group">
                                 <label htmlFor="password-text">Password</label>
                                 <input 
-                                    // onChange={props.handleOnChangeEvents('signup-password')} 
+                                    onChange={(event) => this.handleInputChange(event)} 
                                     type="password" 
+                                    value={this.password}
                                     id="password-text" 
+                                    name="password"
                                     className="form-control" 
                                     aria-describedby="password-text">
                                 </input>
@@ -60,16 +88,18 @@ class Signup extends React.Component {
                             <div className="form-group">
                                 <label htmlFor="repeat-password-text">Re-enter password</label>
                                 <input 
-                                    // onChange={props.handleOnChangeEvents('signup-repeat-password')} 
-                                    type="password" 
+                                    onChange={(event) => this.handleInputChange(event)} 
+                                    type="password"
+                                    value={this.reenteredpassword} 
                                     id="repeat-password-text" 
+                                    name="reenteredpassword"
                                     className="form-control" 
                                     aria-describedby="password-text">
                                 </input>
                             </div>
                             <button 
                                 // onClick={props.handleLoginOnSubmitEvent(props.history)} // Must pass router history to parent so that it can redirect to another page
-                                // disabled={!props.state.validationObjects[props.state.validationObjects.findIndex(obj => obj.name==="loginSubmitButton")].enabled}
+                                disabled={!this.state.validInputs}
                                 id="submit-login-info" 
                                 className="btn btn-primary float-left">
                                 Submit
