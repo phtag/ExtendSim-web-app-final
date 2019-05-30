@@ -32,7 +32,6 @@ export default {
     }); 
   },
   createScenarioFolder: function(userLoginSessionID, scenarioFolderName, scenarioName) {
-    alert("createScenarioFolder: userLoginSessionID=" + userLoginSessionID + " scenarioFolderName=" + scenarioFolderName);
     return axios.post('/api/ExtendSim/createScenarioFolder', 
     { 
       userLoginSessionID: userLoginSessionID, 

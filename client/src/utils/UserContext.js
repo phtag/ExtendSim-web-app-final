@@ -60,6 +60,24 @@ export class UserProvider extends React.Component {
         enabled: false      
       }
     ],
+    scenarioResultTypes: [
+      {
+        type: "Cycle-times",
+        filename: "/Cycle Time Results.txt"
+      },
+      {
+        type: "Resources",
+        filename: "/Resources.txt"
+      },
+      {
+        type: "Pools",
+        filename: "/pools.txt"
+      },
+      {
+        type: "Model",
+        filename: "/Model Results.txt"
+      }
+    ],
     modelPathname: ExtendSimModelPath,
     cycleTimeResultsFilename: "/Cycle Time Results.txt",
     scenarioName: "",
@@ -314,6 +332,47 @@ export class UserProvider extends React.Component {
     });
   }
 
+  handleScenarioSummarySelection = (event,
+                                    scenarioID, 
+                                    history) => {
+    event.preventDefault();
+    // We need to lookup the scenario folder pathname using the scenario ID
+    const selectedScenario = this.getMatchingScenario(scenarioID);
+    alert('handleScenarioSummarySelection: scenarioID=' + scenarioID + " scenario folder pathname=" + selectedScenario.scenarioFolderPathname)
+
+    this.setState({ scenarioFolderPathname: selectedScenario.scenarioFolderPathname,
+                    scenarioName: selectedScenario.scenarioName,
+                    scenarioID: scenarioID}, () => history.push('/scenario-results'));
+  }
+
+  handleShowScenarioResults = (event,
+                               scenarioID, 
+                               resultType,
+                               history) => {
+    event.preventDefault();
+    // We need to lookup the scenario folder pathname using the scenario ID
+    const selectedScenario = this.getMatchingScenario(scenarioID);
+    const scenarioFolderPathname = selectedScenario.scenarioFolderPathname;
+    const scenarioName = selectedScenario.scenarioName;
+    const {username, userLoginSessionID, scenarioResultTypes} = this.state;
+    const currentScenarioID = scenarioID
+    console.log("scenarioFolderPathname=" + scenarioFolderPathname + 
+    " cycleTimeResultsFilename=" + cycleTimeResultsFilename + 
+    " userLoginSessionID=" +userLoginSessionID);
+    API.getScenarioCycletimeData (scenarioID, username) 
+    .then(res1 => {
+    console.log('scenario cycleTimeData=' + res1.data.cycleTimeData);
+    // var parsedArray = res1.data.cycleTimeData.split('\r\n').map(function(ln){
+    //   return ln.split('\t');
+    // });
+    // console.log('parsedArray=' + parsedArray);
+    this.setState({cycleTimeData: res1.data.cycleTimeData});
+    this.setState({scenarioID: currentScenarioID});
+    this.setState({scenarioName: scenarioName});
+    history.push('/cycle-time-results');
+    });
+  }
+
   renderCycleTimeTableData = () => {
     // event.preventDefault();
     return this.state.cycleTimeData.map((rowData, key) => {
@@ -373,6 +432,22 @@ export class UserProvider extends React.Component {
     })
  }
 
+ renderUserScenarioResultsTableData = (handleShowScenarioResults) => {
+  return this.state.scenarioResultTypes.map((resultType, key) => {
+    const { type, filename } = resultType; //destructuring
+     return (
+        <tr key={key}>
+           <td>{type}</td>
+           <td>
+             <button id={key} onClick={(event) => handleShowScenarioResults(event)}>
+             Show
+             </button>
+          </td>
+        </tr>
+     )
+  })
+}
+
   render() {
     return (
       <Context.Provider value={{
@@ -394,10 +469,15 @@ export class UserProvider extends React.Component {
         handleSignupSubmit: this.handleSignupSubmit,
         handleLoginSubmit: this.handleLoginSubmit,
         handleSubmitSimulationScenario: this.handleSubmitSimulationScenario,
+        handleShowScenarioResults: this.handleShowScenarioResults,
         handleShowResults: this.handleShowResults,
         handleShowTableRowResults: this.handleShowTableRowResults,
+        handleScenarioSummarySelection: this.handleScenarioSummarySelection,
         renderUserScenariosTableData: this.renderUserScenariosTableData,
-        renderCycleTimeTableData: this.renderCycleTimeTableData
+        renderCycleTimeTableData: this.renderCycleTimeTableData,
+        renderUserScenarioResultsTableData: this.renderUserScenarioResultsTableData
+        
+
       }}>
         {this.props.children}
       </Context.Provider>

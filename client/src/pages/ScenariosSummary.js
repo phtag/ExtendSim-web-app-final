@@ -5,11 +5,20 @@ import UserContext from '../utils/UserContext';
 class ScenariosSummary extends React.Component {
   state = {
   };
-  handleTableRowResultsClick = (handleShowTableRowResults, event) => {
+  handleTableRowResultsClick_old = (handleShowTableRowResults, event) => {
     event.preventDefault();
     const { history } = this.props;
     const scenarioID = event.target.getAttribute('id');
     handleShowTableRowResults(event, scenarioID, history);
+  }
+
+  handleTableRowResultsClick = (handleScenarioSummarySelection, event) => {
+    event.preventDefault();
+    const { history } = this.props;
+    const scenarioID = event.target.getAttribute('id');
+
+    history.push('/scenario-results');
+    handleScenarioSummarySelection(event, scenarioID, history);
   }
 
   render() {
@@ -17,7 +26,8 @@ class ScenariosSummary extends React.Component {
       <UserContext.Consumer>
         {({
             renderUserScenariosTableData,
-            handleShowTableRowResults
+            renderUserScenarioResultsTableData,
+            handleScenarioSummarySelection
         }) => (
           <div id="home">
             <div className="container my-scenario-container">
@@ -42,7 +52,7 @@ class ScenariosSummary extends React.Component {
                     </thead>
                     <tbody>
                       {renderUserScenariosTableData((event) => 
-                        this.handleTableRowResultsClick(handleShowTableRowResults, event))}
+                        this.handleTableRowResultsClick(handleScenarioSummarySelection, event))}
                     </tbody>
                   </table>
                 </div>
