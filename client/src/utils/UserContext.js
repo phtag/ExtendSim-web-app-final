@@ -118,19 +118,19 @@ export class UserProvider extends React.Component {
 }
     } else if (this.state.webPage==="login") {
       if ((this.state.username === "") || (this.state.password === "")) {
-        myValidationObjects[1].enabled = false;
+        myValidationObjects[myValidationObjects.findIndex(obj => obj.name==="loginSubmitButton")].enabled = false;
         this.setState({validationObjects: myValidationObjects})
       } else {
-        myValidationObjects[1].enabled = true;
+        myValidationObjects[myValidationObjects.findIndex(obj => obj.name==="loginSubmitButton")].enabled = true;
         this.setState({validationObjects: myValidationObjects})
       }
     }
 
     if ((this.state.scenarioInputFiles.length > 0) && (this.state.scenarioName != "")) {
-      myValidationObjects[2].enabled = true;
+      myValidationObjects[myValidationObjects.findIndex(obj => obj.name==="SubmitScenarioButton")].enabled = true;
       this.setState({validationObjects: myValidationObjects})
     } else {
-      myValidationObjects[2].enabled = false;
+      myValidationObjects[myValidationObjects.findIndex(obj => obj.name==="SubmitScenarioButton")].enabled = false;
       this.setState({validationObjects: myValidationObjects})
     }
   }
@@ -179,10 +179,9 @@ export class UserProvider extends React.Component {
     }
   }
 
-  ExtendSimASPsubmitSimulationScenario = (
-    userLoginSessionID, 
-    modelPathname, 
-    removeFolderOnCompletion) => {
+  ExtendSimASPsubmitSimulationScenario = (userLoginSessionID, 
+                                          modelPathname, 
+                                          removeFolderOnCompletion) => {
     //  Submit the scenario to the server
     API.submitSimulationScenario(
       userLoginSessionID, 
@@ -201,7 +200,7 @@ export class UserProvider extends React.Component {
       if (res.data.modelRunStatus == runCompletedScenarioStatus) {
         clearInterval(checkModelStatusTimer);
         var myValidationObjects = this.state.validationObjects;
-        myValidationObjects[2].enabled = true;
+        myValidationObjects[myValidationObjects.findIndex(obj => obj.name==="ShowResultsButton")].enabled = true;
         this.setState({validationObjects: myValidationObjects});
         this.setState({scenarioRunStatus: "Completed"})
       } else if (res.data.modelRunStatus == runInProcessScenarioStatus) {
@@ -230,7 +229,7 @@ export class UserProvider extends React.Component {
     .then(res => {
       this.setState({ userLoginSessionID: res.data.userLoginSessionID});
       // Enable scenario navbar link
-      myValidationObjects[5].enabled = true;
+      myValidationObjects[myValidationObjects.findIndex(obj => obj.name==="Scenario-navbar-option")].enabled = true;
       this.setState({validationObjects: myValidationObjects});
       history.push('/scenarios');
     })
@@ -246,7 +245,8 @@ export class UserProvider extends React.Component {
     event.preventDefault();
     API.signup(this.state)
     .then(res => {
-        history.push('/login');
+      this.handleLoginSubmit(event, history);
+        // history.push('/login');
     })
     .catch(err => {
         console.log(err.response.data);
@@ -263,12 +263,7 @@ export class UserProvider extends React.Component {
       this.copyModelToScenarioFolder(this.state.modelPathname, 
                                      res.data.scenarioFolderPathname, 
                                     true); 
-      // this.setState({scenarioFolderPathname: res.data.scenarioFolderPathname},
-      //     this.copyModelToScenarioFolder(this.state.modelPathname, 
-      //                                  res.data.scenarioFolderPathname, 
-      //                                  true)); 
     })
-    // .then(res => console.log("handleSubmitSimulationScenarioBtnClick: res.data.scenarioFolderPathname=" + res.data.scenarioFolderPathname))
   };
 
   handleShowResults = (event, history) => {
