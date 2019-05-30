@@ -103,8 +103,9 @@ module.exports = {
       }).
       then(dbresult => {
         console.log("signup: dbresult=" + JSON.stringify(dbresult));
-        if (dbresult) {
-          return res.status(400).send({ msg: 'You have already signed up' });
+        if (dbresult != null) {
+            console.log("Username exists already");
+          return res.status(400).send({ msg: 'Username="' + req.body.username + '" is already signed up' });
         } else {
           db.user
             .create({ username, password })

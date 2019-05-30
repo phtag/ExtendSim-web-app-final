@@ -20,13 +20,17 @@ export class UserProvider extends React.Component {
     currentUser: null,
     username: "",
     password: "",
+    reenteredpassword: "",
+    activationkey: "",
+    webpage: "",
     error: "",
-    signupusername: "",
-    signuppassword: "",
-    signuprepeatpassword: "",
     userLoginSessionID: "",
     scenarioRunStatus: "",
     validationObjects: [
+      {
+        name: "signupSubmitButton",
+        enabled: false
+      },
       {
         name: "loginSubmitButton",
         enabled: false
@@ -88,19 +92,38 @@ export class UserProvider extends React.Component {
     // user login data
     var myValidationObjects = this.state.validationObjects;
 
-    if ((this.state.username === "") || (this.state.password === "")) {
-      myValidationObjects[0].enabled = false;
-      this.setState({validationObjects: myValidationObjects})
-    } else {
-      myValidationObjects[0].enabled = true;
-      this.setState({validationObjects: myValidationObjects})
+    const { username, password, reenteredpassword, activationkey, webPage } = this.state;
+    if (webPage === 'signup') {
+      if (username != "") {
+          if (password != "") {
+              if (reenteredpassword != "") {
+                  if (password === reenteredpassword) {
+                      if (activationkey != "") {
+                          myValidationObjects[0].enabled = true;
+                          this.setState({validationObjects: myValidationObjects})                 
+                      }
+                  }               
+              }
+          }
+      } else {
+        myValidationObjects[0].enabled = false;
+        this.setState({validationObjects: myValidationObjects})                 
+}
+    } else if (this.state.webPage==="login") {
+      if ((this.state.username === "") || (this.state.password === "")) {
+        myValidationObjects[1].enabled = false;
+        this.setState({validationObjects: myValidationObjects})
+      } else {
+        myValidationObjects[1].enabled = true;
+        this.setState({validationObjects: myValidationObjects})
+      }
     }
 
     if ((this.state.scenarioInputFiles.length > 0) && (this.state.scenarioName != "")) {
-      myValidationObjects[1].enabled = true;
+      myValidationObjects[2].enabled = true;
       this.setState({validationObjects: myValidationObjects})
     } else {
-      myValidationObjects[1].enabled = false;
+      myValidationObjects[2].enabled = false;
       this.setState({validationObjects: myValidationObjects})
     }
   }
@@ -181,8 +204,10 @@ export class UserProvider extends React.Component {
   }
 
 // Event handlers
-  handleUserInputChange = (key, value) => {
-    this.setState({ [key]: value }, this.ValidatePageElements);
+  handleUserInputChange = (key, value, webPage) => {
+    alert('handleUserInputChange: key=' + key + " value=" + value + " webPage=" + webPage);
+    this.setState({ [key]: value,
+                    webPage: webPage }, this.ValidatePageElements);
     this.setState({ error: "" });
   };
 

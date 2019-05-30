@@ -12,9 +12,9 @@ class Login extends React.Component {
   componentDidMount () {
   };
 
-  handleChange = (event, key, onChangeFunction) => {
+  handleChange = (event, onChangeFunction) => {
     const { name, value } = event.target;
-    onChangeFunction(key, value);
+    onChangeFunction(name, value, 'login');
   }
 
   handleLogin = (event, onSubmitLoginFunction) => {
@@ -35,57 +35,59 @@ class Login extends React.Component {
           error,
           validationObjects
         }) => (
-        <div id="home">
-        <div className="container">
-            <div className="row">
-                <header id="ExtendSim-header">
-                </header>
-            </div>
-            <div className="row">
-                <div className="col-8">
-                    <h2>ExtendSim ASP Server Login Page</h2>
-                    <form className="clearfix mb-4" action="POST">
-                        <div className="form-group">
-                            <label htmlFor="username-text">Username</label>
-                            <input 
-                                onChange={(e) => this.handleChange(e, 'username', handleUserInputChange)}
-                                autoComplete="off"
-                                type="text" 
-                                id="username-text" 
-                                className="form-control" 
-                                aria-describedby="username-text" 
-                                placeholder="Enter username"
-                                value={username}>
-                            </input>
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="password-text">Password</label>
-                            <input 
-                                onChange={(e) => this.handleChange(e, 'password', handleUserInputChange)}
-                                autoComplete="off"
-                                type="password" 
-                                id="password-text" 
-                                className="form-control" 
-                                aria-describedby="password-text"
-                                value={password}>
-                            </input>                            
-                        </div>
-                        <button 
-                            onClick={(e) => this.handleLogin(e, handleLoginSubmit)}
-                            disabled={!validationObjects[validationObjects.findIndex(obj => obj.name==="loginSubmitButton")].enabled}
-                            id="submit-login-info" className="btn btn-primary float-left">Submit
-                        </button>
-                        <br></br>
-                        { error && (
-                          <div className="login-errors">
-                            <h3>{error}</h3>
-                          </div>
-                        )}
-                    </form>
+          <div id="home">
+            <div className="container">
+                <div className="row">
+                    <header id="ExtendSim-header">
+                    </header>
+                </div>
+                <div className="row">
+                    <div className="col-8">
+                        <h2>ExtendSim ASP Server Login Page</h2>
+                        <form className="clearfix mb-4" action="POST">
+                            <div className="form-group">
+                                <label htmlFor="username-text">Username</label>
+                                <input 
+                                    onChange={(e) => this.handleChange(e, handleUserInputChange)}
+                                    autoComplete="off"
+                                    type="text" 
+                                    id="username-text" 
+                                    name="username"
+                                    className="form-control" 
+                                    aria-describedby="username-text" 
+                                    placeholder="Enter username"
+                                    value={username}>
+                                </input>
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="password-text">Password</label>
+                                <input 
+                                    onChange={(e) => this.handleChange(e, handleUserInputChange)}
+                                    autoComplete="off"
+                                    type="password" 
+                                    id="password-text" 
+                                    name="password"
+                                    className="form-control" 
+                                    aria-describedby="password-text"
+                                    value={password}>
+                                </input>                            
+                            </div>
+                            <button 
+                                onClick={(e) => this.handleLogin(e, handleLoginSubmit)}
+                                disabled={!validationObjects[validationObjects.findIndex(obj => obj.name==="loginSubmitButton")].enabled}
+                                id="submit-login-info" className="btn btn-primary float-left">Submit
+                            </button>
+                            <br></br>
+                            { error && (
+                              <div className="login-errors">
+                                <h3>{error}</h3>
+                              </div>
+                            )}
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
+          </div>
         )}
       </UserContext.Consumer>
     );

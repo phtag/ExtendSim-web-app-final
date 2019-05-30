@@ -15,7 +15,7 @@ class Signup extends React.Component {
     componentDidMount () {
     };
 
-    resetLoginPage = () => {
+    resetSignupPage = () => {
         this.setState({
                       username: "",
                       password: "",
@@ -24,12 +24,14 @@ class Signup extends React.Component {
     }
     
     validateUserInputs = () => {
-        const { username, password, reenteredpassword } = this.state;
+        const { username, password, reenteredpassword, activationkey } = this.state;
         if (username != "") {
             if (password != "") {
                 if (reenteredpassword != "") {
                     if (password === reenteredpassword) {
-                        this.setState({ validInputs: true });
+                        if (activationkey != "") {
+                            this.setState({ validInputs: true });
+                        }
                     }               
                 }
             }
@@ -38,106 +40,124 @@ class Signup extends React.Component {
         }
     }
 
+    handleChange = (event, key, onChangeFunction) => {
+        const { name, value } = event.target;
+        onChangeFunction(key, value, 'signup');
+    }
+    
     handleInputChange = (event) => {
         const { name, value } = event.target;
         this.setState({
           [name]: value
-        }, this.validateUserInputs);        
+        }, this.validateUserInputs);  
+        this.setState({ error: ""});      
     }
 
     handleSignupSubmit = (event) => {
-        const { history} = this.props;
         event.preventDefault();
+        const { history} = this.props;
         const { username, password } = this.state;
         API.signup(this.state)
         .then(res => {
             history.push('/login');
         })
         .catch(err => {
+            console.log(err.response.data);
             this.setState({ error: err.response.data.msg }, this.resetSignupPage);
         })
     }
     render() {
         return (
-        <div id="home">
-            <div className="container">
-                <div className="row">
-                    <header id="ExtendSim-header">
-                    </header>
-                </div>
-                <div className="row">
-                    <div className="col-8">
-                        <h2>ExtendSim ASP signup page</h2>
-                        <form className="clearfix mb-4" action="POST">
-                            <div className="form-group">
-                                <label htmlFor="username-text">Username</label>
-                                <input 
-                                    onChange={(event) => this.handleInputChange(event)} 
-                                    type="text" 
-                                    id="username-text" 
-                                    name="username"
-                                    value={this.username}
-                                    className="form-control" 
-                                    aria-describedby="example-text" 
-                                    placeholder="Enter username">
-                                </input>
+            <UserContext.Consumer>
+            {({
+              handleUserInputChange, 
+              handleLoginSubmit, 
+              username, 
+              password, 
+              error,
+              validationObjects
+            }) => (
+                <div id="home">
+                    <div className="container">
+                        <div className="row">
+                            <header id="ExtendSim-header">
+                            </header>
+                        </div>
+                        <div className="row">
+                            <div className="col-8">
+                                <h2>ExtendSim ASP signup page</h2>
+                                <form className="clearfix mb-4" action="POST">
+                                    <div className="form-group">
+                                        <label htmlFor="username-text">Username</label>
+                                        <input 
+                                            onChange={(event) => this.handleInputChange(event)} 
+                                            type="text" 
+                                            id="username-text" 
+                                            name="username"
+                                            value={this.state.username}
+                                            className="form-control" 
+                                            aria-describedby="example-text" 
+                                            placeholder="Enter username">
+                                        </input>
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="password-text">Password</label>
+                                        <input 
+                                            onChange={(event) => this.handleInputChange(event)} 
+                                            type="password" 
+                                            value={this.state.password}
+                                            id="password-text" 
+                                            name="password"
+                                            className="form-control" 
+                                            aria-describedby="password-text">
+                                        </input>
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="repeat-password-text">Re-enter password</label>
+                                        <input 
+                                            onChange={(event) => this.handleInputChange(event)} 
+                                            type="password"
+                                            value={this.state.reenteredpassword} 
+                                            id="repeat-password-text" 
+                                            name="reenteredpassword"
+                                            className="form-control" 
+                                            aria-describedby="password-text">
+                                        </input>
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="activationkey-text">Activation key</label>
+                                        <input 
+                                            onChange={(event) => this.handleInputChange(event)} 
+                                            type="text" 
+                                            id="activationkey-text" 
+                                            name="activationkey"
+                                            value={this.state.activationkey}
+                                            className="form-control" 
+                                            aria-describedby="example-text" 
+                                            placeholder="Enter username">
+                                        </input>
+                                    </div>
+                                    <button 
+                                        onClick={this.handleSignupSubmit} // Must pass router history to parent so that it can redirect to another page
+                                        disabled={!this.state.validInputs}
+                                        id="submit-login-info" 
+                                        className="btn btn-primary float-left">
+                                        Submit
+                                    </button>
+                                    <br></br>
+                                    { this.state.error && (
+                                    <div className="login-errors">
+                                        <h3>{this.state.error}</h3>
+                                    </div>
+                                    )}
+                                </form>
                             </div>
-                            <div className="form-group">
-                                <label htmlFor="activationkey-text">Activation key</label>
-                                <input 
-                                    onChange={(event) => this.handleInputChange(event)} 
-                                    type="text" 
-                                    id="activationkey-text" 
-                                    name="activationkey"
-                                    value={this.activationkey}
-                                    className="form-control" 
-                                    aria-describedby="example-text" 
-                                    placeholder="Enter username">
-                                </input>
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="password-text">Password</label>
-                                <input 
-                                    onChange={(event) => this.handleInputChange(event)} 
-                                    type="password" 
-                                    value={this.password}
-                                    id="password-text" 
-                                    name="password"
-                                    className="form-control" 
-                                    aria-describedby="password-text">
-                                </input>
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="repeat-password-text">Re-enter password</label>
-                                <input 
-                                    onChange={(event) => this.handleInputChange(event)} 
-                                    type="password"
-                                    value={this.reenteredpassword} 
-                                    id="repeat-password-text" 
-                                    name="reenteredpassword"
-                                    className="form-control" 
-                                    aria-describedby="password-text">
-                                </input>
-                            </div>
-                            <button 
-                                onClick={this.handleSignupSubmit} // Must pass router history to parent so that it can redirect to another page
-                                disabled={!this.state.validInputs}
-                                id="submit-login-info" 
-                                className="btn btn-primary float-left">
-                                Submit
-                            </button>
-                            <br></br>
-                            { this.error && (
-                            <div className="login-errors">
-                                <h3>{this.error}</h3>
-                            </div>
-                            )}
-                        </form>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        );
+            )}
+        </UserContext.Consumer>
+          );
     }
     }
 export default Signup;
