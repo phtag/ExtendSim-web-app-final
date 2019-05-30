@@ -28,8 +28,8 @@ const saltRounds = 10;
 // =============================================================
 module.exports = {
     createScenarioFolder: function(req, res) {
-        const scenarioFolderName = req.body.scenarioFolderName;
-        console.log("createScenarioFolder: folder name=" + scenarioFolderName);
+        const { userLoginSessionID, scenarioName, scenarioFolderName } = req.body;
+        console.log("createScenarioFolder: userLoginSessionID=" + userLoginSessionID + " folder name=" + scenarioFolderName);
             // Execute WCF service to create a scenario folder  
             // var queryURL = "http://" + IPaddress + ":8090/StreamingService/web/CreateScenarioFolder?scenarioFoldername=myScenarioFolder"
         var queryURL = "http://" + IPaddress + ":8090/StreamingService/web/CreateScenarioFolder"
@@ -60,10 +60,10 @@ module.exports = {
             // return res.json({ scenarioFolderPathname: response.data });
             db.scenario.update({
                 scenarioFolderPathname: response.data,
-                scenarioName: req.body.scenarioName
+                scenarioName: scenarioName
             }, {
                 where: {
-                    userLoginSessionID: req.body.userLoginSessionID
+                    userLoginSessionID: userLoginSessionID
                 }
             }).then(function(dbresponse) {
                 return res.json({ scenarioFolderPathname: response.data });

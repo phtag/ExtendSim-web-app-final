@@ -25,7 +25,7 @@ export class UserProvider extends React.Component {
     webpage: "",
     error: "",
     userLoginSessionID: "",
-    scenarioRunStatus: "",
+    scenarioRunStatus: "N/A",
     validationObjects: [
       {
         name: "signupSubmitButton",
@@ -256,14 +256,17 @@ export class UserProvider extends React.Component {
 
   handleSubmitSimulationScenario = (event) => {
     event.preventDefault();
-    API.createScenarioFolder(this.state.userLoginSessionID, this.state.scenarioName, this.state.scenarioName)
-    .then(res => {
-      this.setState({scenarioRunStatus: "Submitted"});
-      this.setState({scenarioFolderPathname: res.data.scenarioFolderPathname});
-      this.copyModelToScenarioFolder(this.state.modelPathname, 
-                                     res.data.scenarioFolderPathname, 
-                                    true); 
-    })
+    API.createScenario(this.state)
+    .then(res_createScenario => {
+      API.createScenarioFolder(this.state.userLoginSessionID, this.state.scenarioName, this.state.scenarioName)
+      .then(res => {
+        this.setState({scenarioRunStatus: "Submitted"});
+        this.setState({scenarioFolderPathname: res.data.scenarioFolderPathname});
+        this.copyModelToScenarioFolder(this.state.modelPathname, 
+                                      res.data.scenarioFolderPathname, 
+                                      true); 
+      })
+    });
   };
 
   handleShowResults = (event, history) => {

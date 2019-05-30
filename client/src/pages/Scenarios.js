@@ -30,9 +30,8 @@ class Scenarios extends React.Component {
            handleDropEvents, 
            handleSubmitSimulationScenario, 
            handleShowResults,
-           username, 
            userLoginSessionID, 
-           scenarioFolderPathname, 
+           scenarioID, 
            scenarioRunStatus,
            validationObjects}) => (
           <div id="home">
@@ -64,17 +63,17 @@ class Scenarios extends React.Component {
                   </form>
                   <form className="clearfix mb-4" action="POST">
                     <h3>Scenario Information:</h3>
-                    <label htmlFor="user-login-id" className="scenario-input-labels">User Login ID:</label>
-                    <output name="userLoginID" id="user-login-id">{userLoginSessionID}</output>
+                    <label htmlFor="user-login-id" className="scenario-input-labels">User Login Session ID:</label>
+                    <output name="userLoginID" className="scenario-inputs-output-fields" id="user-login-id">{userLoginSessionID}</output>
                     <br></br>
                     <label htmlFor="scenario-id" className="scenario-input-labels">Scenario ID:</label>
-                    <output name="scenario_id" id="scenario-id"></output>
-                    <br></br>
+                    <output name="scenario_id" className="scenario-inputs-output-fields" id="scenario-id">{scenarioID}</output>
+                    {/* <br></br>
                     <label htmlFor="scenario-folder-pathname" className="scenario-input-labels">Scenario folder path:</label>
-                    <output name="scenario_folder_path" id="scenario-folder-pathname">{scenarioFolderPathname} </output>
+                    <output name="scenario_folder_path" className="scenario-inputs-output-fields" id="scenario-folder-pathname">{scenarioFolderPathname} </output> */}
                     <br></br>
                     <label htmlFor="scenario-run-status" className="scenario-input-labels">Scenario run status:</label>
-                    <output name="scenarioRunStatus" id="scenario-run-status">{scenarioRunStatus}</output>
+                    <output name="scenarioRunStatus" className="scenario-inputs-output-fields" id="scenario-run-status">{scenarioRunStatus}</output>
                     <button
                       onClick={(e) => this.handleShowResultsClick(e, handleShowResults)}
                       id="show-scenario-results"

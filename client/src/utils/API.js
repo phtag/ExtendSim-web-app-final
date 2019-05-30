@@ -9,7 +9,6 @@ export default {
     return axios.post('/api/posts', data);
   },
   signup: function(data) {
-    alert("Signup: username=" + data.username);
     return axios.post('/api/users/signup', 
     {
       username: data.username,
@@ -23,7 +22,17 @@ export default {
   validateToken: function(t) {
     return axios.post('/api/users/validate', { token: t });
   },
+  createScenario: function(data) {
+    const { username, userLoginSessionID, scenarioName } = data;
+    return axios.post('/api/server/createscenario', 
+    { 
+      username: username,
+      userLoginSessionID: userLoginSessionID, 
+      scenarioName: scenarioName 
+    }); 
+  },
   createScenarioFolder: function(userLoginSessionID, scenarioFolderName, scenarioName) {
+    alert("createScenarioFolder: userLoginSessionID=" + userLoginSessionID + " scenarioFolderName=" + scenarioFolderName);
     return axios.post('/api/ExtendSim/createScenarioFolder', 
     { 
       userLoginSessionID: userLoginSessionID, 

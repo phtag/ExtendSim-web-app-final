@@ -75,18 +75,17 @@ module.exports = {
             }).
             then(function(response) {
               console.log('ExtendSimASP_login: ' + response.data);
-              db.scenario.create({
-                userLoginSessionID: response.data,
-                username: req.body.username,
-                scenarioName: "",
-                scenarioID: null,
-                scenarioSubmissionDataTime: null,
-                scenarioCompletionDataTime: null
-              }).
-              then(function(dbResponse) {
-                return res.json({ userLoginSessionID: response.data,
-                                  token: token });
-              });
+              // db.scenario.create({
+              //   userLoginSessionID: response.data,
+              //   username: req.body.username,
+              //   scenarioName: "",
+              //   scenarioID: null,
+              //   scenarioSubmissionDataTime: null,
+              //   scenarioCompletionDataTime: null
+              // }).
+              // then(function(dbResponse) {
+              return res.json({ userLoginSessionID: response.data,
+                                token: token });
             });
           };
         });
