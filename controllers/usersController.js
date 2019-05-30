@@ -41,7 +41,7 @@ module.exports = {
     }).
     then(dbresult => {
       if (!dbresult) {
-        res.status(400).send({ msg: 'Invalid username' });
+        return res.status(400).send({ msg: 'Invalid username' });
       } else {
         bcrypt.compare(req.body.password, dbresult.password, function(err, bRes) 
         {

@@ -20,6 +20,7 @@ export class UserProvider extends React.Component {
     currentUser: null,
     username: "",
     password: "",
+    error: "",
     signupusername: "",
     signuppassword: "",
     signuprepeatpassword: "",
@@ -74,6 +75,12 @@ export class UserProvider extends React.Component {
       }
     }
     return null;
+  }
+
+  resetLoginPage = () => {
+    this.setState({
+                  username: "",
+                  password: ""}, this.ValidatePageElements);
   }
 
 // Validation functions
@@ -176,6 +183,7 @@ export class UserProvider extends React.Component {
 // Event handlers
   handleUserInputChange = (key, value) => {
     this.setState({ [key]: value }, this.ValidatePageElements);
+    this.setState({ error: "" });
   };
 
   handleDropEvents = (acceptedFiles) => {
@@ -194,9 +202,14 @@ export class UserProvider extends React.Component {
       myValidationObjects[5].enabled = true;
       this.setState({validationObjects: myValidationObjects});
       history.push('/scenarios');
-   })
-    .catch(err => console.log("handleLoginOnSubmitEvent error=" + err));
-  };
+    })
+    .catch(err => {
+        alert("Error");
+        console.log(JSON.stringify(err.response.data.msg));
+        this.setState({ error: err.response.data.msg }, this.resetLoginPage);
+        
+      });
+    };
 
   handleSubmitSimulationScenario = (event) => {
     event.preventDefault();
@@ -332,6 +345,7 @@ export class UserProvider extends React.Component {
         validationObjects: this.state.validationObjects,
         scenarioRunStatus: this.state.scenarioRunStatus,
         cycleTimeData: this.state.cycleTimeData,
+        error: this.state.error,
         handleUserInputChange: this.handleUserInputChange,
         handleDropEvents: this.handleDropEvents,
         handleLoginSubmit: this.handleLoginSubmit,

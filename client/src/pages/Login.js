@@ -6,7 +6,6 @@ class Login extends React.Component {
   state = {
     username: "",
     password: "",
-    error: "",
     currentUser: null
   }
   
@@ -28,7 +27,14 @@ class Login extends React.Component {
     const { username, password, error } = this.state;
     return (
       <UserContext.Consumer>
-        {({handleUserInputChange, handleLoginSubmit, username, password, validationObjects}) => (
+        {({
+          handleUserInputChange, 
+          handleLoginSubmit, 
+          username, 
+          password, 
+          error,
+          validationObjects
+        }) => (
         <div id="home">
         <div className="container">
             <div className="row">
@@ -69,6 +75,12 @@ class Login extends React.Component {
                             disabled={!validationObjects[validationObjects.findIndex(obj => obj.name==="loginSubmitButton")].enabled}
                             id="submit-login-info" className="btn btn-primary float-left">Submit
                         </button>
+                        <br></br>
+                        { error && (
+                          <div className="login-errors">
+                            <h3>{error}</h3>
+                          </div>
+                        )}
                     </form>
                 </div>
             </div>

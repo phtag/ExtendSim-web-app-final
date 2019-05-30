@@ -42,6 +42,11 @@ tr:nth-child(even) {
 .button:hover {
   background: #ddd;
 }
+.login-errors {
+  color: red;
+  font-size: 23px;
+  margin:20px;
+}
 #fileElem {
   display: none;
 }
