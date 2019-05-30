@@ -43,7 +43,7 @@ class Login extends React.Component {
             </div>
             <div className="row">
                 <div className="col-8">
-                    <h2>ExtendSim ASP Login Page</h2>
+                    <h2>ExtendSim ASP Server Login Page</h2>
                     <form className="clearfix mb-4" action="POST">
                         <div className="form-group">
                             <label htmlFor="username-text">Username</label>

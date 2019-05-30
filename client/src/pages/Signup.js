@@ -7,12 +7,22 @@ class Signup extends React.Component {
         username: "",
         password: "",
         reenteredpassword: "",
+        activationkey: "",
+        error: "",
         validInputs: false
     }
       
     componentDidMount () {
     };
 
+    resetLoginPage = () => {
+        this.setState({
+                      username: "",
+                      password: "",
+                      reenteredpassword: "",
+                      activationkey: ""}, this.validateUserInputs);
+    }
+    
     validateUserInputs = () => {
         const { username, password, reenteredpassword } = this.state;
         if (username != "") {
@@ -36,14 +46,15 @@ class Signup extends React.Component {
     }
 
     handleSignupSubmit = (event) => {
+        const { history} = this.props;
         event.preventDefault();
         const { username, password } = this.state;
         API.signup(this.state)
         .then(res => {
-            alert("successfully signed up");
+            history.push('/login');
         })
         .catch(err => {
-            alert("Error");
+            this.setState({ error: err.response.data.msg }, this.resetSignupPage);
         })
     }
     render() {
@@ -115,6 +126,12 @@ class Signup extends React.Component {
                                 className="btn btn-primary float-left">
                                 Submit
                             </button>
+                            <br></br>
+                            { this.error && (
+                            <div className="login-errors">
+                                <h3>{this.error}</h3>
+                            </div>
+                            )}
                         </form>
                     </div>
                 </div>

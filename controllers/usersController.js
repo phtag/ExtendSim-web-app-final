@@ -97,15 +97,26 @@ module.exports = {
     const password = bcrypt.hashSync(req.body.password, 10);
     const username = req.body.username;
     console.log("signup: username=" + req.body.username + " password=" + password);
-    db.user
-      .create({ username, password })
-      .then(function(dbResponse) {
-        console.log("dbResponse=" + JSON.stringify(dbResponse));
-        return res.json({response: dbResponse});
-      })
-      .catch(function(err) {
-        console.log("Error: " + err);
-        return res.status(422).json({error: err})
+    db.user.findOne(
+      { 
+        where: { username: req.body.username } 
+      }).
+      then(dbresult => {
+        console.log("signup: dbresult=" + JSON.stringify(dbresult));
+        if (dbresult) {
+          return res.status(400).send({ msg: 'You have already signed up' });
+        } else {
+          db.user
+            .create({ username, password })
+            .then(function(dbResponse) {
+              console.log("dbResponse=" + JSON.stringify(dbResponse));
+              return res.json({response: dbResponse});
+            })
+            .catch(function(err) {
+              console.log("Error: " + err);
+              return res.status(422).json({error: err})
+            });
+        }
       });
   }
 };
