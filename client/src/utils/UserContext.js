@@ -81,6 +81,13 @@ export class UserProvider extends React.Component {
     return null;
   }
 
+  resetSignupPage = () => {
+    this.setState({
+                  username: "",
+                  password: "",
+                  reenteredpassword: "",
+                  activationkey: ""}, this.ValidatePageElements);
+}
   resetLoginPage = () => {
     this.setState({
                   username: "",
@@ -99,14 +106,14 @@ export class UserProvider extends React.Component {
               if (reenteredpassword != "") {
                   if (password === reenteredpassword) {
                       if (activationkey != "") {
-                          myValidationObjects[0].enabled = true;
+                          myValidationObjects[myValidationObjects.findIndex(obj => obj.name==="signupSubmitButton")].enabled = true;
                           this.setState({validationObjects: myValidationObjects})                 
                       }
                   }               
               }
           }
       } else {
-        myValidationObjects[0].enabled = false;
+        myValidationObjects[myValidationObjects.findIndex(obj => obj.name==="signupSubmitButton")].enabled = false;
         this.setState({validationObjects: myValidationObjects})                 
 }
     } else if (this.state.webPage==="login") {
@@ -205,7 +212,6 @@ export class UserProvider extends React.Component {
 
 // Event handlers
   handleUserInputChange = (key, value, webPage) => {
-    alert('handleUserInputChange: key=' + key + " value=" + value + " webPage=" + webPage);
     this.setState({ [key]: value,
                     webPage: webPage }, this.ValidatePageElements);
     this.setState({ error: "" });
@@ -235,6 +241,18 @@ export class UserProvider extends React.Component {
         
       });
     };
+
+  handleSignupSubmit = (event, history) => {
+    event.preventDefault();
+    API.signup(this.state)
+    .then(res => {
+        history.push('/login');
+    })
+    .catch(err => {
+        console.log(err.response.data);
+        this.setState({ error: err.response.data.msg }, this.resetSignupPage);
+    })
+  }
 
   handleSubmitSimulationScenario = (event) => {
     event.preventDefault();
@@ -363,6 +381,8 @@ export class UserProvider extends React.Component {
         user: this.state.currentUser,
         username: this.state.username,
         password: this.state.password,
+        reenteredpassword: this.state.reenteredpassword,
+        activationkey: this.state.activationkey,
         userLoginSessionID: this.state.userLoginSessionID,
         scenarioID: this.state.scenarioID,
         scenarioName: this.state.scenarioName,
@@ -373,6 +393,7 @@ export class UserProvider extends React.Component {
         error: this.state.error,
         handleUserInputChange: this.handleUserInputChange,
         handleDropEvents: this.handleDropEvents,
+        handleSignupSubmit: this.handleSignupSubmit,
         handleLoginSubmit: this.handleLoginSubmit,
         handleSubmitSimulationScenario: this.handleSubmitSimulationScenario,
         handleShowResults: this.handleShowResults,

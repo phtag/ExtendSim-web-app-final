@@ -19,7 +19,6 @@ class Login extends React.Component {
 
   handleLogin = (event, onSubmitLoginFunction) => {
     const { history } = this.props;
-    const { username, password } = this.state;
     onSubmitLoginFunction(event, history);
   }
 

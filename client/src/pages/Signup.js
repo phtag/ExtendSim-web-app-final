@@ -15,65 +15,26 @@ class Signup extends React.Component {
     componentDidMount () {
     };
 
-    resetSignupPage = () => {
-        this.setState({
-                      username: "",
-                      password: "",
-                      reenteredpassword: "",
-                      activationkey: ""}, this.validateUserInputs);
+    handleChange = (event, onChangeFunction) => {
+        const { name, value } = event.target;
+        onChangeFunction(name, value, 'signup');
     }
     
-    validateUserInputs = () => {
-        const { username, password, reenteredpassword, activationkey } = this.state;
-        if (username != "") {
-            if (password != "") {
-                if (reenteredpassword != "") {
-                    if (password === reenteredpassword) {
-                        if (activationkey != "") {
-                            this.setState({ validInputs: true });
-                        }
-                    }               
-                }
-            }
-        } else {
-            this.setState({ validInputs: false });
-        }
-    }
-
-    handleChange = (event, key, onChangeFunction) => {
-        const { name, value } = event.target;
-        onChangeFunction(key, value, 'signup');
-    }
-    
-    handleInputChange = (event) => {
-        const { name, value } = event.target;
-        this.setState({
-          [name]: value
-        }, this.validateUserInputs);  
-        this.setState({ error: ""});      
-    }
-
-    handleSignupSubmit = (event) => {
+    handleSignup = (event, onSubmitSignupFunction) => {
         event.preventDefault();
-        const { history} = this.props;
-        const { username, password } = this.state;
-        API.signup(this.state)
-        .then(res => {
-            history.push('/login');
-        })
-        .catch(err => {
-            console.log(err.response.data);
-            this.setState({ error: err.response.data.msg }, this.resetSignupPage);
-        })
+        const { history } = this.props;
+        onSubmitSignupFunction(event, history);
     }
     render() {
         return (
             <UserContext.Consumer>
             {({
               handleUserInputChange, 
-              handleLoginSubmit, 
+              handleSignupSubmit, 
               username, 
               password, 
+              reenteredpassword,
+              activationkey,
               error,
               validationObjects
             }) => (
@@ -90,11 +51,11 @@ class Signup extends React.Component {
                                     <div className="form-group">
                                         <label htmlFor="username-text">Username</label>
                                         <input 
-                                            onChange={(event) => this.handleInputChange(event)} 
+                                            onChange={(e) => this.handleChange(e, handleUserInputChange)}
                                             type="text" 
                                             id="username-text" 
                                             name="username"
-                                            value={this.state.username}
+                                            value={username}
                                             className="form-control" 
                                             aria-describedby="example-text" 
                                             placeholder="Enter username">
@@ -103,9 +64,9 @@ class Signup extends React.Component {
                                     <div className="form-group">
                                         <label htmlFor="password-text">Password</label>
                                         <input 
-                                            onChange={(event) => this.handleInputChange(event)} 
+                                            onChange={(e) => this.handleChange(e, handleUserInputChange)}
                                             type="password" 
-                                            value={this.state.password}
+                                            value={password}
                                             id="password-text" 
                                             name="password"
                                             className="form-control" 
@@ -115,9 +76,9 @@ class Signup extends React.Component {
                                     <div className="form-group">
                                         <label htmlFor="repeat-password-text">Re-enter password</label>
                                         <input 
-                                            onChange={(event) => this.handleInputChange(event)} 
+                                            onChange={(e) => this.handleChange(e, handleUserInputChange)}
                                             type="password"
-                                            value={this.state.reenteredpassword} 
+                                            value={reenteredpassword} 
                                             id="repeat-password-text" 
                                             name="reenteredpassword"
                                             className="form-control" 
@@ -127,27 +88,27 @@ class Signup extends React.Component {
                                     <div className="form-group">
                                         <label htmlFor="activationkey-text">Activation key</label>
                                         <input 
-                                            onChange={(event) => this.handleInputChange(event)} 
+                                            onChange={(e) => this.handleChange(e, handleUserInputChange)}
                                             type="text" 
                                             id="activationkey-text" 
                                             name="activationkey"
-                                            value={this.state.activationkey}
+                                            value={activationkey}
                                             className="form-control" 
                                             aria-describedby="example-text" 
                                             placeholder="Enter username">
                                         </input>
                                     </div>
                                     <button 
-                                        onClick={this.handleSignupSubmit} // Must pass router history to parent so that it can redirect to another page
-                                        disabled={!this.state.validInputs}
-                                        id="submit-login-info" 
+                                        onClick={(e) => this.handleSignup(e, handleSignupSubmit)}
+                                        disabled={!validationObjects[validationObjects.findIndex(obj => obj.name==="signupSubmitButton")].enabled}
+                                        id="submit-signup-info" 
                                         className="btn btn-primary float-left">
                                         Submit
                                     </button>
                                     <br></br>
-                                    { this.state.error && (
+                                    { error && (
                                     <div className="login-errors">
-                                        <h3>{this.state.error}</h3>
+                                        <h3>{error}</h3>
                                     </div>
                                     )}
                                 </form>
