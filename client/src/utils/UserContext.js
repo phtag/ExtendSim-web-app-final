@@ -217,10 +217,17 @@ export class UserProvider extends React.Component {
     .then(res => {
       if (res.data.modelRunStatus == runCompletedScenarioStatus) {
         clearInterval(checkModelStatusTimer);
-        var myValidationObjects = this.state.validationObjects;
-        myValidationObjects[myValidationObjects.findIndex(obj => obj.name==="ShowResultsButton")].enabled = true;
-        this.setState({validationObjects: myValidationObjects});
-        this.setState({scenarioRunStatus: "Completed"})
+        this.setState({scenarioRunStatus: "Getting results"})
+        API.getcycletimeresults(this.state.scenarioFolderPathname + cycleTimeResultsFilename, 
+                                this.state.userLoginSessionID,
+                                this.state.scenarioID,
+                                this.state.username)
+        .then(res1 => {
+          var myValidationObjects = this.state.validationObjects;
+          myValidationObjects[myValidationObjects.findIndex(obj => obj.name==="ShowResultsButton")].enabled = true;
+          this.setState({validationObjects: myValidationObjects});
+          this.setState({scenarioRunStatus: "Completed"})
+        })
       } else if (res.data.modelRunStatus == runInProcessScenarioStatus) {
         this.setState({scenarioRunStatus: "Running"})
       }
@@ -289,19 +296,19 @@ export class UserProvider extends React.Component {
 
   handleShowResults = (event, history) => {
     event.preventDefault();
-    API.getcycletimeresults(this.state.scenarioFolderPathname + cycleTimeResultsFilename, 
-                            this.state.userLoginSessionID,
-                            this.state.scenarioID,
-                            this.state.username)
-    .then(res1 => {
-      console.log('scenario results=' + res1.data);
+    // API.getcycletimeresults(this.state.scenarioFolderPathname + cycleTimeResultsFilename, 
+    //                         this.state.userLoginSessionID,
+    //                         this.state.scenarioID,
+    //                         this.state.username)
+    // .then(res1 => {
+      // console.log('scenario results=' + res1.data);
       API.getUserScenarios(this.state.username)
       .then(res2 => {
         this.setState({userScenarios: res2.data.userScenarios});
         console.log('scenario results=' + JSON.stringify(res2));
         history.push('/scenarios-summary');
       });
-    })
+    // })
   };
 
   handleShowTableRowResults = (event,

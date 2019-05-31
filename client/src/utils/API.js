@@ -88,6 +88,36 @@ export default {
     });
     // return response.data;
   },
+  getresourceresults: function (filepathname, userLoginSessionID, scenarioID, username) {
+    return axios.post('/api/ExtendSim/getresourceresults',
+    {
+      filepathname: filepathname,
+      userLoginSessionID: userLoginSessionID,
+      scenarioID: scenarioID,
+      username: username
+    });
+    // return response.data;
+  },
+  getpoolresults: function (filepathname, userLoginSessionID, scenarioID, username) {
+    return axios.post('/api/ExtendSim/getpoolresults',
+    {
+      filepathname: filepathname,
+      userLoginSessionID: userLoginSessionID,
+      scenarioID: scenarioID,
+      username: username
+    });
+    // return response.data;
+  },
+  getmodelresults: function (filepathname, userLoginSessionID, scenarioID, username) {
+    return axios.post('/api/ExtendSim/getmodelresults',
+    {
+      filepathname: filepathname,
+      userLoginSessionID: userLoginSessionID,
+      scenarioID: scenarioID,
+      username: username
+    });
+    // return response.data;
+  },
   getUserScenarios: function (username) {
     return axios.post('/api/ExtendSim/getuserscenarios',
     {
