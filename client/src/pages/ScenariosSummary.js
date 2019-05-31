@@ -17,7 +17,6 @@ class ScenariosSummary extends React.Component {
     const { history } = this.props;
     const scenarioID = event.target.getAttribute('id');
 
-    history.push('/scenario-results');
     handleScenarioSummarySelection(event, scenarioID, history);
   }
 

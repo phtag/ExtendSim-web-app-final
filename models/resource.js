@@ -8,23 +8,55 @@ module.exports=function(sequelize, DataTypes) {
         MaximumQuantity: DataTypes.REAL,
         MinimumAllocationQuantity: DataTypes.REAL,
         AvailableQuantity: DataTypes.REAL,
-        Costperunittime: DataTypes.REAL,
+        Costperunittime: 
+        {
+            type: DataTypes.REAL,
+            allowNull: true
+        },
         Costtimeunit: DataTypes.STRING,
-        Costperuse: DataTypes.REAL,
+        Costperuse: 
+        {
+            type: DataTypes.REAL,
+            allowNull: true
+        },
         InitialStatus: DataTypes.STRING,
         Status: DataTypes.STRING,
-        StatusStartTime: DataTypes.REAL,
+        StatusStartTime: 
+        {
+            type: DataTypes.REAL,
+            allowNull: true
+        },
         PendingStatus: DataTypes.STRING,
-        PendingStatusStartTime: DataTypes.REAL,
+        PendingStatusStartTime: 
+        {
+            type: DataTypes.REAL,
+            allowNull: true
+        },
         ResourceOrderID: DataTypes.STRING,
         ReassignedResourceOrderID: DataTypes.STRING,
-        SkillLevel: DataTypes.REAL,
-        Rank: DataTypes.REAL,
+        SkillLevel: 
+        {
+            type: DataTypes.REAL,
+            allowNull: true
+        },
+        Rank: 
+        {
+            type: DataTypes.REAL,
+            allowNull: true
+        },
         OffShift: DataTypes.STRING,
         Shareable: DataTypes.STRING,
         SharedCount: DataTypes.STRING,
-        TBF: DataTypes.REAL,
-        TTR: DataTypes.REAL,
+        TBF: 
+        {
+            type: DataTypes.REAL,
+            allowNull: true
+        },
+        TTR: 
+        {
+            type: DataTypes.REAL,
+            allowNull: true
+        },
         TBFTTRDownInterruptionPolicy: DataTypes.STRING,
         FailureProgressType: DataTypes.STRING,
         OffShift: DataTypes.STRING,

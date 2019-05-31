@@ -85,10 +85,10 @@ tr:nth-child(even) {
 }
 #drop-area {
   text-align: center;
-  height: 200px;
+  height: 100px;
   width: 100%;
   /* border: 2px solid gray; */
-  background-color: transparent;
+  background-color: rgb(230, 227, 227);
   border: 2px dashed #ccc;
   border-radius: 20px;
   /* width: 480px; */

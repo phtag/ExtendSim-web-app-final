@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch, withRouter } from 'react-router-dom';
 import Home from './pages/Home';
-import Scenarios from './pages/Scenarios';
+import ScenarioSetup from './pages/ScenarioSetup';
 import CycleTimeResults from './pages/CycleTimeResults';
 import ScenarioResults from './pages/ScenarioResults';
 import ScenariosSummary from './pages/ScenariosSummary';
@@ -24,7 +24,7 @@ class App extends React.Component {
                 <Route exact path="/" component={Home} />
                 <Route exact path="/signup" component={Signup} />
                 <Route exact path="/login" component={Login} />
-                <Route exact path="/scenarios" component={Scenarios} />
+                <Route exact path="/scenario-setup" component={ScenarioSetup} />
                 <Route exact path="/scenarios-summary" component={ScenariosSummary} />
                 <Route exact path="/scenario-results" component={ScenarioResults} />
                 <Route exact path="/cycle-time-results" component={CycleTimeResults} />

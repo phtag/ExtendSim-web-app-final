@@ -212,18 +212,24 @@ export class UserProvider extends React.Component {
   };
 
   ExtendSimASPCheckModelRunStatus = () => {
+    const { scenarioResultTypes } = this.state;
+    const cycletimesindex = scenarioResultTypes.findIndex(obj => obj.type==="Cycle-times");
+    const resourcesindex = scenarioResultTypes.findIndex(obj => obj.type==="Resources");
+    const poolindex = scenarioResultTypes.findIndex(obj => obj.type==="Pools");
+    const modelindex = scenarioResultTypes.findIndex(obj => obj.type==="Model");
+
     API.checkmodelrunstatus(
       this.state.scenarioID)
     .then(res => {
       if (res.data.modelRunStatus == runCompletedScenarioStatus) {
         clearInterval(checkModelStatusTimer);
         this.setState({scenarioRunStatus: "Getting results"})
-        API.getcycletimeresults(this.state.scenarioFolderPathname + cycleTimeResultsFilename, 
+        API.getcycletimeresults(this.state.scenarioFolderPathname + scenarioResultTypes[cycletimesindex].filename, 
                                 this.state.userLoginSessionID,
                                 this.state.scenarioID,
                                 this.state.username)
         .then(res1 => {
-          API.getresourceresults(this.state.scenarioFolderPathname + cycleTimeResultsFilename, 
+          API.getresourceresults(this.state.scenarioFolderPathname + scenarioResultTypes[resourcesindex].filename, 
                                  this.state.userLoginSessionID,
                                  this.state.scenarioID,
                                  this.state.username)
@@ -262,7 +268,7 @@ export class UserProvider extends React.Component {
       // Enable scenario navbar link
       myValidationObjects[myValidationObjects.findIndex(obj => obj.name==="Scenario-navbar-option")].enabled = true;
       this.setState({validationObjects: myValidationObjects});
-      history.push('/scenarios');
+      history.push('/scenario-setup');
     })
     .catch(err => {
         alert("Error");
