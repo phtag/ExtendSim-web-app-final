@@ -24,6 +24,8 @@ export class UserProvider extends React.Component {
     activationkey: "",
     webpage: "",
     error: "",
+    errorSignupPage: "",
+    errorLoginPage: "",
     userLoginSessionID: "",
     scenarioRunStatus: "N/A",
     validationObjects: [
@@ -88,6 +90,7 @@ export class UserProvider extends React.Component {
     userScenarios: [],
     cycleTimeData: []
   }
+
 // Utilities
   getMatchingScenario = (scenarioID) => {
     console.log(this.state.userScenarios[0].scenarioID);
@@ -250,7 +253,11 @@ export class UserProvider extends React.Component {
   handleUserInputChange = (key, value, webPage) => {
     this.setState({ [key]: value,
                     webPage: webPage }, this.ValidatePageElements);
-    this.setState({ error: "" });
+    if (webPage === "login") {
+      this.setState({ errorLoginPage: "" });
+    } else if  (webPage === "signup") {
+      this.setState({ errorSignupPage: "" });
+    }
   };
 
   handleDropEvents = (acceptedFiles) => {
@@ -273,7 +280,7 @@ export class UserProvider extends React.Component {
     .catch(err => {
         alert("Error");
         console.log(JSON.stringify(err.response.data.msg));
-        this.setState({ error: err.response.data.msg }, this.resetLoginPage);
+        this.setState({ errorLoginPage: err.response.data.msg }, this.resetLoginPage);
         
       });
     };
@@ -287,12 +294,15 @@ export class UserProvider extends React.Component {
     })
     .catch(err => {
         console.log(err.response.data);
-        this.setState({ error: err.response.data.msg }, this.resetSignupPage);
+        this.setState({ errorSignupPage: err.response.data.msg }, this.resetSignupPage);
     })
   }
 
   handleSubmitSimulationScenario = (event) => {
     event.preventDefault();
+    const {validationObjects} = this.state;
+    validationObjects[validationObjects.findIndex(obj => obj.name==="SubmitScenarioButton")].enabled = false;
+    this.setState({validationObjects : validationObjects})
     API.createScenario(this.state)
     .then(res_createScenario => {
       API.createScenarioFolder(this.state.userLoginSessionID, this.state.scenarioName, this.state.scenarioName)
@@ -469,7 +479,8 @@ export class UserProvider extends React.Component {
         validationObjects: this.state.validationObjects,
         scenarioRunStatus: this.state.scenarioRunStatus,
         cycleTimeData: this.state.cycleTimeData,
-        error: this.state.error,
+        errorLoginPage: this.state.errorLoginPage,
+        errorSignupPage: this.state.errorSignupPage,
         handleUserInputChange: this.handleUserInputChange,
         handleDropEvents: this.handleDropEvents,
         handleSignupSubmit: this.handleSignupSubmit,

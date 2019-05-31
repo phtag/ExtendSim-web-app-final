@@ -1,6 +1,9 @@
 module.exports=function(sequelize, DataTypes) {
     var resource = sequelize.define("resource", 
     {
+        username: DataTypes.STRING,
+        scenarioID: DataTypes.STRING,
+        userLoginSessionID: DataTypes.STRING,
         ResourceID: DataTypes.STRING,
         Name: DataTypes.STRING,
         Pool: DataTypes.STRING,
@@ -44,7 +47,6 @@ module.exports=function(sequelize, DataTypes) {
             type: DataTypes.REAL,
             allowNull: true
         },
-        OffShift: DataTypes.STRING,
         Shareable: DataTypes.STRING,
         SharedCount: DataTypes.STRING,
         TBF: 
@@ -71,11 +73,6 @@ module.exports=function(sequelize, DataTypes) {
         TotalDownTime: DataTypes.REAL,
         TotalOffShiftTime: DataTypes.REAL,
         TotalDisabledTime: DataTypes.REAL,
-        TBPM: DataTypes.REAL,
-        PMDuration: DataTypes.REAL,
-        CurrentQualificationRuleRecord: DataTypes.STRING,
-        UnitsProcessed: DataTypes.STRING,
-        TimeProcessed: DataTypes.REAL,
         TotalAllocatedTime: DataTypes.REAL,
         TotalCost: DataTypes.REAL,
         TotalFailedTime: DataTypes.REAL,

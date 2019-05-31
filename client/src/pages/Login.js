@@ -31,7 +31,7 @@ class Login extends React.Component {
           handleLoginSubmit, 
           username, 
           password, 
-          error,
+          errorLoginPage,
           validationObjects
         }) => (
           <div id="home">
@@ -77,9 +77,9 @@ class Login extends React.Component {
                                 id="submit-login-info" className="btn btn-primary float-left">Submit
                             </button>
                             <br></br>
-                            { error && (
+                            { errorLoginPage && (
                               <div className="login-errors">
-                                <h3>{error}</h3>
+                                <h3>{errorLoginPage}</h3>
                               </div>
                             )}
                         </form>

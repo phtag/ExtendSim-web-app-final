@@ -35,7 +35,7 @@ class Signup extends React.Component {
               password, 
               reenteredpassword,
               activationkey,
-              error,
+              errorSignupPage,
               validationObjects
             }) => (
                 <div id="home">
@@ -106,9 +106,9 @@ class Signup extends React.Component {
                                         Submit
                                     </button>
                                     <br></br>
-                                    { error && (
+                                    { errorSignupPage && (
                                     <div className="login-errors">
-                                        <h3>{error}</h3>
+                                        <h3>{errorSignupPage}</h3>
                                     </div>
                                     )}
                                 </form>
