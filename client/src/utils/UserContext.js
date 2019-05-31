@@ -223,10 +223,16 @@ export class UserProvider extends React.Component {
                                 this.state.scenarioID,
                                 this.state.username)
         .then(res1 => {
-          var myValidationObjects = this.state.validationObjects;
-          myValidationObjects[myValidationObjects.findIndex(obj => obj.name==="ShowResultsButton")].enabled = true;
-          this.setState({validationObjects: myValidationObjects});
-          this.setState({scenarioRunStatus: "Completed"})
+          API.getresourceresults(this.state.scenarioFolderPathname + cycleTimeResultsFilename, 
+                                 this.state.userLoginSessionID,
+                                 this.state.scenarioID,
+                                 this.state.username)
+          .then(res2 => {
+            var myValidationObjects = this.state.validationObjects;
+            myValidationObjects[myValidationObjects.findIndex(obj => obj.name==="ShowResultsButton")].enabled = true;
+            this.setState({validationObjects: myValidationObjects});
+            this.setState({scenarioRunStatus: "Completed"})
+          })
         })
       } else if (res.data.modelRunStatus == runInProcessScenarioStatus) {
         this.setState({scenarioRunStatus: "Running"})
