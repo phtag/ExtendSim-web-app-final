@@ -288,6 +288,113 @@ module.exports = {
             return res.json({cycleTimeData: dbresponse});     
         });    
     },
+    getresourceresults: function(req, res) {
+        var queryURL = "http://" + IPaddress + ":8090/StreamingService/web/GetServerFileStream";
+        var myheaders = { 
+            accept: "application/json", 
+            }; 
+        var scenarioResults;
+        console.log("ExtendSimASPgetScenarioResults: Getting scenario results from server for userSessionID=" + req.body.userLoginSessionID + " filename=" + req.body.filepathname);
+        return axios({
+            url: queryURL,
+            method: 'post',
+            accept : "application/json",
+            // contentType: "application/octet-stream",
+            responseType: "blob",
+            headers : myheaders,
+            muteHttpExceptions : false,
+            params: 
+            {
+                filename: req.body.filepathname
+            }
+        }).then(function(response) {
+            scenarioResults = response.data;
+            console.log("ExtendSimASPgetScenarioResults: response=" + response.data);
+            db.scenario.update({
+                scenarioCompletionDateTime: new Date(),
+            }, {
+                where: {
+                    userLoginSessionID: req.body.userLoginSessionID
+                }
+            }).then(function(dbresponse) {
+                // reader.readAsText(scenarioResults);
+                // reader.readAsBinaryString(scenarioResults);
+                var myResult = JSON.stringify(scenarioResults);
+                console.log("MyResult=" + myResult);
+                var textArr = myResult.split(/\r\n|\r|\n/g);
+                console.log("textArr.length =" + textArr.length);
+                var scenarioResultsArray = scenarioResults.split('\r\n').map(function(ln){
+                    return ln.split('\t');
+                });
+                // Remove last empty element from array
+                scenarioResultsArray.pop();
+                console.log("scenarioResultsArray.length =" + scenarioResultsArray.length);
+                var row = 1;
+                scenarioResultsArray.forEach(function(element) {
+                    db.cycletime.create({
+                        username: req.body.username,
+                        scenarioID: req.body.scenarioID,
+                        userLoginSessionID: req.body.userLoginSessionID,
+                        ResourceID: element[0],
+                        Name: element[1],
+                        Pool: element[2],
+                        Shift: element[3],
+                        MaximumQuantity: element[4],
+                        MinimumAllocationQuantity: element[5],
+                        AvailableQuantity: element[6],
+                        Costperunittime: element[7],
+                        Costtimeunit: element[8],
+                        Costperuse: element[9],
+                        InitialStatus: element[10],
+                        Status: element[11],
+                        StatusStartTime: element[12],
+                        PendingStatus: element[13],
+                        PendingStatusStartTime: element[14],
+                        ResourceOrderID: element[15],
+                        ReassignedResourceOrderID: element[16],
+                        SkillLevel: element[17],
+                        Rank: element[18],
+                        OffShift: element[19],
+                        Shareable: element[20],
+                        SharedCount: element[21],
+                        TBF: element[22],
+                        TTR: element[23],
+                        TBFTTRDownInterruptionPolicy: element[24],
+                        FailureProgressType: element[25],
+                        OffShift: element[26],
+                        ScheduledDown: element[27],
+                        UnscheduledDown: element[28],
+                        Failed: element[29],
+                        TotalOrdersServiced: element[30],
+                        TotalIdleTime: element[31],
+                        TotalBusyTime: element[32],
+                        TotalBusyOffShiftTime: element[33],
+                        TotalReservedTime: element[34],
+                        TotalDownTime: element[35],
+                        TotalOffShiftTime: element[36],
+                        TotalDisabledTime: element[37],
+                        TBPM: element[38],
+                        PMDuration: element[39],
+                        CurrentQualificationRuleRecord: element[40],
+                        UnitsProcessed: element[41],
+                        TimeProcessed: element[42],
+                        TotalAllocatedTime: element[43],
+                        TotalCost: element[44],
+                        TotalFailedTime: element[45],
+                        TotalQuantityAllocated: element[46],
+                        TotalQuantityAllocationTime: element[47],
+                        TotalReassignedTime: element[48],
+                        TotalScheduledDownTime: element[49],
+                        TotalUnscheduledDownTime: element[50],
+                        QuantityUtilization: element[51],
+                        Utilization: element[52],                 
+                    });
+                });
+                // console.log("splitArray =" + splitArray);            
+                return res.json({cycleTimeData: scenarioResults});     
+            });    
+        });
+    },
     getuserscenarios: function(req, res) {
         var queryURL = "http://" + IPaddress + ":8090/StreamingService/web/GetServerFileStream";
         var myheaders = { 

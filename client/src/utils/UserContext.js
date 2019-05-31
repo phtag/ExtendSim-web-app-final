@@ -346,30 +346,17 @@ export class UserProvider extends React.Component {
   }
 
   handleShowScenarioResults = (event,
-                               scenarioID, 
                                resultType,
                                history) => {
     event.preventDefault();
     // We need to lookup the scenario folder pathname using the scenario ID
-    const selectedScenario = this.getMatchingScenario(scenarioID);
-    const scenarioFolderPathname = selectedScenario.scenarioFolderPathname;
-    const scenarioName = selectedScenario.scenarioName;
-    const {username, userLoginSessionID, scenarioResultTypes} = this.state;
-    const currentScenarioID = scenarioID
-    console.log("scenarioFolderPathname=" + scenarioFolderPathname + 
-    " cycleTimeResultsFilename=" + cycleTimeResultsFilename + 
-    " userLoginSessionID=" +userLoginSessionID);
+    const {username, scenarioID} = this.state;
+    alert("handleShowScenarioResults: scenarioID=" + scenarioID + " username=" + username);
     API.getScenarioCycletimeData (scenarioID, username) 
     .then(res1 => {
-    console.log('scenario cycleTimeData=' + res1.data.cycleTimeData);
-    // var parsedArray = res1.data.cycleTimeData.split('\r\n').map(function(ln){
-    //   return ln.split('\t');
-    // });
-    // console.log('parsedArray=' + parsedArray);
-    this.setState({cycleTimeData: res1.data.cycleTimeData});
-    this.setState({scenarioID: currentScenarioID});
-    this.setState({scenarioName: scenarioName});
-    history.push('/cycle-time-results');
+      console.log('scenario cycleTimeData=' + res1.data.cycleTimeData);
+      this.setState({cycleTimeData: res1.data.cycleTimeData});
+      history.push('/cycle-time-results');
     });
   }
 
