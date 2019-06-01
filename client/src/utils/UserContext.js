@@ -88,7 +88,10 @@ export class UserProvider extends React.Component {
     ExtendSimModelName: "/ASP example model (GS).mox",
     scenarioInputFiles: [],
     userScenarios: [],
-    cycleTimeData: []
+    cycleTimeData: [],
+    resourceData: [],
+    poolData: [],
+    modelData: []
   }
 
 // Utilities
@@ -367,8 +370,6 @@ export class UserProvider extends React.Component {
     event.preventDefault();
     // We need to lookup the scenario folder pathname using the scenario ID
     const selectedScenario = this.getMatchingScenario(scenarioID);
-    alert('handleScenarioSummarySelection: scenarioID=' + scenarioID + " scenario folder pathname=" + selectedScenario.scenarioFolderPathname)
-
     this.setState({ scenarioFolderPathname: selectedScenario.scenarioFolderPathname,
                     scenarioName: selectedScenario.scenarioName,
                     scenarioID: scenarioID}, () => history.push('/scenario-results'));
@@ -380,13 +381,21 @@ export class UserProvider extends React.Component {
     event.preventDefault();
     // We need to lookup the scenario folder pathname using the scenario ID
     const {username, scenarioID} = this.state;
-    alert("handleShowScenarioResults: scenarioID=" + scenarioID + " username=" + username);
-    API.getScenarioCycletimeData (scenarioID, username) 
-    .then(res1 => {
-      console.log('scenario cycleTimeData=' + res1.data.cycleTimeData);
-      this.setState({cycleTimeData: res1.data.cycleTimeData});
-      history.push('/cycle-time-results');
-    });
+    if (resultType === "Cycle-times") {
+      API.getScenarioCycletimeData (scenarioID, username) 
+      .then(res1 => {
+        console.log('scenario cycleTimeData=' + res1.data.cycleTimeData);
+        this.setState({cycleTimeData: res1.data.cycleTimeData});
+        history.push('/cycle-time-results');
+      });
+    } else if (resultType === "Resources") {
+      API.getResourceData (scenarioID, username) 
+      .then(res1 => {
+        console.log('scenario resourceData=' + res1.data.resourceData);
+        this.setState({resourceData: res1.data.resourceData});
+        history.push('/resource-results');
+      });
+    }
   }
 
   renderCycleTimeTableData = () => {
@@ -420,6 +429,49 @@ export class UserProvider extends React.Component {
        )
     })  
   }
+
+  renderResourcesTableData = () => {
+    // event.preventDefault();
+    return this.state.resourceData.map((rowData, key) => {
+      const {
+        ResourceID,
+        Pool,
+        Name,
+        TotalOrdersServiced,
+        TotalIdleTime,
+        TotalBusyTime,
+        TotalBusyOffShiftTime,
+        TotalDownTime,
+        TotalOffShiftTime,
+        TotalFailedTime,
+        TotalScheduledDownTime,
+        TotalUnscheduledDownTime,
+        TotalQuantityAllocationTime,
+        QuantityUtilization,
+        Utilization
+          } = rowData; //destructuring
+       return (
+        <tr key={key}>  
+          <td className="table-data-strings">{ResourceID}</td>
+          <td className="table-data-strings">{Pool}</td>
+          <td className="table-data-strings">{Name}</td>
+          <td className="table-data-numbers">{TotalOrdersServiced}</td>
+          <td className="table-data-numbers">{TotalIdleTime.toFixed(2)}</td>
+          <td className="table-data-numbers">{TotalBusyTime.toFixed(2)}</td>
+          <td className="table-data-numbers">{TotalBusyOffShiftTime.toFixed(2)}</td>
+          <td className="table-data-numbers">{TotalDownTime.toFixed(2)}</td>
+          <td className="table-data-numbers">{TotalOffShiftTime.toFixed(2)}</td>
+          <td className="table-data-numbers">{TotalFailedTime.toFixed(2)}</td>
+          <td className="table-data-numbers">{TotalScheduledDownTime.toFixed(2)}</td>
+          <td className="table-data-numbers">{TotalUnscheduledDownTime.toFixed(2)}</td>
+          <td className="table-data-numbers">{TotalQuantityAllocationTime.toFixed(2)}</td>
+          <td className="table-data-numbers">{QuantityUtilization.toFixed(2)}</td>
+          <td className="table-data-numbers">{Utilization.toFixed(2)}</td>
+        </tr> 
+       )
+    })  
+  }
+
   renderUserScenariosTableData = (handleTableRowResults) => {
     return this.state.userScenarios.map((scenario, index) => {
       const { userLoginSessionID, 
@@ -455,7 +507,7 @@ export class UserProvider extends React.Component {
         <tr key={key}>
            <td>{type}</td>
            <td>
-             <button id={key} onClick={(event) => handleShowScenarioResults(event)}>
+             <button id={type} onClick={(event) => handleShowScenarioResults(event)}>
              Show
              </button>
           </td>
@@ -492,6 +544,7 @@ export class UserProvider extends React.Component {
         handleScenarioSummarySelection: this.handleScenarioSummarySelection,
         renderUserScenariosTableData: this.renderUserScenariosTableData,
         renderCycleTimeTableData: this.renderCycleTimeTableData,
+        renderResourcesTableData: this.renderResourcesTableData,
         renderUserScenarioResultsTableData: this.renderUserScenarioResultsTableData
         
 

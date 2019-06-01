@@ -8,8 +8,8 @@ class ScenariosResults extends React.Component {
   handleShowResults = (handleShowScenarioResults, event) => {
     event.preventDefault();
     const { history } = this.props;
-    const scenarioID = event.target.getAttribute('id');
-    handleShowScenarioResults(event, scenarioID, history);
+    const type = event.target.getAttribute('id');
+    handleShowScenarioResults(event, type, history);
   }
 
   render() {

@@ -12,8 +12,7 @@ class CycleTimeResults extends React.Component {
         {({
             renderCycleTimeTableData,
             scenarioID,
-            scenarioName,
-            cycleTimeData
+            scenarioName
         }) => (
           <div id="home">
             <div className="container my-scenario-container">

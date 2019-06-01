@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch, withRouter } from 'react-router
 import Home from './pages/Home';
 import ScenarioSetup from './pages/ScenarioSetup';
 import CycleTimeResults from './pages/CycleTimeResults';
+import ResourceResults from './pages/ResourceResults';
 import ScenarioResults from './pages/ScenarioResults';
 import ScenariosSummary from './pages/ScenariosSummary';
 import Login from './pages/Login';
@@ -28,6 +29,7 @@ class App extends React.Component {
                 <Route exact path="/scenarios-summary" component={ScenariosSummary} />
                 <Route exact path="/scenario-results" component={ScenarioResults} />
                 <Route exact path="/cycle-time-results" component={CycleTimeResults} />
+                <Route exact path="/resource-results" component={ResourceResults} />
                 <Route component={NoMatch} />
               </Switch>
             </div>

@@ -386,6 +386,26 @@ module.exports = {
             });    
         });
     },
+    getresourcedata: function(req, res) {
+        var queryURL = "http://" + IPaddress + ":8090/StreamingService/web/GetServerFileStream";
+        var myheaders = { 
+            accept: "application/json", 
+            }; 
+        console.log("getresourcedata: Querying database for username=" + req.body.username);
+        db.resource.findAll({
+            where: {
+                scenarioID: req.body.scenarioID,
+                username: req.body.username
+            },
+            order: [
+                ['ResourceID', 'ASC']
+                // ['totalWaitTime', 'DESC']
+            ],
+          }).then(function(dbresponse) {
+            console.log("Response=" + dbresponse);
+            return res.json({resourceData: dbresponse});     
+        });    
+    },
     getpoolresults: function(req, res) {
         var queryURL = "http://" + IPaddress + ":8090/StreamingService/web/GetServerFileStream";
         var myheaders = { 

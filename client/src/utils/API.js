@@ -130,5 +130,12 @@ export default {
       scenarioID: scenarioID,
       username: username
     });
+  },
+  getResourceData: function (scenarioID, username) {
+    return axios.post('/api/ExtendSim/getresourcedata',
+    {
+      scenarioID: scenarioID,
+      username: username
+    });
   }
 };
