@@ -13,7 +13,6 @@ class ScenariosResults extends React.Component {
   }
 
   render() {
-      alert('ScenarioResults');
     return (
       <UserContext.Consumer>
         {({
