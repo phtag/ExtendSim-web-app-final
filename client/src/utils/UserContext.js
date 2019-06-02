@@ -256,7 +256,7 @@ export class UserProvider extends React.Component {
       const files = this.state.scenarioInputFiles;
       const scenarioFolderPathname = this.state.scenarioFolderPathname;
       const userLoginSessionID = this.state.userLoginSessionID;
-      const modelPathname = this.state.scenarioFolderPathname + "/" + this.state.ExtendSimModels[0].name;
+      const modelPathname = this.state.scenarioFolderPathname + "/" + this.state.ExtendSimModels[1].name;
       const ExtendSimASPsubmitSimulationScenario = this.ExtendSimASPsubmitSimulationScenario;
 
       var reader = new FileReader();
@@ -397,7 +397,7 @@ export class UserProvider extends React.Component {
       .then(res => {
         this.setState({scenarioRunStatus: "Submitted"});
         this.setState({scenarioFolderPathname: res.data.scenarioFolderPathname});
-        const modelfilepath = this.state.modelpath + "/" + this.state.ExtendSimModels[0].name;
+        const modelfilepath = this.state.modelpath + "/" + this.state.ExtendSimModels[1].name;
         this.copyModelToScenarioFolder(modelfilepath, 
                                        res.data.scenarioFolderPathname, 
                                        true); 
