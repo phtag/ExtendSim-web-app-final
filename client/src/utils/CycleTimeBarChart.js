@@ -14,19 +14,25 @@ class CycleTimeBarChart extends React.Component {
         const {cycleTimeChartData} = this.props;
         const chartWidth = 800;
         const chartHeight = 500;
-        const chartDomain = [0, 5];
+        const chartDomain = [0, 20];
         return (
             <XYPlot 
                 xType="ordinal" 
+                stackBy="y"
                 width={chartWidth} 
                 height={chartHeight} 
                 yDomain={chartDomain}
             >
             <XAxis />
             <YAxis />
-            <VerticalBarSeries
-                data={cycleTimeChartData.avgCycleTime}
-            />
+                <VerticalBarSeries
+                    color="#12939A"
+                    data={cycleTimeChartData.avgWaitTime}
+                />
+                <VerticalBarSeries
+                    color="#79C7E3"
+                    data={cycleTimeChartData.avgProcessTime}
+                />
                 {/* <LabelSeries
                     data={cycleTimeData.map(obj => {
                         return { ...obj, label: obj.y.toString() }

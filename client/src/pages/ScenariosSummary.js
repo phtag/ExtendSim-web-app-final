@@ -41,8 +41,8 @@ class ScenariosSummary extends React.Component {
                   <thead>
                     <tr>
                         <th className="table-headers">Scenario ID</th>
+                        <th className="table-headers">User Login Session ID</th>
                         <th className="table-headers">Username</th>
-                        <th className="table-headers">scenarioFolderPathname</th>
                         <th className="table-headers">Scenario Submission Date/Time</th>
                         <th className="table-headers">Scenario Completion Date/Time</th>
                         <th className="table-headers">Results</th>
