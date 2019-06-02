@@ -1,5 +1,13 @@
 nav.navbar.navbar-default {
   margin-bottom: 0;
+  overflow: hidden;
+}
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  opacity: 1.0;
+  z-index: 1;
 }
 .navbar-menu-items {
   margin: 20px;
@@ -53,7 +61,9 @@ tr:nth-child(even) {
   padding-right: 5px;
   outline: 1px solid gray;
 }
-
+#home {
+  margin-top: 50px;
+}
 #fileElem {
   display: none;
 }

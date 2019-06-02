@@ -7,7 +7,7 @@ function Navbar() {
   return (
     <UserContext.Consumer>
       {({username}) => (
-        <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
+        <nav className="navbar navbar-expand-lg navbar-dark bg-primary sticky">
           <Link className="navbar-brand" to="/">
             ExtendSim ASP Home
           </Link>

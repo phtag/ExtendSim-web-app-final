@@ -111,6 +111,7 @@ export class UserProvider extends React.Component {
       avgWaitTime: [],
       avgCycleTime: [],
       CoVarrivals: [],
+      CoVdepartures: []
     },
     cycleTimeChartXAxisLabels: [],
     resourceChartData: [],
@@ -143,6 +144,7 @@ export class UserProvider extends React.Component {
               CoVdepartures
             } = rowData; //destructuring
       var value;
+  
       switch (dataType) {
         case 'totalJobsProcessed':
           value = totalJobsProcessed;
@@ -154,6 +156,10 @@ export class UserProvider extends React.Component {
 
         case 'totalWaitTime':
           value = totalWaitTime;
+          break;
+
+        case 'avgProcessTime':
+          value = avgProcessTime;
           break;
 
         case 'avgWaitTime':
@@ -172,8 +178,9 @@ export class UserProvider extends React.Component {
           value = CoVdepartures;
           break;               
         }
-        dataRow.push = {y: value, x: stepname };
+        dataRow.push({"y": value, "x": stepname });
     });
+    alert('dataRow.length=' + dataRow.length);
     return dataRow;
   }
   // Charts
@@ -449,6 +456,7 @@ export class UserProvider extends React.Component {
                                resultType,
                                history) => {
     event.preventDefault();
+    alert('handleShowScenarioResults');
     // We need to lookup the scenario folder pathname using the scenario ID
     const {username, scenarioID} = this.state;
     if (resultType === "Cycle-times") {
@@ -456,13 +464,17 @@ export class UserProvider extends React.Component {
       .then(res1 => {
         console.log('scenario cycleTimeData=' + res1.data.cycleTimeData);
         this.setState({cycleTimeData: res1.data.cycleTimeData});
-        var data = this.makeCycleTimeChartData = (res1.data.cycleTimeData, 'totalJobsProcessed');
+        // var data = this.makeCycleTimeChartData(res1.data.cycleTimeData, 'totalJobsProcessed');
+  
         this.setState({cycleTimeChartData: 
           {
-            totalJobsProcessed: 
-            {
-              data: data
-            }
+            totalJobsProcessed: this.makeCycleTimeChartData(res1.data.cycleTimeData, 'totalJobsProcessed'),
+            totalWaitTime: this.makeCycleTimeChartData(res1.data.cycleTimeData, 'totalWaitTime'),
+            avgProcessTime: this.makeCycleTimeChartData(res1.data.cycleTimeData, 'avgProcessTime'),
+            avgWaitTime: this.makeCycleTimeChartData(res1.data.cycleTimeData, 'avgWaitTime'),
+            avgCycleTime: this.makeCycleTimeChartData(res1.data.cycleTimeData, 'avgCycleTime'),
+            CoVarrivals: this.makeCycleTimeChartData(res1.data.cycleTimeData, 'CoVarrivals'),
+            CoVdepartures: this.makeCycleTimeChartData(res1.data.cycleTimeData, 'CoVdepartures')
           }
         });  
         history.push('/cycle-time-results');

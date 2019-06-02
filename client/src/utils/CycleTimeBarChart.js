@@ -14,8 +14,7 @@ class CycleTimeBarChart extends React.Component {
         const {cycleTimeChartData} = this.props;
         const chartWidth = 800;
         const chartHeight = 500;
-        const chartDomain = [0, chartHeight];
-        alert("Data series length=" + cycleTimeChartData.totalJobsProcessed.data.length)
+        const chartDomain = [0, 5];
         return (
             <XYPlot 
                 xType="ordinal" 
@@ -26,7 +25,7 @@ class CycleTimeBarChart extends React.Component {
             <XAxis />
             <YAxis />
             <VerticalBarSeries
-                data={cycleTimeChartData.totalJobsProcessed.data}
+                data={cycleTimeChartData.avgCycleTime}
             />
                 {/* <LabelSeries
                     data={cycleTimeData.map(obj => {
