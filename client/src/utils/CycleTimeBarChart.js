@@ -24,7 +24,7 @@ class CycleTimeBarChart extends React.Component {
             { title: 'Avg. Process Time', color: 'blue', stroke: '#fff', strokeWidth: '2' }
         ];
         return (
-            <div id="cycle-time-chart" style="color: red">
+            <div id="cycle-time-chart">
                 <h3>Average Wait and Process Times by Process Step</h3>
                 <XYPlot 
                     xType="ordinal" 

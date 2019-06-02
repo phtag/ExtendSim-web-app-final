@@ -518,7 +518,6 @@ module.exports = {
         var myheaders = { 
             accept: "application/json", 
             }; 
-        console.log("ExtendSimASPgetScenarioResults: Getting scenario results from server for userSessionID=" + req.body.userLoginSessionID);
         db.scenario.findAll({
             where: {
                 username: req.body.username
@@ -526,7 +525,10 @@ module.exports = {
           }).then(function(dbresponse) {
               console.log("Response=" + dbresponse[0].userLoginSessionID + " length=" + dbresponse.length);         
                 return res.json({userScenarios: dbresponse});     
-            });    
+            })
+            .catch(function(error) {
+                return res.json({error: 'No user scenarios'}); 
+            }); 
     }
 
 };

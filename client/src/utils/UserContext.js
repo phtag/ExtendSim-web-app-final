@@ -363,7 +363,12 @@ export class UserProvider extends React.Component {
         .then(res2 => {
           this.setState({userScenarios: res2.data.userScenarios},
             () => history.push('/scenario-setup'));
+        })
+        .catch(function(error){
+          /* potentially some code for generating an error specific message here */
+          history.push('/scenario-setup');
         });
+        
     })
     .catch(err => {
         alert("Error");
