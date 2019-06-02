@@ -1,6 +1,7 @@
 import React from 'react';
 import API from '../utils/API';
 import UserContext from '../utils/UserContext'; 
+import CycleTimeBarChart from '../utils/CycleTimeBarChart'; 
 
 class CycleTimeResults extends React.Component {
   state = {
@@ -10,6 +11,7 @@ class CycleTimeResults extends React.Component {
     return (
       <UserContext.Consumer>
         {({
+            cycleTimeChartData,
             renderCycleTimeTableData,
             scenarioID,
             scenarioName
@@ -42,6 +44,9 @@ class CycleTimeResults extends React.Component {
                       {renderCycleTimeTableData()}
                     </tbody>
                   </table>
+                  <div>
+                    <CycleTimeBarChart cycleTimeChartData={cycleTimeChartData}></CycleTimeBarChart>
+                  </div>       
                 </div>
               </div>
             </div>

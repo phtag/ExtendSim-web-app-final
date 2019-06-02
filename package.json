@@ -23,13 +23,16 @@
   "dependencies": {
     "axios": "^0.18.0",
     "bcrypt": "^3.0.6",
+    "chart.js": "^2.8.0",
     "dropzone": "^5.5.1",
     "express": "^4.16.3",
     "filereader": "^0.10.3",
     "if-env": "^1.0.4",
     "jsonwebtoken": "^8.5.1",
     "mysql2": "^1.6.4",
+    "react-chartjs-2": "^2.7.6",
     "react-dropzone": "^10.1.4",
+    "react-vis": "^1.11.7",
     "sequelize": "^5.8.2"
   }
 }

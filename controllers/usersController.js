@@ -41,7 +41,7 @@ module.exports = {
     }).
     then(dbresult => {
       if (!dbresult) {
-        return res.status(400).send({ msg: 'Invalid username' });
+        return res.status(400).send({ msg: 'Username="' + req.body.username + '" is not a registered username'});
       } else {
         bcrypt.compare(req.body.password, dbresult.password, function(err, bRes) 
         {
@@ -104,7 +104,7 @@ module.exports = {
         console.log("signup: dbresult=" + JSON.stringify(dbresult));
         if (dbresult != null) {
             console.log("Username exists already");
-          return res.status(400).send({ msg: 'Username="' + req.body.username + '" is already signed up' });
+          return res.status(400).send({ msg: 'Username="' + req.body.username + '" has already been registered' });
         } else {
           db.user
             .create({ username, password })

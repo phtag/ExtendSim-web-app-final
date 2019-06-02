@@ -28,13 +28,13 @@ class ScenariosResults extends React.Component {
                 </header>
               </div>
               <div className="row no-gutters">
-                <div className="col-8">
+                <div className="col-12">
                     <h2>Results for Scenario={scenarioName} (scenario ID={scenarioID})</h2>
-                    <table id='user-scenarios' border="1">
+                    <table id='scenario-result-types-table' border="1">
                         <thead>
                             <tr>
-                                <th className="table-headers">Results Type</th>
-                                <th className="table-headers">Results</th>
+                                <th className="table-headers" id="scenario-result-types-table-col1">Type</th>
+                                <th className="table-headers" id="scenario-result-types-table-col2"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -45,7 +45,7 @@ class ScenariosResults extends React.Component {
                 </div>
               </div>
             </div>
-          </div>
+          // </div>
         )}
       </UserContext.Consumer>
     );

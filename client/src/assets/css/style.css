@@ -97,3 +97,17 @@ tr:nth-child(even) {
   margin-right: 100px auto;
   padding: 20px;
 }
+#scenario-result-types-table {
+  /* margin:auto; */
+  text-align: center;
+  table-layout: auto;
+  width: 40%;
+  margin: 20px auto;
+  table-layout: auto;
+}
+#scenario-result-types-table-col1 {
+  /* width: 2%; */
+}
+#scenario-result-types-table-col2 {
+  width: 1%;
+}

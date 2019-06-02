@@ -1,14 +1,15 @@
 import React from 'react';
 import API from './API';
+// import  { Chart } from 'react-chartjs-2';
 
 const Context = React.createContext();
 const initialState = { currentUser: {} };
 const UserContext = React.createContext(initialState);
-const ExtendSimModelName = "/ASP example model (GS).mox";
+//const ExtendSimModelName = "/ASP example model (GS).mox";
 // ExtendSim server (use this for Heroku)
-const ExtendSimModelPath =
-  "C:/Users/Administrator/Documents/ExtendSim10ASP_Prod/ASP/ASP Servers/ExtendSim Models" +
-  ExtendSimModelName;
+// var ExtendSimModelPath =
+//   "C:/Users/Administrator/Documents/ExtendSim10ASP_Prod/ASP/ASP Servers/ExtendSim Models" +
+//   ExtendSimModelName;
 const cycleTimeResultsFilename = "/Cycle Time Results.txt";
 
 var checkModelStatusTimer;
@@ -80,20 +81,42 @@ export class UserProvider extends React.Component {
         filename: "/Model Results.txt"
       }
     ],
-    modelPathname: ExtendSimModelPath,
+    ExtendSimModels: [
+      {
+        name: "ASP example model (GS).mox",
+        description: "ARM resource process model (deterministic)"
+      },
+      {
+        name: "ASP final project-v1.mox",
+        description: "ARM resource process model (stochastic)"
+      }
+    ],
+    modelname: "",
+    modelpath: "C:/Users/Administrator/Documents/ExtendSim10ASP_Prod/ASP/ASP Servers/ExtendSim Models",
     cycleTimeResultsFilename: "/Cycle Time Results.txt",
     scenarioName: "",
     scenarioID: -1,
     scenarioFolderPathname: "",
-    ExtendSimModelName: "/ASP example model (GS).mox",
     scenarioInputFiles: [],
     userScenarios: [],
     cycleTimeData: [],
     resourceData: [],
     poolData: [],
-    modelData: []
+    modelData: [],
+    cycleTimeChartData: {
+      totalJobsProcessed: [],
+      totalProcessTime: [],
+      totalWaitTime: [],
+      avgProcessTime: [], 
+      avgWaitTime: [],
+      avgCycleTime: [],
+      CoVarrivals: [],
+    },
+    cycleTimeChartXAxisLabels: [],
+    resourceChartData: [],
+    resourceChartXAxisLabels: []
   }
-
+  chartReference = {};
 // Utilities
   getMatchingScenario = (scenarioID) => {
     console.log(this.state.userScenarios[0].scenarioID);
@@ -104,6 +127,56 @@ export class UserProvider extends React.Component {
     }
     return null;
   }
+
+  makeCycleTimeChartData = (cycleTimeData, dataType) => {
+    const dataRow = [];
+    cycleTimeData.map((rowData, key) => {
+      const {
+              stepname,
+              totalJobsProcessed, 
+              totalProcessTime, 
+              totalWaitTime,
+              avgProcessTime,
+              avgWaitTime,
+              avgCycleTime,
+              CoVarrivals,
+              CoVdepartures
+            } = rowData; //destructuring
+      var value;
+      switch (dataType) {
+        case 'totalJobsProcessed':
+          value = totalJobsProcessed;
+          break;
+
+        case 'totalProcessTime':
+          value = totalProcessTime;
+          break;
+
+        case 'totalWaitTime':
+          value = totalWaitTime;
+          break;
+
+        case 'avgWaitTime':
+          value = avgWaitTime;
+          break;
+
+        case 'avgCycleTime':
+          value = avgCycleTime;
+          break;
+
+        case 'CoVarrivals':
+          value = CoVarrivals;
+          break;
+        
+        case 'CoVdepartures':
+          value = CoVdepartures;
+          break;               
+        }
+        dataRow.push = {y: value, x: stepname };
+    });
+    return dataRow;
+  }
+  // Charts
 
   resetSignupPage = () => {
     this.setState({
@@ -175,7 +248,7 @@ export class UserProvider extends React.Component {
       const files = this.state.scenarioInputFiles;
       const scenarioFolderPathname = this.state.scenarioFolderPathname;
       const userLoginSessionID = this.state.userLoginSessionID;
-      const modelPathname = this.state.scenarioFolderPathname + this.state.ExtendSimModelName;
+      const modelPathname = this.state.scenarioFolderPathname + "/" + this.state.ExtendSimModels[0].name;
       const ExtendSimASPsubmitSimulationScenario = this.ExtendSimASPsubmitSimulationScenario;
 
       var reader = new FileReader();
@@ -312,21 +385,16 @@ export class UserProvider extends React.Component {
       .then(res => {
         this.setState({scenarioRunStatus: "Submitted"});
         this.setState({scenarioFolderPathname: res.data.scenarioFolderPathname});
-        this.copyModelToScenarioFolder(this.state.modelPathname, 
-                                      res.data.scenarioFolderPathname, 
-                                      true); 
+        const modelfilepath = this.state.modelpath + "/" + this.state.ExtendSimModels[0].name;
+        this.copyModelToScenarioFolder(modelfilepath, 
+                                       res.data.scenarioFolderPathname, 
+                                       true); 
       })
     });
   };
 
   handleShowResults = (event, history) => {
     event.preventDefault();
-    // API.getcycletimeresults(this.state.scenarioFolderPathname + cycleTimeResultsFilename, 
-    //                         this.state.userLoginSessionID,
-    //                         this.state.scenarioID,
-    //                         this.state.username)
-    // .then(res1 => {
-      // console.log('scenario results=' + res1.data);
       API.getUserScenarios(this.state.username)
       .then(res2 => {
         this.setState({userScenarios: res2.data.userScenarios});
@@ -358,6 +426,8 @@ export class UserProvider extends React.Component {
       // });
       // console.log('parsedArray=' + parsedArray);
       this.setState({cycleTimeData: res1.data.cycleTimeData});
+      // cycleTimeChartXAxisLabels: [],
+  
       this.setState({scenarioID: currentScenarioID});
       this.setState({scenarioName: scenarioName});
       history.push('/cycle-time-results');
@@ -386,6 +456,15 @@ export class UserProvider extends React.Component {
       .then(res1 => {
         console.log('scenario cycleTimeData=' + res1.data.cycleTimeData);
         this.setState({cycleTimeData: res1.data.cycleTimeData});
+        var data = this.makeCycleTimeChartData = (res1.data.cycleTimeData, 'totalJobsProcessed');
+        this.setState({cycleTimeChartData: 
+          {
+            totalJobsProcessed: 
+            {
+              data: data
+            }
+          }
+        });  
         history.push('/cycle-time-results');
       });
     } else if (resultType === "Resources") {
@@ -531,6 +610,7 @@ export class UserProvider extends React.Component {
         validationObjects: this.state.validationObjects,
         scenarioRunStatus: this.state.scenarioRunStatus,
         cycleTimeData: this.state.cycleTimeData,
+        cycleTimeChartData: this.state.cycleTimeChartData,
         errorLoginPage: this.state.errorLoginPage,
         errorSignupPage: this.state.errorSignupPage,
         handleUserInputChange: this.handleUserInputChange,
