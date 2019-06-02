@@ -21,13 +21,12 @@ class ResourceResults extends React.Component {
                 </header>
               </div>
               <div className="row">
-                <div className="col-8">
+                <div className="col-12">
                   <h2>Resource Results for Scenario={scenarioName} (scenario ID={scenarioID})</h2>
                   <table id='user-scenarios' border="1">
                     <thead>
                         <tr>
                             <th className="table-headers">Resource ID</th>
-                            <th className="table-headers">Name</th>
                             <th className="table-headers">Pool</th>
                             <th className="table-headers">Total Orders Serviced</th>
                             <th className="table-headers">Total Idle Time</th>

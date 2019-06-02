@@ -56,7 +56,7 @@ class Signup extends React.Component {
                                             id="username-text" 
                                             name="username"
                                             value={username}
-                                            className="form-control" 
+                                            className="form-control input-text" 
                                             aria-describedby="example-text" 
                                             placeholder="Enter username">
                                         </input>
@@ -69,7 +69,7 @@ class Signup extends React.Component {
                                             value={password}
                                             id="password-text" 
                                             name="password"
-                                            className="form-control" 
+                                            className="form-control input-text" 
                                             aria-describedby="password-text">
                                         </input>
                                     </div>
@@ -81,7 +81,7 @@ class Signup extends React.Component {
                                             value={reenteredpassword} 
                                             id="repeat-password-text" 
                                             name="reenteredpassword"
-                                            className="form-control" 
+                                            className="form-control input-text" 
                                             aria-describedby="password-text">
                                         </input>
                                     </div>
@@ -93,7 +93,7 @@ class Signup extends React.Component {
                                             id="activationkey-text" 
                                             name="activationkey"
                                             value={activationkey}
-                                            className="form-control" 
+                                            className="form-control input-text" 
                                             aria-describedby="example-text" 
                                             placeholder="Enter username">
                                         </input>

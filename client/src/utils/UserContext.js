@@ -119,6 +119,7 @@ export class UserProvider extends React.Component {
   }
   chartReference = {};
 // Utilities
+
   getMatchingScenario = (scenarioID) => {
     console.log(this.state.userScenarios[0].scenarioID);
     for (var i=0;i<this.state.userScenarios.length;i++) {
@@ -178,9 +179,9 @@ export class UserProvider extends React.Component {
           value = CoVdepartures;
           break;               
         }
-        dataRow.push({"y": value, "x": stepname });
+        dataRow.push({"value": value, "label": stepname });
+        // dataRow.push({"y": value, "x": stepname });
     });
-    alert('dataRow.length=' + dataRow.length);
     return dataRow;
   }
   // Charts
@@ -358,7 +359,11 @@ export class UserProvider extends React.Component {
       // Enable scenario navbar link
       myValidationObjects[myValidationObjects.findIndex(obj => obj.name==="Scenario-navbar-option")].enabled = true;
       this.setState({validationObjects: myValidationObjects});
-      history.push('/scenario-setup');
+      API.getUserScenarios(this.state.username)
+        .then(res2 => {
+          this.setState({userScenarios: res2.data.userScenarios},
+            () => history.push('/scenario-setup'));
+        });
     })
     .catch(err => {
         alert("Error");
@@ -456,7 +461,6 @@ export class UserProvider extends React.Component {
                                resultType,
                                history) => {
     event.preventDefault();
-    alert('handleShowScenarioResults');
     // We need to lookup the scenario folder pathname using the scenario ID
     const {username, scenarioID} = this.state;
     if (resultType === "Cycle-times") {
@@ -527,7 +531,6 @@ export class UserProvider extends React.Component {
       const {
         ResourceID,
         Pool,
-        Name,
         TotalOrdersServiced,
         TotalIdleTime,
         TotalBusyTime,
@@ -545,7 +548,6 @@ export class UserProvider extends React.Component {
         <tr key={key}>  
           <td className="table-data-strings">{ResourceID}</td>
           <td className="table-data-strings">{Pool}</td>
-          <td className="table-data-strings">{Name}</td>
           <td className="table-data-numbers">{TotalOrdersServiced}</td>
           <td className="table-data-numbers">{TotalIdleTime.toFixed(2)}</td>
           <td className="table-data-numbers">{TotalBusyTime.toFixed(2)}</td>

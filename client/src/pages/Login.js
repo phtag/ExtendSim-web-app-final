@@ -52,7 +52,7 @@ class Login extends React.Component {
                                     type="text" 
                                     id="username-text" 
                                     name="username"
-                                    className="form-control" 
+                                    className="form-control input-text" 
                                     aria-describedby="username-text" 
                                     placeholder="Enter username"
                                     value={username}>
@@ -66,7 +66,7 @@ class Login extends React.Component {
                                     type="password" 
                                     id="password-text" 
                                     name="password"
-                                    className="form-control" 
+                                    className="form-control input-text" 
                                     aria-describedby="password-text"
                                     value={password}>
                                 </input>                            

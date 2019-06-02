@@ -17,6 +17,8 @@ nav.navbar.navbar-default {
 }
 .my-scenario-container {
   margin-left: 100px;
+  margin: auto;
+  width: 100%;
 }
 .scenario-input-labels {
   font-weight: bold;
@@ -120,4 +122,32 @@ tr:nth-child(even) {
 }
 #scenario-result-types-table-col2 {
   width: 1%;
+}
+#scenarios-summary-table {
+  /* margin:auto; */
+  text-align: center;
+  table-layout: auto;
+  width: 100%;
+  margin: 20px auto;
+  table-layout: auto;
+}
+#cycle-time-chart {
+  font-size: 20px;
+  margin-top: 40px;
+}
+.input-text {
+  width: 50%;
+}
+.alt-x-label {
+  font-size: 50px;
+  font-weight: bold;
+  color: red;
+  z-index: 1;
+}
+
+.alt-y-label {
+  font-size: 50px;
+  font-weight: bold;
+  color: red;
+  z-index: 1;
 }

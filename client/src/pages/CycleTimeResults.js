@@ -2,6 +2,7 @@ import React from 'react';
 import API from '../utils/API';
 import UserContext from '../utils/UserContext'; 
 import CycleTimeBarChart from '../utils/CycleTimeBarChart'; 
+import CycleTimeBarChart2 from '../utils/CycleTimeBarChart-2'; 
 
 class CycleTimeResults extends React.Component {
   state = {
@@ -23,7 +24,7 @@ class CycleTimeResults extends React.Component {
                 </header>
               </div>
               <div className="row">
-                <div className="col-8">
+                <div className="col-12">
                   <h2>Cycle-Time Results for Scenario={scenarioName} (scenario ID={scenarioID})</h2>
                   <table id='user-scenarios' border="1">
                     <thead>
@@ -45,7 +46,7 @@ class CycleTimeResults extends React.Component {
                     </tbody>
                   </table>
                   <div>
-                    <CycleTimeBarChart cycleTimeChartData={cycleTimeChartData}></CycleTimeBarChart>
+                    <CycleTimeBarChart2 cycleTimeChartData={cycleTimeChartData}></CycleTimeBarChart2>
                   </div>       
                 </div>
               </div>
