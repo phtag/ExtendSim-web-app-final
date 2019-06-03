@@ -465,7 +465,6 @@ export class UserProvider extends React.Component {
                                              scenarioID, 
                                              history) => {
     event.preventDefault();
-    alert("Arrived");
     // We need to lookup the scenario folder pathname using the scenario ID
     const selectedScenario = this.getMatchingScenario(scenarioID);
     this.setState({ scenarioFolderPathname: selectedScenario.scenarioFolderPathname,

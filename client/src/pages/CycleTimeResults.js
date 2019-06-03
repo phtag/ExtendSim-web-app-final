@@ -52,36 +52,41 @@ class CycleTimeResults extends React.Component {
               <div className="row">
                 <div className="col-12">
                   <h2>Cycle-Time Results for Scenario={scenarioName} (scenario ID={scenarioID})</h2>
-                    {this.state.displayShowChartButton ? 
+                  {this.state.displayShowChartButton ? 
+                  (
+                    <div>
                     <button class="cycle-time-results-button" onClick={(event) => this.handleButtonClick(event, this.cycleTimeChart)}>
                       View chart
-                    </button> : ""}
-                  <table id='user-scenarios' border="1">
-                    <thead>
-                        <tr>
-                            <th className="table-headers">Step Name</th>
-                            <th className="table-headers">Resource Requirement</th>
-                            <th className="table-headers">Total Jobs Processed</th>
-                            <th className="table-headers">Total Process Time</th>
-                            <th className="table-headers">Total Wait Time</th>
-                            <th className="table-headers">Avg. Process Time</th>
-                            <th className="table-headers">Avg. Wait-Time</th>
-                            <th className="table-headers">Avg. Cycle-Time</th>
-                            <th className="table-headers">CoV Arrivals</th>
-                            <th className="table-headers">CoV Departures</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                      {renderCycleTimeTableData()}
-                    </tbody>
-                  </table>
-                  <div id="show-chart" ref={this.cycleTimeChart}>
-                    {this.state.displayShowTableButton ? 
-                      <button display={this.state.displayShowTableButton} class="cycle-time-results-button" onClick={(event) => this.handleButtonClick(event, this.cycleTimeTable)}>
-                        View table data
-                      </button> : "" }
-                    <CycleTimeBarChart cycleTimeChartData={cycleTimeChartData}></CycleTimeBarChart>
-                  </div>       
+                    </button>
+                    <table id='user-scenarios' border="1">
+                      <thead>
+                          <tr>
+                              <th className="table-headers">Step Name</th>
+                              <th className="table-headers">Resource Requirement</th>
+                              <th className="table-headers">Total Jobs Processed</th>
+                              <th className="table-headers">Total Process Time</th>
+                              <th className="table-headers">Total Wait Time</th>
+                              <th className="table-headers">Avg. Process Time</th>
+                              <th className="table-headers">Avg. Wait-Time</th>
+                              <th className="table-headers">Avg. Cycle-Time</th>
+                              <th className="table-headers">CoV Arrivals</th>
+                              <th className="table-headers">CoV Departures</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                        {renderCycleTimeTableData()}
+                      </tbody>
+                    </table>
+                    <div id="show-chart" ref={this.cycleTimeChart}>
+                    </div>
+                    </div>
+                  ) : (
+                    <div id="show-chart" ref={this.cycleTimeChart}>
+                       <button class="cycle-time-results-button" onClick={(event) => this.handleButtonClick(event, this.cycleTimeTable)}>
+                          View table data
+                        </button>                   
+                      <CycleTimeBarChart cycleTimeChartData={cycleTimeChartData}></CycleTimeBarChart>
+                    </div> )}
                 </div>
               </div>
             </div>

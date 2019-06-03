@@ -16,7 +16,6 @@ class ScenariosSummary extends React.Component {
     event.preventDefault();
     const { history } = this.props;
     const scenarioID = event.target.getAttribute('name');
-    alert('scenarioID=' + scenarioID);
     ShowScenarioResults(event, scenarioID, history);
   }
 
