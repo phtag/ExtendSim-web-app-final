@@ -1,12 +1,38 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import API from '../utils/API';
 import UserContext from '../utils/UserContext'; 
 import CycleTimeBarChart from '../utils/CycleTimeBarChart'; 
-import CycleTimeBarChart2 from '../utils/CycleTimeBarChart-2'; 
+// import CycleTimeBarChart2 from '../utils/CycleTimeBarChart-2'; 
 
 class CycleTimeResults extends React.Component {
   state = {
+    displayShowChartButton: true,
+    displayShowTableButton: false
   };
+
+  constructor(props) {
+    super(props);
+    this.cycleTimeTable = React.createRef(); // Create a ref    
+    this.cycleTimeChart = React.createRef(); // Create a ref    
+  }
+
+  handleButtonClick = (event, myRef) => {
+    myRef.current.scrollIntoView();
+    if (myRef.current.id === "home") {
+      this.setState(
+        {
+          displayShowChartButton: true,
+          displayShowTableButton: false
+        });
+    } else {
+      this.setState(
+        {
+          displayShowChartButton: false,
+          displayShowTableButton: true
+        });
+    }
+  }
 
   render() {
     return (
@@ -17,7 +43,7 @@ class CycleTimeResults extends React.Component {
             scenarioID,
             scenarioName
         }) => (
-          <div id="home">
+          <div id="home" ref={this.cycleTimeTable}>
             <div className="container my-scenario-container">
               <div className="row">
                 <header id="ExtendSim-header">
@@ -26,6 +52,10 @@ class CycleTimeResults extends React.Component {
               <div className="row">
                 <div className="col-12">
                   <h2>Cycle-Time Results for Scenario={scenarioName} (scenario ID={scenarioID})</h2>
+                    {this.state.displayShowChartButton ? 
+                    <button class="cycle-time-results-button" onClick={(event) => this.handleButtonClick(event, this.cycleTimeChart)}>
+                      View chart
+                    </button> : ""}
                   <table id='user-scenarios' border="1">
                     <thead>
                         <tr>
@@ -45,8 +75,12 @@ class CycleTimeResults extends React.Component {
                       {renderCycleTimeTableData()}
                     </tbody>
                   </table>
-                  <div>
-                    <CycleTimeBarChart2 cycleTimeChartData={cycleTimeChartData}></CycleTimeBarChart2>
+                  <div id="show-chart" ref={this.cycleTimeChart}>
+                    {this.state.displayShowTableButton ? 
+                      <button display={this.state.displayShowTableButton} class="cycle-time-results-button" onClick={(event) => this.handleButtonClick(event, this.cycleTimeTable)}>
+                        View table data
+                      </button> : "" }
+                    <CycleTimeBarChart cycleTimeChartData={cycleTimeChartData}></CycleTimeBarChart>
                   </div>       
                 </div>
               </div>

@@ -137,5 +137,12 @@ export default {
       scenarioID: scenarioID,
       username: username
     });
+  },
+  deleteScenario: function(username, scenarioID) {
+    return axios.post('/api/ExtendSim/deletescenario',
+    {
+      scenarioID: scenarioID,
+      username: username
+    });
   }
 };

@@ -13,4 +13,6 @@ router.route('/getresourceresults').post(ExtendSimController.getresourceresults)
 // router.route('/getmodelresults').post(ExtendSimController.getmodelresults);
 router.route('/getscenariocycletimedata').post(ExtendSimController.getscenariocycletimedata);
 router.route('/getresourcedata').post(ExtendSimController.getresourcedata);
+router.route('/deletescenario').post(ExtendSimController.deletescenario);
+
 module.exports = router;

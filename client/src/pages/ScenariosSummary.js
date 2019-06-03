@@ -12,12 +12,20 @@ class ScenariosSummary extends React.Component {
     handleShowTableRowResults(event, scenarioID, history);
   }
 
-  handleTableRowResultsClick = (handleScenarioSummarySelection, event) => {
+  handleShowResultsClick = (ShowScenarioResults, event) => {
     event.preventDefault();
     const { history } = this.props;
-    const scenarioID = event.target.getAttribute('id');
+    const scenarioID = event.target.getAttribute('name');
+    alert('scenarioID=' + scenarioID);
+    ShowScenarioResults(event, scenarioID, history);
+  }
 
-    handleScenarioSummarySelection(event, scenarioID, history);
+  handleDeleteScenarioClick = (handleDeleteScenario, event) => {
+    event.preventDefault();
+    const { history } = this.props;
+    const scenarioID = event.target.getAttribute('name');
+
+    handleDeleteScenario(event, scenarioID, history);
   }
 
   render() {
@@ -25,8 +33,8 @@ class ScenariosSummary extends React.Component {
       <UserContext.Consumer>
         {({
             renderUserScenariosTableData,
-            renderUserScenarioResultsTableData,
-            handleScenarioSummarySelection
+            handleTableSelectionDeleteScenario,
+            handleTableSelectionShowScenarioResults
         }) => (
           <div id="home">
             <div className="container my-scenario-container">
@@ -50,8 +58,9 @@ class ScenariosSummary extends React.Component {
                         </tr>
                     </thead>
                     <tbody>
-                      {renderUserScenariosTableData((event) => 
-                        this.handleTableRowResultsClick(handleScenarioSummarySelection, event))}
+                      {renderUserScenariosTableData(
+                        (event) => this.handleShowResultsClick(handleTableSelectionShowScenarioResults, event),
+                        (event) => this.handleDeleteScenarioClick(handleTableSelectionDeleteScenario, event))}
                     </tbody>
                   </table>
                 </div>

@@ -529,6 +529,16 @@ module.exports = {
             .catch(function(error) {
                 return res.json({error: 'No user scenarios'}); 
             }); 
+    },
+    deletescenario: function(req, res) {
+        db.scenario.destroy({
+            where: {
+            username: req.body.username,
+            scenarioID: req.body.scenarioID
+            }
+        })
+        .then(function(dbresponse) {
+            return res.json({dbresponse: dbresponse});     
+        });   
     }
-
 };

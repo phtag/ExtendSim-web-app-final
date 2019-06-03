@@ -135,6 +135,11 @@ tr:nth-child(even) {
   font-size: 20px;
   margin-top: 40px;
 }
+.cycle-time-results-button {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
 .input-text {
   width: 50%;
 }

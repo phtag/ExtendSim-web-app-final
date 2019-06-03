@@ -421,6 +421,16 @@ export class UserProvider extends React.Component {
     // })
   };
 
+  handleTableSelectionDeleteScenario = (event, scenarioID, history) => {
+    event.preventDefault();
+    API.deleteScenario(this.username)
+    .then(res => {
+      API.getUserScenarios(this.state.username)
+      .then(res2 => {
+        history.push('/scenarios-summary');
+      })
+    })
+  }
   handleShowTableRowResults = (event,
                                scenarioID, 
                                history
@@ -451,10 +461,11 @@ export class UserProvider extends React.Component {
     });
   }
 
-  handleScenarioSummarySelection = (event,
-                                    scenarioID, 
-                                    history) => {
+  handleTableSelectionShowScenarioResults = (event,
+                                             scenarioID, 
+                                             history) => {
     event.preventDefault();
+    alert("Arrived");
     // We need to lookup the scenario folder pathname using the scenario ID
     const selectedScenario = this.getMatchingScenario(scenarioID);
     this.setState({ scenarioFolderPathname: selectedScenario.scenarioFolderPathname,
@@ -570,7 +581,7 @@ export class UserProvider extends React.Component {
     })  
   }
 
-  renderUserScenariosTableData = (handleTableRowResults) => {
+  renderUserScenariosTableData = (handleTableRowResults, handleDeleteSelectedScenario) => {
     return this.state.userScenarios.map((scenario, index) => {
       const { userLoginSessionID, 
               username, 
@@ -586,11 +597,12 @@ export class UserProvider extends React.Component {
              <td>{scenarioSubmissionDateTime}</td>
              <td>{scenarioCompletionDateTime}</td>
              <td>
-               <button id={scenarioID} onClick={(event) => handleTableRowResults(event)}>
+              {/* <button id={scenarioID} onClick={(event) => handleTableRowResults(event)}> */}
+              <button name={scenarioID} onClick={(event) => handleTableRowResults(event)}>
                Show
                </button></td>
              <td>
-               <button>
+             <button name={scenarioID} onClick={(event) => handleDeleteSelectedScenario(event)}>
                  Delete
                 </button></td>
           </tr>
@@ -640,7 +652,8 @@ export class UserProvider extends React.Component {
         handleShowScenarioResults: this.handleShowScenarioResults,
         handleShowResults: this.handleShowResults,
         handleShowTableRowResults: this.handleShowTableRowResults,
-        handleScenarioSummarySelection: this.handleScenarioSummarySelection,
+        handleTableSelectionShowScenarioResults: this.handleTableSelectionShowScenarioResults,
+        handleTableSelectionDeleteScenario: this.handleTableSelectionDeleteScenario,
         renderUserScenariosTableData: this.renderUserScenariosTableData,
         renderCycleTimeTableData: this.renderCycleTimeTableData,
         renderResourcesTableData: this.renderResourcesTableData,
