@@ -38,7 +38,7 @@ class ResourceResults extends React.Component {
             scenarioID,
             scenarioName
         }) => (
-          <div id="home">
+          <div id="home" ref={this.resourceTable}>>
             <div className="container my-scenario-container">
               <div className="row">
                 <header id="ExtendSim-header">
@@ -50,6 +50,9 @@ class ResourceResults extends React.Component {
                   {this.state.displayShowChartButton ? 
                   (
                     <div>
+                      <button class="resource-results-button" onClick={(event) => this.handleButtonClick(event, this.resourceChart)}>
+                        View chart
+                      </button>
                     <table id='user-scenarios' border="1">
                       <thead>
                           <tr>
