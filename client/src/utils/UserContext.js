@@ -220,23 +220,23 @@ export class UserProvider extends React.Component {
       } else {
         myValidationObjects[myValidationObjects.findIndex(obj => obj.name==="signupSubmitButton")].enabled = false;
         this.setState({validationObjects: myValidationObjects})                 
-}
-    } else if (this.state.webPage==="login") {
-      if ((this.state.username === "") || (this.state.password === "")) {
-        myValidationObjects[myValidationObjects.findIndex(obj => obj.name==="loginSubmitButton")].enabled = false;
+      }
+    } else if (this.state.webPage ==="login") {
+        if ((this.state.username === "") || (this.state.password === "")) {
+          myValidationObjects[myValidationObjects.findIndex(obj => obj.name==="loginSubmitButton")].enabled = false;
+          this.setState({validationObjects: myValidationObjects})
+        } else {
+          myValidationObjects[myValidationObjects.findIndex(obj => obj.name==="loginSubmitButton")].enabled = true;
+          this.setState({validationObjects: myValidationObjects})
+        }
+    } else if (this.state.webPage === "scenarioSetup") {
+      if ((this.state.scenarioInputFiles.length > 0) && (this.state.scenarioName != "")) {
+        myValidationObjects[myValidationObjects.findIndex(obj => obj.name==="SubmitScenarioButton")].enabled = true;
         this.setState({validationObjects: myValidationObjects})
       } else {
-        myValidationObjects[myValidationObjects.findIndex(obj => obj.name==="loginSubmitButton")].enabled = true;
+        myValidationObjects[myValidationObjects.findIndex(obj => obj.name==="SubmitScenarioButton")].enabled = false;
         this.setState({validationObjects: myValidationObjects})
       }
-    }
-
-    if ((this.state.scenarioInputFiles.length > 0) && (this.state.scenarioName != "")) {
-      myValidationObjects[myValidationObjects.findIndex(obj => obj.name==="SubmitScenarioButton")].enabled = true;
-      this.setState({validationObjects: myValidationObjects})
-    } else {
-      myValidationObjects[myValidationObjects.findIndex(obj => obj.name==="SubmitScenarioButton")].enabled = false;
-      this.setState({validationObjects: myValidationObjects})
     }
   }
 
@@ -345,8 +345,8 @@ export class UserProvider extends React.Component {
   };
 
   handleDropEvents = (acceptedFiles) => {
-    this.setState({scenarioInputFiles: acceptedFiles});
-    this.ValidatePageElements();
+    this.setState({scenarioInputFiles: acceptedFiles},
+                   () => this.ValidatePageElements());
   }
 
   handleLoginSubmit = (event, history) => {
@@ -366,7 +366,8 @@ export class UserProvider extends React.Component {
           } else {
             userScenarios = res2.data.userScenarios;
           }
-          this.setState({userScenarios: userScenarios},
+          this.setState({userScenarios: userScenarios,
+                         webPage: "scenarioSetup"},
             () => history.push('/scenario-setup'));
         })
         .catch(function(error){
@@ -672,6 +673,7 @@ export class UserProvider extends React.Component {
         handleShowTableRowResults: this.handleShowTableRowResults,
         handleTableSelectionShowScenarioResults: this.handleTableSelectionShowScenarioResults,
         handleTableSelectionDeleteScenario: this.handleTableSelectionDeleteScenario,
+        ValidatePageElements: this.ValidatePageElements,
         renderUserScenariosTableData: this.renderUserScenariosTableData,
         renderCycleTimeTableData: this.renderCycleTimeTableData,
         renderResourcesTableData: this.renderResourcesTableData,

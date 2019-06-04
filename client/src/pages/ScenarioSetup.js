@@ -9,7 +9,7 @@ class ScenarioSetup extends React.Component {
 
   handleChange = (event, key, onChangeFunction, validationObjects) => {
     const { name, value } = event.target;
-    onChangeFunction(key, value);
+    onChangeFunction(key, value, "scenarioSetup");
   }
 
   handleScenarioSubmissionClick = (event, onSubmitScenarioClickFunction) => {
@@ -79,7 +79,7 @@ class ScenarioSetup extends React.Component {
                       Show scenario results
                     </button>
                   </form>
-                  <BasicDropArea handleDropEvents = {handleDropEvents}/>
+                  <BasicDropArea handleDropEvents = {handleDropEvents} />
                 </div>
               </div>
             </div>
