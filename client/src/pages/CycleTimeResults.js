@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import API from '../utils/API';
 import UserContext from '../utils/UserContext'; 
 import CycleTimeBarChart from '../utils/CycleTimeBarChart'; 
-// import CycleTimeBarChart2 from '../utils/CycleTimeBarChart-2'; 
 
 class CycleTimeResults extends React.Component {
   state = {

@@ -3,31 +3,30 @@ import React from 'react';
 import UserContext from './UserContext'; 
 import {Bar, Line} from 'react-chartjs-2';
 
-class CycleTimeBarChart2 extends React.Component {
+class ResourceBarChart extends React.Component {
     render() {
-        const {cycleTimeChartData} = this.props;
+        const {resourceChartData} = this.props;
         const ChartData = {
-            labels: cycleTimeChartData.avgWaitTime.map(element => (element.label)),
+            labels: resourceChartData.TotalIdleTime.map(element => (element.label)),
             datasets: [
                 {
-                    label: 'Avg. Wait Time',
-                    data: cycleTimeChartData.avgWaitTime.map(element => (element.value)),
-                    backgroundColor: 
-                        'rgba(255, 0, 0, .75)'
-                },
-                {
-                    label: 'Avg. Process Time',
-                    data: cycleTimeChartData.avgProcessTime.map(element => (element.value)),
+                    label: 'Total Busy Time',
+                    data: resourceChartData.TotalBusyTime.map(element => (element.value)),
                     backgroundColor: 
                         'rgba(0, 0, 255, .75)'
                 },
-                
+                {
+                    label: 'Total Idle Time',
+                    data: resourceChartData.TotalIdleTime.map(element => (element.value)),
+                    backgroundColor: 
+                        'rgba(255, 0, 0, .75)'
+                },               
             ] 
 
         }
         const legendItems = [
-            { title: 'Avg. Wait Time', color: 'red', stroke: '#fff', strokeWidth: '10' },
-            { title: 'Avg. Process Time', color: 'blue', stroke: '#fff', strokeWidth: '2' }
+            { title: 'Total Idle Time', color: 'red', stroke: '#fff', strokeWidth: '10' },
+            { title: 'Total Busy Time', color: 'blue', stroke: '#fff', strokeWidth: '2' }
         ];
         return (
             <div id="cycle-time-chart">
@@ -37,7 +36,7 @@ class CycleTimeBarChart2 extends React.Component {
                         title:{
                             display: true,
                             fontSize: 30,
-                            text: 'Avg. Wait Times'
+                            text: 'Total Idle Time/Total Busy Time by Resource'
                         },
                         scales: {
                             xAxes: [
@@ -46,22 +45,25 @@ class CycleTimeBarChart2 extends React.Component {
                                     stacked: true ,
                                     scaleLabel: {
                                         display: true,
-                                        labelString: 'Process Steps',
-                                        fontSize: 30
+                                        labelString: 'Resources',
+                                        fontSize: 24
                                     }
                                 }],
                             yAxes: [
                                 { 
                                     display:true,
                                     stacked: true ,
-                                    labelString: 'Diddly Squat'
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: 'Time (hrs)',
+                                        fontSize: 24
+                                    }
                                 }
                             ]
                           },
                         legend: {
                             display: true,
                             position: 'right',
-                            // labels: ['Step1', 'Step2', 'Step3']
                         },
                         layout: {}
                     }}
@@ -70,4 +72,4 @@ class CycleTimeBarChart2 extends React.Component {
         );
     }
 }
-export default CycleTimeBarChart2;
+export default ResourceBarChart;

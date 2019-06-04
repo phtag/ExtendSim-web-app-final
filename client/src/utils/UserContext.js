@@ -113,9 +113,26 @@ export class UserProvider extends React.Component {
       CoVarrivals: [],
       CoVdepartures: []
     },
-    cycleTimeChartXAxisLabels: [],
-    resourceChartData: [],
-    resourceChartXAxisLabels: []
+    resourceChartData: {
+      TotalOrdersServiced: [],
+      TotalIdleTime: [],
+      TotalBusyTime: [],
+      TotalBusyOffShiftTime: [],
+      TotalReservedTime: [],
+      TotalDownTime: [],
+      TotalOffShiftTime: [],
+      TotalDisabledTime: [],
+      TotalAllocatedTime: [],
+      TotalCost: [],
+      TotalFailedTime: [],
+      TotalQuantityAllocated: [],
+      TotalQuantityAllocationTime: [],
+      TotalReassignedTime: [],
+      TotalScheduledDownTime: [],
+      TotalUnscheduledDownTime: [],
+      QuantityUtilization: [],
+      Utilization: []
+    },
   }
   chartReference = {};
 // Utilities
@@ -197,6 +214,116 @@ export class UserProvider extends React.Component {
     });
     return dataRow;
   }
+
+  makeResourceChartData = (resourceData, dataType) => {
+    const dataRow = [];
+    resourceData.map((rowData, key) => {
+      const {
+            ResourceID,
+            TotalOrdersServiced,
+            TotalIdleTime,
+            TotalBusyTime,
+            TotalBusyOffShiftTime,
+            TotalReservedTime,
+            TotalDownTime,
+            TotalOffShiftTime,
+            TotalDisabledTime,
+            TotalAllocatedTime,
+            TotalCost,
+            TotalFailedTime,
+            TotalQuantityAllocated,
+            TotalQuantityAllocationTime,
+            TotalReassignedTime,
+            TotalScheduledDownTime,
+            TotalUnscheduledDownTime,
+            QuantityUtilization,
+            Utilization
+          } = rowData; //destructuring
+      var value;
+  
+      switch (dataType) {
+        case 'TotalOrdersServiced':
+          value = TotalOrdersServiced;
+          break;
+
+        case 'TotalIdleTime':
+          value = TotalIdleTime;
+          break;
+
+        case 'TotalBusyTime':
+          value = TotalBusyTime;
+          break;
+
+        case 'TotalBusyOffShiftTime':
+          value = TotalBusyOffShiftTime;
+          break;
+
+        case 'TotalReservedTime':
+          value = TotalReservedTime;
+          break;
+
+        case 'TotalBusyOffShiftTime':
+          value = TotalBusyOffShiftTime;
+          break;
+
+        case 'TotalDownTime':
+          value = TotalDownTime;
+          break;
+  
+        case 'TotalOffShiftTime':
+          value = TotalOffShiftTime;
+          break;
+
+        case 'TotalDisabledTime':
+          value = TotalDisabledTime;
+          break;
+
+        case 'TotalAllocatedTime':
+          value = TotalAllocatedTime;
+          break;
+
+        case 'TotalCost':
+          value = TotalCost;
+          break;
+
+        case 'TotalFailedTime':
+          value = TotalFailedTime;
+          break;          
+
+        case 'TotalQuantityAllocated':
+          value = TotalQuantityAllocated;
+          break;
+
+        case 'TotalQuantityAllocationTime':
+          value = TotalQuantityAllocationTime;
+          break;
+        
+        case 'TotalReassignedTime':
+          value = TotalReassignedTime;
+          break;
+
+        case 'TotalScheduledDownTime':
+          value = TotalScheduledDownTime;
+          break;
+          
+        case 'TotalUnscheduledDownTime':
+          value = TotalUnscheduledDownTime;
+          break;
+
+        case 'QuantityUtilization':
+            value = QuantityUtilization;
+            break;
+
+        case 'Utilization':
+          value = Utilization;
+          break;
+              
+        }
+        dataRow.push({"value": value, "label": ResourceID });
+    });
+    return dataRow;
+  }
+
   // Charts
 
   resetSignupPage = () => {
@@ -497,9 +624,7 @@ export class UserProvider extends React.Component {
       //   return ln.split('\t');
       // });
       // console.log('parsedArray=' + parsedArray);
-      this.setState({cycleTimeData: res1.data.cycleTimeData});
-      // cycleTimeChartXAxisLabels: [],
-  
+      this.setState({cycleTimeData: res1.data.cycleTimeData});  
       this.setState({scenarioID: currentScenarioID});
       this.setState({scenarioName: scenarioName});
       history.push('/cycle-time-results');
@@ -548,6 +673,27 @@ export class UserProvider extends React.Component {
       .then(res1 => {
         console.log('scenario resourceData=' + res1.data.resourceData);
         this.setState({resourceData: res1.data.resourceData});
+        this.setState({resourceChartData: 
+          {
+            TotalOrdersServiced: this.makeResourceChartData(res1.data.resourceData, 'TotalOrdersServiced'),
+            TotalIdleTime: this.makeResourceChartData(res1.data.resourceData, 'TotalIdleTime'),
+            TotalBusyTime: this.makeResourceChartData(res1.data.resourceData, 'TotalBusyTime'),
+            TotalBusyOffShiftTime: this.makeResourceChartData(res1.data.resourceData, 'TotalBusyOffShiftTime'),
+            TotalReservedTime: this.makeResourceChartData(res1.data.resourceData, 'TotalReservedTime'),
+            TotalDownTime: this.makeResourceChartData(res1.data.resourceData, 'TotalDownTime'),
+            TotalOffShiftTime: this.makeResourceChartData(res1.data.resourceData, 'TotalOffShiftTime'),
+            TotalDisabledTime: this.makeResourceChartData(res1.data.resourceData, 'TotalDisabledTime'),
+            TotalAllocatedTime: this.makeResourceChartData(res1.data.resourceData, 'TotalAllocatedTime'),
+            TotalCost: this.makeResourceChartData(res1.data.resourceData, 'TotalCost'),
+            TotalFailedTime: this.makeResourceChartData(res1.data.resourceData, 'TotalFailedTime'),
+            TotalQuantityAllocated: this.makeResourceChartData(res1.data.resourceData, 'TotalQuantityAllocated'),
+            TotalQuantityAllocationTime: this.makeResourceChartData(res1.data.resourceData, 'TotalQuantityAllocationTime'),
+            TotalReassignedTime: this.makeResourceChartData(res1.data.resourceData, 'TotalReassignedTime'),
+            TotalScheduledDownTime: this.makeResourceChartData(res1.data.resourceData, 'TotalScheduledDownTime'),
+            TotalUnscheduledDownTime: this.makeResourceChartData(res1.data.resourceData, 'TotalUnscheduledDownTime'),
+            QuantityUtilization: this.makeResourceChartData(res1.data.resourceData, 'QuantityUtilization'),
+            Utilization: this.makeResourceChartData(res1.data.resourceData, 'Utilization')
+          }});
         history.push('/resource-results');
       });
     }
@@ -688,6 +834,7 @@ export class UserProvider extends React.Component {
         scenarioRunStatus: this.state.scenarioRunStatus,
         cycleTimeData: this.state.cycleTimeData,
         cycleTimeChartData: this.state.cycleTimeChartData,
+        resourceChartData: this.state.resourceChartData,
         userScenarios: this.state.userScenarios,
         errorLoginPage: this.state.errorLoginPage,
         errorSignupPage: this.state.errorSignupPage,
