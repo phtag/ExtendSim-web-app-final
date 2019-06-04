@@ -243,13 +243,20 @@ export class UserProvider extends React.Component {
           this.setState({validationObjects: myValidationObjects})
         }
     } else if (this.state.webPage === "scenarioSetup") {
-      if ((this.state.scenarioInputFiles.length > 0) && (this.state.scenarioName != "")) {
+      if ((this.state.scenarioInputFiles.length > 0) && 
+          (this.state.scenarioName != "")) {
         myValidationObjects[myValidationObjects.findIndex(obj => obj.name==="SubmitScenarioButton")].enabled = true;
+        if (this.state.scenarioRunStatus === "Completed") {
+          myValidationObjects[myValidationObjects.findIndex(obj => obj.name==="ShowResultsButton")].enabled = true;         
+        } else {
+          myValidationObjects[myValidationObjects.findIndex(obj => obj.name==="ShowResultsButton")].enabled = false;         
+        }
         this.setState({validationObjects: myValidationObjects})
       } else {
         myValidationObjects[myValidationObjects.findIndex(obj => obj.name==="SubmitScenarioButton")].enabled = false;
-        this.setState({validationObjects: myValidationObjects})
+        myValidationObjects[myValidationObjects.findIndex(obj => obj.name==="ShowResultsButton")].enabled = false;         
       }
+      this.setState({validationObjects: myValidationObjects})
     }
   }
 
@@ -414,6 +421,7 @@ export class UserProvider extends React.Component {
 
   handleSubmitSimulationScenario = (event) => {
     event.preventDefault();
+    this.ValidatePageElements();
     const {validationObjects} = this.state;
     validationObjects[validationObjects.findIndex(obj => obj.name==="SubmitScenarioButton")].enabled = false;
     this.setState({validationObjects : validationObjects})

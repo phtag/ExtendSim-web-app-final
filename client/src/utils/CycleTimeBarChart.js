@@ -10,18 +10,17 @@ class CycleTimeBarChart extends React.Component {
             labels: cycleTimeChartData.avgWaitTime.map(element => (element.label)),
             datasets: [
                 {
-                    label: 'Avg. Wait Time',
-                    data: cycleTimeChartData.avgWaitTime.map(element => (element.value)),
-                    backgroundColor: 
-                        'rgba(255, 0, 0, .75)'
-                },
-                {
                     label: 'Avg. Process Time',
                     data: cycleTimeChartData.avgProcessTime.map(element => (element.value)),
                     backgroundColor: 
                         'rgba(0, 0, 255, .75)'
                 },
-                
+                {
+                    label: 'Avg. Wait Time',
+                    data: cycleTimeChartData.avgWaitTime.map(element => (element.value)),
+                    backgroundColor: 
+                        'rgba(255, 0, 0, .75)'
+                },               
             ] 
 
         }
@@ -37,7 +36,7 @@ class CycleTimeBarChart extends React.Component {
                         title:{
                             display: true,
                             fontSize: 30,
-                            text: 'Avg. Wait Times'
+                            text: 'Avg. Wait Time/Avg. Process Time by Process Step'
                         },
                         scales: {
                             xAxes: [
@@ -47,14 +46,18 @@ class CycleTimeBarChart extends React.Component {
                                     scaleLabel: {
                                         display: true,
                                         labelString: 'Process Steps',
-                                        fontSize: 30
+                                        fontSize: 24
                                     }
                                 }],
                             yAxes: [
                                 { 
                                     display:true,
                                     stacked: true ,
-                                    labelString: 'Diddly Squat'
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: 'Time (hrs)',
+                                        fontSize: 24
+                                    }
                                 }
                             ]
                           },
