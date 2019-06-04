@@ -5,6 +5,9 @@ import ResourceBarChart from '../utils/ResourceBarChart';
 
 class ResourceResults extends React.Component {
   state = {
+    displayShowChartButton: true,
+    displayShowTableButton: false
+
   };
   constructor(props) {
     super(props);
