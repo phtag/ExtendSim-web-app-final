@@ -351,6 +351,7 @@ export class UserProvider extends React.Component {
 
   handleLoginSubmit = (event, history) => {
     var myValidationObjects = this.state.validationObjects;
+    var userScenarios = [];
 
     event.preventDefault();
     API.login(this.state)
@@ -361,11 +362,16 @@ export class UserProvider extends React.Component {
       this.setState({validationObjects: myValidationObjects});
       API.getUserScenarios(this.state.username)
         .then(res2 => {
-          this.setState({userScenarios: res2.data.userScenarios},
+          if (res2.data.userScenarios == undefined) {
+          } else {
+            userScenarios = res2.data.userScenarios;
+          }
+          this.setState({userScenarios: userScenarios},
             () => history.push('/scenario-setup'));
         })
         .catch(function(error){
           /* potentially some code for generating an error specific message here */
+          this.setState({userScenarios: userScenarios});
           history.push('/scenario-setup');
         });
         
@@ -423,13 +429,25 @@ export class UserProvider extends React.Component {
 
   handleTableSelectionDeleteScenario = (event, scenarioID, history) => {
     event.preventDefault();
-    API.deleteScenario(this.username)
+    var userScenarios = [];
+    API.deleteScenario(this.state.username, scenarioID)
     .then(res => {
       API.getUserScenarios(this.state.username)
       .then(res2 => {
+        if (res2.data.userScenarios == undefined) {
+        } else {
+          userScenarios = res2.data.userScenarios;
+        }
+        this.setState({userScenarios: userScenarios});
         history.push('/scenarios-summary');
       })
+      .catch(function(error) {
+        history.push('/scenarios-summary');      
+      })
     })
+    .catch(function(error) {
+      alert('Catch error: Post scenario delete');
+    });
   }
   handleShowTableRowResults = (event,
                                scenarioID, 
@@ -641,6 +659,7 @@ export class UserProvider extends React.Component {
         scenarioRunStatus: this.state.scenarioRunStatus,
         cycleTimeData: this.state.cycleTimeData,
         cycleTimeChartData: this.state.cycleTimeChartData,
+        userScenarios: this.state.userScenarios,
         errorLoginPage: this.state.errorLoginPage,
         errorSignupPage: this.state.errorSignupPage,
         handleUserInputChange: this.handleUserInputChange,

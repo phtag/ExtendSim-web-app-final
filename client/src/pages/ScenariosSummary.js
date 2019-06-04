@@ -32,6 +32,7 @@ class ScenariosSummary extends React.Component {
       <UserContext.Consumer>
         {({
             renderUserScenariosTableData,
+            userScenarios,
             handleTableSelectionDeleteScenario,
             handleTableSelectionShowScenarioResults
         }) => (

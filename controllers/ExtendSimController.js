@@ -531,6 +531,7 @@ module.exports = {
             }); 
     },
     deletescenario: function(req, res) {
+        console.log('deletescenario: deleting scenarioID=' + req.body.scenarioID + ' for username=' + req.body.username);
         db.scenario.destroy({
             where: {
             username: req.body.username,
@@ -538,7 +539,25 @@ module.exports = {
             }
         })
         .then(function(dbresponse) {
-            return res.json({dbresponse: dbresponse});     
+            db.cycletime.destroy({
+                where: {
+                username: req.body.username,
+                scenarioID: req.body.scenarioID
+                }
+            })
+            .then(function(dbresponse2) {
+                db.resource.destroy({
+                    where: {
+                    username: req.body.username,
+                    scenarioID: req.body.scenarioID
+                    }
+                })
+                .then(function(dbresponse3) {
+                    return res.json({dbresponse: dbresponse,
+                                     dbresponse2: dbresponse2,
+                                     dbresponse3: dbresponse3});     
+                })
+            })
         });   
     }
 };

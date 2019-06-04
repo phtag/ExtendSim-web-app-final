@@ -133,7 +133,7 @@ tr:nth-child(even) {
 }
 #cycle-time-chart {
   font-size: 20px;
-  margin-top: 40px;
+  /* margin-top: 10px; */
 }
 .cycle-time-results-button {
   margin-top: 10px;
