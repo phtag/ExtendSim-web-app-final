@@ -413,8 +413,8 @@ module.exports = {
         var myheaders = { 
             accept: "application/json", 
             }; 
-        var scenarioResults;
-        console.log("ExtendSimASPgetScenarioResults: Getting scenario results from server for userSessionID=" + req.body.userLoginSessionID + " filename=" + req.body.filepathname);
+        var poolResults;
+        console.log("getpoolresults: Getting pool results from server for filepathname=" + req.body.filepathname);
         return axios({
             url: queryURL,
             method: 'post',
@@ -428,92 +428,102 @@ module.exports = {
                 filename: req.body.filepathname
             }
         }).then(function(response) {
-            scenarioResults = response.data;
-            console.log("ExtendSimASPgetScenarioResults: response=" + response.data);
-            db.scenario.update({
-                scenarioCompletionDateTime: new Date(),
-            }, {
-                where: {
-                    userLoginSessionID: req.body.userLoginSessionID
-                }
-            }).then(function(dbresponse) {
-                // reader.readAsText(scenarioResults);
-                // reader.readAsBinaryString(scenarioResults);
-                var myResult = JSON.stringify(scenarioResults);
-                console.log("MyResult=" + myResult);
-                var textArr = myResult.split(/\r\n|\r|\n/g);
-                console.log("textArr.length =" + textArr.length);
-                var scenarioResultsArray = scenarioResults.split('\r\n').map(function(ln){
-                    return ln.split('\t');
+            poolResults = response.data;
+            console.log("ExtendSimASPgetpoolResults: response=" + response.data);
+            var myResult = JSON.stringify(poolResults);
+            console.log("MyResult=" + myResult);
+            var textArr = myResult.split(/\r\n|\r|\n/g);
+            console.log("textArr.length =" + textArr.length);
+            var poolResultsArray = poolResults.split('\r\n').map(function(ln){
+                return ln.split('\t');
+            });
+            // Remove last empty element from array
+            poolResultsArray.pop();
+            console.log("poolResultsArray.length =" + poolResultsArray.length);
+            var row = 1;
+            poolResultsArray.forEach(function(element) {
+                db.pool.create({
+                    username: req.body.username,
+                    scenarioID: req.body.scenarioID,
+                    userLoginSessionID: req.body.userLoginSessionID,
+                    Name: (element[0] === "") ? null : element[0],
+                    parentID: (element[1] === "") ? null : element[1],
+                    ResourcePoolBlock: (element[2] === "") ? null : element[2],
+                    AutogenerateResources: (element[3] === "") ? null : element[3],
+                    Costperunittime: (element[4] === "") ? null : element[4],
+                    Costperuse: (element[5] === "") ? null : element[5],
+                    Costtimeunit: (element[6] === "") ? null : element[6],
+                    InitialStatus: (element[7] === "") ? null : element[7],
+                    InitialResources: (element[8] === "") ? null : element[8],
+                    TotalResources: (element[9] === "") ? null : element[9],
+                    IdleResources: (element[10] === "") ? null : element[10],
+                    BusyResources: (element[11] === "") ? null : element[11],
+                    ReservedResources: (element[12] === "") ? null : element[12],
+                    DownResources: (element[13] === "") ? null : element[13],
+                    DisabledResources: (element[14] === "") ? null : element[14],
+                    AllocatedResources: (element[15] === "") ? null : element[15],
+                    AvailableQuantity: (element[16] === "") ? null : element[16],
+                    Failed: (element[17] === "") ? null : element[17],
+                    FailedResources: (element[18] === "") ? null : element[18],
+                    FailureProgressType: (element[19] === "") ? null : element[19],
+                    HasDistinctResources: (element[20] === "") ? null : element[20],
+                    MaximumQuantity: (element[21] === "") ? null : element[21],
+                    MinimumAllocationQuantity: (element[22] === "") ? null : element[22],
+                    OffShift: (element[23] === "") ? null : element[23],
+                    OffShiftResources: (element[24] === "") ? null : element[24],
+                    ReassignedResources: (element[25] === "") ? null : element[25],
+                    ScheduledDown: (element[26] === "") ? null : element[26],
+                    ScheduledDownResources: (element[27] === "") ? null : element[27],
+                    Shareable: (element[28] === "") ? null : element[28],
+                    SharedCount: (element[29] === "") ? null : element[29],
+                    Shift: (element[30] === "") ? null : element[30],
+                    TBF: (element[31] === "") ? null : element[31],
+                    TBFTTRDownInterruptionPolicy: (element[32] === "") ? null : element[32],
+                    TTR: (element[33] === "") ? null : element[33],
+                    UnscheduledDown: (element[34] === "") ? null : element[34],
+                    UnscheduledDownResources: (element[35] === "") ? null : element[35],
+                    TotalOrdersServiced: (element[36] === "") ? null : element[36],
+                    TotalIdleTime: (element[37] === "") ? null : element[37],
+                    TotalBusyTime: (element[38] === "") ? null : element[38],
+                    TotalBusyOffShiftTime: (element[39] === "") ? null : element[39],
+                    TotalReservedTime: (element[40] === "") ? null : element[40],
+                    TotalDownTime: (element[41] === "") ? null : element[41],
+                    TotalOffShiftTime: (element[42] === "") ? null : element[42],
+                    TotalDisabledTime: (element[43] === "") ? null : element[43],
+                    QuantityUtilization: (element[44] === "") ? null : element[44],
+                    TotalAllocatedTime: (element[45] === "") ? null : element[45],
+                    TotalCost: (element[46] === "") ? null : element[46],
+                    TotalFailedTime: (element[47] === "") ? null : element[47],
+                    TotalQuantityAllocated: (element[48] === "") ? null : element[48],                 
+                    TotalQuantityAllocationTime: (element[49] === "") ? null : element[49],                 
+                    TotalReassignedTime: (element[50] === "") ? null : element[50],                 
+                    TotalScheduledDownTime: (element[51] === "") ? null : element[51],                 
+                    TotalUnscheduledDownTime: (element[52] === "") ? null : element[52],                 
+                    Utilization: (element[53] === "") ? null : element[53],                 
                 });
-                // Remove last empty element from array
-                scenarioResultsArray.pop();
-                console.log("scenarioResultsArray.length =" + scenarioResultsArray.length);
-                var row = 1;
-                scenarioResultsArray.forEach(function(element) {
-                    db.cycletime.create({
-                        username: req.body.username,
-                        scenarioID: req.body.scenarioID,
-                        userLoginSessionID: req.body.userLoginSessionID,
-                        ResourceID: element[0],
-                        Name: element[1],
-                        Pool: element[2],
-                        Shift: element[3],
-                        MaximumQuantity: element[4],
-                        MinimumAllocationQuantity: element[5],
-                        AvailableQuantity: element[6],
-                        Costperunittime: element[7],
-                        Costtimeunit: element[8],
-                        Costperuse: element[9],
-                        InitialStatus: element[10],
-                        Status: element[11],
-                        StatusStartTime: element[12],
-                        PendingStatus: element[13],
-                        PendingStatusStartTime: element[14],
-                        ResourceOrderID: element[15],
-                        ReassignedResourceOrderID: element[16],
-                        SkillLevel: element[17],
-                        Rank: element[18],
-                        OffShift: element[19],
-                        Shareable: element[20],
-                        SharedCount: element[21],
-                        TBF: element[22],
-                        TTR: element[23],
-                        TBFTTRDownInterruptionPolicy: element[24],
-                        FailureProgressType: element[25],
-                        OffShift: element[26],
-                        ScheduledDown: element[27],
-                        UnscheduledDown: element[28],
-                        Failed: element[29],
-                        TotalOrdersServiced: element[30],
-                        TotalIdleTime: element[31],
-                        TotalBusyTime: element[32],
-                        TotalBusyOffShiftTime: element[33],
-                        TotalReservedTime: element[34],
-                        TotalDownTime: element[35],
-                        TotalOffShiftTime: element[36],
-                        TotalDisabledTime: element[37],
-                        TBPM: element[38],
-                        PMDuration: element[39],
-                        CurrentQualificationRuleRecord: element[40],
-                        UnitsProcessed: element[41],
-                        TimeProcessed: element[42],
-                        TotalAllocatedTime: element[43],
-                        TotalCost: element[44],
-                        TotalFailedTime: element[45],
-                        TotalQuantityAllocated: element[46],
-                        TotalQuantityAllocationTime: element[47],
-                        TotalReassignedTime: element[48],
-                        TotalScheduledDownTime: element[49],
-                        TotalUnscheduledDownTime: element[50],
-                        QuantityUtilization: element[51],
-                        Utilization: element[52],                 
-                    });
-                });
-                // console.log("splitArray =" + splitArray);            
-                return res.json({cycleTimeData: scenarioResults});     
-            });    
-        });
+            });
+            return res.json({poolResults: poolResults});     
+        });    
+    },
+    getpooldata: function(req, res) {
+        var queryURL = "http://" + IPaddress + ":8090/StreamingService/web/GetServerFileStream";
+        var myheaders = { 
+            accept: "application/json", 
+            }; 
+        console.log("getresourcedata: Querying database for username=" + req.body.username);
+        db.pool.findAll({
+            where: {
+                scenarioID: req.body.scenarioID,
+                username: req.body.username
+            },
+            order: [
+                ['Name', 'ASC']
+                // ['totalWaitTime', 'DESC']
+            ],
+          }).then(function(dbresponse) {
+            console.log("Response=" + dbresponse);
+            return res.json({poolData: dbresponse});     
+        });    
     },
     getuserscenarios: function(req, res) {
         var queryURL = "http://" + IPaddress + ":8090/StreamingService/web/GetServerFileStream";

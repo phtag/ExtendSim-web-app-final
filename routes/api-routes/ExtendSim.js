@@ -9,10 +9,12 @@ router.route('/checkmodelrunstatus').post(ExtendSimController.checkmodelrunstatu
 router.route('/getuserscenarios').post(ExtendSimController.getuserscenarios);
 router.route('/getcycletimeresults').post(ExtendSimController.getcycletimeresults);
 router.route('/getresourceresults').post(ExtendSimController.getresourceresults);
-// router.route('/getpoolresults').post(ExtendSimController.getpoolresults);
+router.route('/getpoolresults').post(ExtendSimController.getpoolresults);
 // router.route('/getmodelresults').post(ExtendSimController.getmodelresults);
 router.route('/getscenariocycletimedata').post(ExtendSimController.getscenariocycletimedata);
 router.route('/getresourcedata').post(ExtendSimController.getresourcedata);
+router.route('/getpooldata').post(ExtendSimController.getpooldata);
+// router.route('/getremodeldata').post(ExtendSimController.getremodeldata);
 router.route('/deletescenario').post(ExtendSimController.deletescenario);
 
 module.exports = router;

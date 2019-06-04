@@ -138,6 +138,13 @@ export default {
       username: username
     });
   },
+  getPoolData: function (scenarioID, username) {
+    return axios.post('/api/ExtendSim/getpooldata',
+    {
+      scenarioID: scenarioID,
+      username: username
+    });
+  },
   deleteScenario: function(username, scenarioID) {
     return axios.post('/api/ExtendSim/deletescenario',
     {

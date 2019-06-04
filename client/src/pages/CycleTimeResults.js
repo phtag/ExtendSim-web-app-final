@@ -1,6 +1,4 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import API from '../utils/API';
+import React from 'react';import API from '../utils/API';
 import UserContext from '../utils/UserContext'; 
 import CycleTimeBarChart from '../utils/CycleTimeBarChart'; 
 

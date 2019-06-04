@@ -140,6 +140,11 @@ tr:nth-child(even) {
   margin-bottom: 10px;
 }
 
+.resource-results-button {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
 .input-text {
   width: 50%;
 }

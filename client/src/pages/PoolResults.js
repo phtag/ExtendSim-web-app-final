@@ -1,8 +1,8 @@
 import React from 'react';
 import UserContext from '../utils/UserContext';
-import ResourceBarChart from '../utils/ResourceBarChart'; 
+import PoolBarChart from '../utils/PoolBarChart'; 
 
-class ResourceResults extends React.Component {
+class PoolResults extends React.Component {
   state = {
     displayShowChartButton: true,
     displayShowTableButton: false
@@ -10,8 +10,8 @@ class ResourceResults extends React.Component {
 
   constructor(props) {
     super(props);
-    this.resourceChart = React.createRef(); // Create a ref    
-    this.resourceTable = React.createRef(); // Create a ref    
+    this.poolChart = React.createRef(); // Create a ref    
+    this.poolTable = React.createRef(); // Create a ref    
   }
 
   handleButtonClick = (event, myRef) => {
@@ -35,12 +35,12 @@ class ResourceResults extends React.Component {
     return (
       <UserContext.Consumer>
         {({
-            resourceChartData,
-            renderResourcesTableData,
+            poolChartData,
+            renderPoolsTableData,
             scenarioID,
             scenarioName
         }) => (
-          <div id="home" ref={this.resourceTable}>
+          <div id="home" ref={this.poolTable}>
             <div className="container my-scenario-container">
               <div className="row">
                 <header id="ExtendSim-header">
@@ -48,18 +48,17 @@ class ResourceResults extends React.Component {
               </div>
               <div className="row">
                 <div className="col-12">
-                  <h2>Resource Results for Scenario={scenarioName} (scenario ID={scenarioID})</h2>
+                  <h2>Pool Results for Scenario={scenarioName} (scenario ID={scenarioID})</h2>
                   {this.state.displayShowChartButton ? 
                   (
                     <div>
-                      <button class="resource-results-button" onClick={(event) => this.handleButtonClick(event, this.resourceChart)}>
+                      <button class="resource-results-button" onClick={(event) => this.handleButtonClick(event, this.poolChart)}>
                         View chart
                       </button>
                     <table id='user-scenarios' border="1">
                       <thead>
                           <tr>
-                              <th className="table-headers">Resource ID</th>
-                              <th className="table-headers">Pool</th>
+                              <th className="table-headers">Pool Name</th>
                               <th className="table-headers">Total Orders Serviced</th>
                               <th className="table-headers">Total Idle Time</th>
                               <th className="table-headers">Total Busy Time</th>
@@ -75,18 +74,18 @@ class ResourceResults extends React.Component {
                           </tr>
                       </thead>
                       <tbody>
-                        {renderResourcesTableData()}
+                        {renderPoolsTableData()}
                       </tbody>
                     </table>
-                    <div id="show-chart" ref={this.resourceChart}>
+                    <div id="show-chart" ref={this.poolChart}>
                     </div>
                     </div>
                   ) : (
-                    <div id="show-chart" ref={this.resourceChart}>
-                       <button class="resource-results-button" onClick={(event) => this.handleButtonClick(event, this.resourceTable)}>
+                    <div id="show-chart" ref={this.poolChart}>
+                       <button class="resource-results-button" onClick={(event) => this.handleButtonClick(event, this.poolTable)}>
                           View table data
                         </button>                   
-                      <ResourceBarChart resourceChartData={resourceChartData}></ResourceBarChart>
+                      <PoolBarChart poolChartData={poolChartData}></PoolBarChart>
                     </div> )}
                 </div>
               </div>
@@ -98,4 +97,4 @@ class ResourceResults extends React.Component {
   }
 }
 
-export default ResourceResults;
+export default PoolResults;

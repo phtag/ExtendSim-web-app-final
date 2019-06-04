@@ -133,6 +133,26 @@ export class UserProvider extends React.Component {
       QuantityUtilization: [],
       Utilization: []
     },
+    poolChartData: {
+      TotalOrdersServiced: [],
+      TotalIdleTime: [],
+      TotalBusyTime: [],
+      TotalBusyOffShiftTime: [],
+      TotalReservedTime: [],
+      TotalDownTime: [],
+      TotalOffShiftTime: [],
+      TotalDisabledTime: [],
+      TotalAllocatedTime: [],
+      TotalCost: [],
+      TotalFailedTime: [],
+      TotalQuantityAllocated: [],
+      TotalQuantityAllocationTime: [],
+      TotalReassignedTime: [],
+      TotalScheduledDownTime: [],
+      TotalUnscheduledDownTime: [],
+      QuantityUtilization: [],
+      Utilization: []
+    },
   }
   chartReference = {};
 // Utilities
@@ -324,6 +344,115 @@ export class UserProvider extends React.Component {
     return dataRow;
   }
 
+  makePoolChartData = (poolData, dataType) => {
+    const dataRow = [];
+    poolData.map((rowData, key) => {
+      const {
+            Name,
+            TotalOrdersServiced,
+            TotalIdleTime,
+            TotalBusyTime,
+            TotalBusyOffShiftTime,
+            TotalReservedTime,
+            TotalDownTime,
+            TotalOffShiftTime,
+            TotalDisabledTime,
+            TotalAllocatedTime,
+            TotalCost,
+            TotalFailedTime,
+            TotalQuantityAllocated,
+            TotalQuantityAllocationTime,
+            TotalReassignedTime,
+            TotalScheduledDownTime,
+            TotalUnscheduledDownTime,
+            QuantityUtilization,
+            Utilization
+          } = rowData; //destructuring
+      var value;
+  
+      switch (dataType) {
+        case 'TotalOrdersServiced':
+          value = TotalOrdersServiced;
+          break;
+
+        case 'TotalIdleTime':
+          value = TotalIdleTime;
+          break;
+
+        case 'TotalBusyTime':
+          value = TotalBusyTime;
+          break;
+
+        case 'TotalBusyOffShiftTime':
+          value = TotalBusyOffShiftTime;
+          break;
+
+        case 'TotalReservedTime':
+          value = TotalReservedTime;
+          break;
+
+        case 'TotalBusyOffShiftTime':
+          value = TotalBusyOffShiftTime;
+          break;
+
+        case 'TotalDownTime':
+          value = TotalDownTime;
+          break;
+  
+        case 'TotalOffShiftTime':
+          value = TotalOffShiftTime;
+          break;
+
+        case 'TotalDisabledTime':
+          value = TotalDisabledTime;
+          break;
+
+        case 'TotalAllocatedTime':
+          value = TotalAllocatedTime;
+          break;
+
+        case 'TotalCost':
+          value = TotalCost;
+          break;
+
+        case 'TotalFailedTime':
+          value = TotalFailedTime;
+          break;          
+
+        case 'TotalQuantityAllocated':
+          value = TotalQuantityAllocated;
+          break;
+
+        case 'TotalQuantityAllocationTime':
+          value = TotalQuantityAllocationTime;
+          break;
+        
+        case 'TotalReassignedTime':
+          value = TotalReassignedTime;
+          break;
+
+        case 'TotalScheduledDownTime':
+          value = TotalScheduledDownTime;
+          break;
+          
+        case 'TotalUnscheduledDownTime':
+          value = TotalUnscheduledDownTime;
+          break;
+
+        case 'QuantityUtilization':
+            value = QuantityUtilization;
+            break;
+
+        case 'Utilization':
+          value = Utilization;
+          break;
+              
+        }
+        dataRow.push({"value": value, "label": Name });
+    });
+    return dataRow;
+  }
+
   // Charts
 
   resetSignupPage = () => {
@@ -362,11 +491,11 @@ export class UserProvider extends React.Component {
         this.setState({validationObjects: myValidationObjects})                 
       }
     } else if (this.state.webPage ==="login") {
-        if ((this.state.username === "") || (this.state.password === "")) {
-          myValidationObjects[myValidationObjects.findIndex(obj => obj.name==="loginSubmitButton")].enabled = false;
+        if ((this.state.username != "") && (this.state.password != "")) {
+          myValidationObjects[myValidationObjects.findIndex(obj => obj.name==="loginSubmitButton")].enabled = true;
           this.setState({validationObjects: myValidationObjects})
         } else {
-          myValidationObjects[myValidationObjects.findIndex(obj => obj.name==="loginSubmitButton")].enabled = true;
+          myValidationObjects[myValidationObjects.findIndex(obj => obj.name==="loginSubmitButton")].enabled = false;
           this.setState({validationObjects: myValidationObjects})
         }
     } else if (this.state.webPage === "scenarioSetup") {
@@ -468,11 +597,17 @@ export class UserProvider extends React.Component {
                                  this.state.scenarioID,
                                  this.state.username)
           .then(res2 => {
-            var myValidationObjects = this.state.validationObjects;
-            myValidationObjects[myValidationObjects.findIndex(obj => obj.name==="ShowResultsButton")].enabled = true;
-            this.setState({validationObjects: myValidationObjects});
-            this.setState({scenarioRunStatus: "Completed"});
-            this.getUserScenarios("getUserScenarios");
+            API.getpoolresults(this.state.scenarioFolderPathname + scenarioResultTypes[poolindex].filename, 
+                               this.state.userLoginSessionID,
+                               this.state.scenarioID,
+                               this.state.username)
+            .then(res3 => {
+              var myValidationObjects = this.state.validationObjects;
+              myValidationObjects[myValidationObjects.findIndex(obj => obj.name==="ShowResultsButton")].enabled = true;
+              this.setState({validationObjects: myValidationObjects});
+              this.setState({scenarioRunStatus: "Completed"});
+              this.getUserScenarios("getUserScenarios");
+            })
           })
         })
       } else if (res.data.modelRunStatus == runInProcessScenarioStatus) {
@@ -696,7 +831,37 @@ export class UserProvider extends React.Component {
           }});
         history.push('/resource-results');
       });
-    }
+    } else if (resultType === "Pools") {
+      alert('getting pool data');
+      API.getPoolData (scenarioID, username) 
+      .then(res1 => {
+        console.log('scenario resourceData=' + res1.data.poolData);
+        alert('got pool data');
+        this.setState({poolData: res1.data.poolData});
+        this.setState({poolChartData: 
+          {
+            TotalOrdersServiced: this.makePoolChartData(res1.data.poolData, 'TotalOrdersServiced'),
+            TotalIdleTime: this.makePoolChartData(res1.data.poolData, 'TotalIdleTime'),
+            TotalBusyTime: this.makePoolChartData(res1.data.poolData, 'TotalBusyTime'),
+            TotalBusyOffShiftTime: this.makePoolChartData(res1.data.poolData, 'TotalBusyOffShiftTime'),
+            TotalReservedTime: this.makePoolChartData(res1.data.poolData, 'TotalReservedTime'),
+            TotalDownTime: this.makePoolChartData(res1.data.poolData, 'TotalDownTime'),
+            TotalOffShiftTime: this.makePoolChartData(res1.data.poolData, 'TotalOffShiftTime'),
+            TotalDisabledTime: this.makePoolChartData(res1.data.poolData, 'TotalDisabledTime'),
+            TotalAllocatedTime: this.makePoolChartData(res1.data.poolData, 'TotalAllocatedTime'),
+            TotalCost: this.makePoolChartData(res1.data.poolData, 'TotalCost'),
+            TotalFailedTime: this.makePoolChartData(res1.data.poolData, 'TotalFailedTime'),
+            TotalQuantityAllocated: this.makePoolChartData(res1.data.poolData, 'TotalQuantityAllocated'),
+            TotalQuantityAllocationTime: this.makePoolChartData(res1.data.poolData, 'TotalQuantityAllocationTime'),
+            TotalReassignedTime: this.makePoolChartData(res1.data.poolData, 'TotalReassignedTime'),
+            TotalScheduledDownTime: this.makePoolChartData(res1.data.poolData, 'TotalScheduledDownTime'),
+            TotalUnscheduledDownTime: this.makePoolChartData(res1.data.poolData, 'TotalUnscheduledDownTime'),
+            QuantityUtilization: this.makePoolChartData(res1.data.poolData, 'QuantityUtilization'),
+            Utilization: this.makePoolChartData(res1.data.poolData, 'Utilization')
+          }});
+        history.push('/pool-results');
+      });
+    } 
   }
 
   renderCycleTimeTableData = () => {
@@ -754,6 +919,44 @@ export class UserProvider extends React.Component {
         <tr key={key}>  
           <td className="table-data-strings">{ResourceID}</td>
           <td className="table-data-strings">{Pool}</td>
+          <td className="table-data-numbers">{TotalOrdersServiced}</td>
+          <td className="table-data-numbers">{TotalIdleTime.toFixed(2)}</td>
+          <td className="table-data-numbers">{TotalBusyTime.toFixed(2)}</td>
+          <td className="table-data-numbers">{TotalBusyOffShiftTime.toFixed(2)}</td>
+          <td className="table-data-numbers">{TotalDownTime.toFixed(2)}</td>
+          <td className="table-data-numbers">{TotalOffShiftTime.toFixed(2)}</td>
+          <td className="table-data-numbers">{TotalFailedTime.toFixed(2)}</td>
+          <td className="table-data-numbers">{TotalScheduledDownTime.toFixed(2)}</td>
+          <td className="table-data-numbers">{TotalUnscheduledDownTime.toFixed(2)}</td>
+          <td className="table-data-numbers">{TotalQuantityAllocationTime.toFixed(2)}</td>
+          <td className="table-data-numbers">{QuantityUtilization.toFixed(2)}</td>
+          <td className="table-data-numbers">{Utilization.toFixed(2)}</td>
+        </tr> 
+       )
+    })  
+  }
+
+  renderPoolsTableData = () => {
+    // event.preventDefault();
+    return this.state.poolData.map((rowData, key) => {
+      const {
+        Name,
+        TotalOrdersServiced,
+        TotalIdleTime,
+        TotalBusyTime,
+        TotalBusyOffShiftTime,
+        TotalDownTime,
+        TotalOffShiftTime,
+        TotalFailedTime,
+        TotalScheduledDownTime,
+        TotalUnscheduledDownTime,
+        TotalQuantityAllocationTime,
+        QuantityUtilization,
+        Utilization
+          } = rowData; //destructuring
+       return (
+        <tr key={key}>  
+          <td className="table-data-strings">{Name}</td>
           <td className="table-data-numbers">{TotalOrdersServiced}</td>
           <td className="table-data-numbers">{TotalIdleTime.toFixed(2)}</td>
           <td className="table-data-numbers">{TotalBusyTime.toFixed(2)}</td>
@@ -835,6 +1038,7 @@ export class UserProvider extends React.Component {
         cycleTimeData: this.state.cycleTimeData,
         cycleTimeChartData: this.state.cycleTimeChartData,
         resourceChartData: this.state.resourceChartData,
+        poolChartData: this.state.poolChartData,
         userScenarios: this.state.userScenarios,
         errorLoginPage: this.state.errorLoginPage,
         errorSignupPage: this.state.errorSignupPage,
@@ -852,6 +1056,7 @@ export class UserProvider extends React.Component {
         renderUserScenariosTableData: this.renderUserScenariosTableData,
         renderCycleTimeTableData: this.renderCycleTimeTableData,
         renderResourcesTableData: this.renderResourcesTableData,
+        renderPoolsTableData: this.renderPoolsTableData,
         renderUserScenarioResultsTableData: this.renderUserScenarioResultsTableData
         
 
