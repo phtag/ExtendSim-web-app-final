@@ -1,10 +1,15 @@
 import React from 'react';
+import { Beforeunload } from 'react-beforeunload';
 import API from '../utils/API';
 import UserContext from '../utils/UserContext'; 
 
 class ScenariosSummary extends React.Component {
   state = {
   };
+
+  myfunction = () => {
+    alert('My function');
+  }
   handleTableRowResultsClick_old = (handleShowTableRowResults, event) => {
     event.preventDefault();
     const { history } = this.props;
@@ -32,11 +37,12 @@ class ScenariosSummary extends React.Component {
       <UserContext.Consumer>
         {({
             renderUserScenariosTableData,
-            userScenarios,
+            getUserScenarios,
             handleTableSelectionDeleteScenario,
             handleTableSelectionShowScenarioResults
         }) => (
           <div id="home">
+            <Beforeunload onBeforeunload={this.myfunction} />
             <div className="container my-scenario-container">
               <div className="row">
                 <header id="ExtendSim-header">
@@ -49,7 +55,8 @@ class ScenariosSummary extends React.Component {
                   <thead>
                     <tr>
                         <th className="table-headers">Scenario ID</th>
-                        <th className="table-headers">User Login Session ID</th>
+                        {/* <th className="table-headers">User Login Session ID</th> */}
+                        <th className="table-headers">Scenario Name</th>
                         <th className="table-headers">Username</th>
                         <th className="table-headers">Scenario Submission Date/Time</th>
                         <th className="table-headers">Scenario Completion Date/Time</th>

@@ -3,10 +3,15 @@ import API from '../utils/API';
 import BasicDropArea from '../components/BasicDropArea';
 import UserContext from '../utils/UserContext'; 
 
+
 class ScenarioSetup extends React.Component {
   state = {
   };
 
+  handleBeforeUnload = (event) => {
+    event.preventDefault();
+    alert("Unload that page, baby!");
+  }
   handleChange = (event, key, onChangeFunction, validationObjects) => {
     const { name, value } = event.target;
     onChangeFunction(key, value, "scenarioSetup");

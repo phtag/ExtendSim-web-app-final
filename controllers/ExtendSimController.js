@@ -63,7 +63,8 @@ module.exports = {
                 scenarioName: scenarioName
             }, {
                 where: {
-                    userLoginSessionID: userLoginSessionID
+                    userLoginSessionID: userLoginSessionID,
+                    scenarioName: null
                 }
             }).then(function(dbresponse) {
                 return res.json({ scenarioFolderPathname: response.data });
@@ -174,7 +175,8 @@ module.exports = {
                 scenarioSubmissionDateTime: new Date(),
             }, {
                 where: {
-                    userLoginSessionID: userLoginSessionID
+                    userLoginSessionID: userLoginSessionID,
+                    scenarioID: null
                 }
             }).then(function(dbresponse) {
                 return res.json({scenarioID: response.data});     

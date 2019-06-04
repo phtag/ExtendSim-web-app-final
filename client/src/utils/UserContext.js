@@ -130,6 +130,19 @@ export class UserProvider extends React.Component {
     return null;
   }
 
+  getUserScenarios = (webPage) => {
+    var userScenarios = [];
+    API.getUserScenarios(this.state.username)
+    .then(res => {
+      if (res.data.userScenarios == undefined) {
+      } else {
+        userScenarios = res.data.userScenarios;
+      }
+      this.setState({userScenarios: userScenarios,
+                    webPage: webPage});
+    })
+  }
+
   makeCycleTimeChartData = (cycleTimeData, dataType) => {
     const dataRow = [];
     cycleTimeData.map((rowData, key) => {
@@ -324,7 +337,8 @@ export class UserProvider extends React.Component {
             var myValidationObjects = this.state.validationObjects;
             myValidationObjects[myValidationObjects.findIndex(obj => obj.name==="ShowResultsButton")].enabled = true;
             this.setState({validationObjects: myValidationObjects});
-            this.setState({scenarioRunStatus: "Completed"})
+            this.setState({scenarioRunStatus: "Completed"});
+            this.getUserScenarios("getUserScenarios");
           })
         })
       } else if (res.data.modelRunStatus == runInProcessScenarioStatus) {
@@ -419,11 +433,15 @@ export class UserProvider extends React.Component {
 
   handleShowResults = (event, history) => {
     event.preventDefault();
+    // Disable Show Results button on Scenario Setup page
+    var myValidationObjects = this.state.validationObjects;
+    myValidationObjects[myValidationObjects.findIndex(obj => obj.name==="ShowResultsButton")].enabled = false;
+    this.setState({validationObjects: myValidationObjects});
       API.getUserScenarios(this.state.username)
       .then(res2 => {
         this.setState({userScenarios: res2.data.userScenarios});
         console.log('scenario results=' + JSON.stringify(res2));
-        history.push('/scenarios-summary');
+        history.push('/scenario-results');
       });
     // })
   };
@@ -604,13 +622,15 @@ export class UserProvider extends React.Component {
       const { userLoginSessionID, 
               username, 
               scenarioID, 
+              scenarioName,
               scenarioFolderPathname, 
               scenarioSubmissionDateTime,
               scenarioCompletionDateTime} = scenario; //destructuring
        return (
           <tr key={scenarioID}>
              <td>{scenarioID}</td>
-             <td>{userLoginSessionID}</td>
+             {/* <td>{userLoginSessionID}</td> */}
+             <td>{scenarioName}</td>
              <td>{username}</td>
              <td>{scenarioSubmissionDateTime}</td>
              <td>{scenarioCompletionDateTime}</td>
