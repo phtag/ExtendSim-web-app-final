@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const ExtendSimController = require('../../controllers/ExtendSimController');
+const isAuthenticated = require('../../controllers/authentication');
 
 router.route('/createScenarioFolder').post(ExtendSimController.createScenarioFolder);
 router.route('/copyModelToScenarioFolder').post(ExtendSimController.copyModelToScenarioFolder);
