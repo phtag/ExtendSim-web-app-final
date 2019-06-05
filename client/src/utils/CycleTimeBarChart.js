@@ -29,13 +29,15 @@ class CycleTimeBarChart extends React.Component {
             { title: 'Avg. Process Time', color: 'blue', stroke: '#fff', strokeWidth: '2' }
         ];
         return (
+            <UserContext.Consumer>
+            {({chartProperties}) => (
             <div id="cycle-time-chart">
                 <Bar
                     data={ChartData}
                     options={{
                         title:{
                             display: true,
-                            fontSize: 30,
+                            fontSize: chartProperties.titleFontSize,
                             text: 'Avg. Wait Time/Avg. Process Time by Process Step'
                         },
                         scales: {
@@ -46,7 +48,7 @@ class CycleTimeBarChart extends React.Component {
                                     scaleLabel: {
                                         display: true,
                                         labelString: 'Process Steps',
-                                        fontSize: 24
+                                        fontSize: chartProperties.axesLabelFontSize
                                     }
                                 }],
                             yAxes: [
@@ -56,7 +58,7 @@ class CycleTimeBarChart extends React.Component {
                                     scaleLabel: {
                                         display: true,
                                         labelString: 'Time (hrs)',
-                                        fontSize: 24
+                                        fontSize: chartProperties.axesLabelFontSize
                                     }
                                 }
                             ]
@@ -70,6 +72,8 @@ class CycleTimeBarChart extends React.Component {
                     }}
                 />
             </div>
+        )}
+        </UserContext.Consumer>  
         );
     }
 }

@@ -29,13 +29,15 @@ class ResourceBarChart extends React.Component {
             { title: 'Total Busy Time', color: 'blue', stroke: '#fff', strokeWidth: '2' }
         ];
         return (
+            <UserContext.Consumer>
+            {({chartProperties}) => (
             <div id="cycle-time-chart">
                 <Bar
                     data={ChartData}
                     options={{
                         title:{
                             display: true,
-                            fontSize: 30,
+                            fontSize: chartProperties.titleFontSize,
                             text: 'Total Idle Time/Total Busy Time by Resource'
                         },
                         scales: {
@@ -46,7 +48,7 @@ class ResourceBarChart extends React.Component {
                                     scaleLabel: {
                                         display: true,
                                         labelString: 'Resources',
-                                        fontSize: 24
+                                        fontSize: chartProperties.axesFontSize
                                     }
                                 }],
                             yAxes: [
@@ -56,7 +58,7 @@ class ResourceBarChart extends React.Component {
                                     scaleLabel: {
                                         display: true,
                                         labelString: 'Time (hrs)',
-                                        fontSize: 24
+                                        fontSize: chartProperties.axesFontSize
                                     }
                                 }
                             ]
@@ -69,6 +71,8 @@ class ResourceBarChart extends React.Component {
                     }}
                 />
             </div>
+        )}
+        </UserContext.Consumer>  
         );
     }
 }
