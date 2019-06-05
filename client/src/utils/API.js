@@ -23,13 +23,19 @@ export default {
     return axios.post('/api/users/validate', { token: t });
   },
   createScenario: function(data) {
-    const { username, userLoginSessionID, scenarioName } = data;
-    return axios.post('/api/server/createscenario', 
-    { 
-      username: username,
-      userLoginSessionID: userLoginSessionID, 
-      scenarioName: scenarioName 
-    }); 
+    const { username, userLoginSessionID, scenarioName, currentUser } = data;
+    return axios.post('/api/server/createscenario',
+      {
+          username: username,
+          userLoginSessionID: userLoginSessionID, 
+          scenarioName: scenarioName
+      },
+      {
+        headers: 
+        { 'Authorization': `Bearer ${currentUser.token}` }
+      },
+    );
+
   },
   createScenarioFolder: function(userLoginSessionID, scenarioFolderName, scenarioName) {
     return axios.post('/api/ExtendSim/createScenarioFolder', 

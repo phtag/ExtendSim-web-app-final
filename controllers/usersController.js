@@ -35,7 +35,7 @@ module.exports = {
     });
   },
   login: function(req, res) {
-    console.log("Login: req.username=" + req.body.username + " password=" + req.body.password);
+    console.log("Login: entry - req.username=" + req.body.username);
     db.user.findOne(
     { 
       where: { username: req.body.username } 
@@ -62,7 +62,7 @@ module.exports = {
               headers : myheaders,
               muteHttpExceptions : false
             };
-            console.log('ExtendSimASP_login entry. Logging into host ' + queryURL + " for username=" + req.body.username + " password=" + req.body.password);
+            console.log('Login: Logging into ExtendSim server ' + queryURL + " for username=" + req.body.username);
             axios({
               url: queryURL,
               method: 'post',
@@ -76,15 +76,6 @@ module.exports = {
             }).
             then(function(response) {
               console.log('ExtendSimASP_login: ' + response.data);
-              // db.scenario.create({
-              //   userLoginSessionID: response.data,
-              //   username: req.body.username,
-              //   scenarioName: "",
-              //   scenarioID: null,
-              //   scenarioSubmissionDataTime: null,
-              //   scenarioCompletionDataTime: null
-              // }).
-              // then(function(dbResponse) {
               const { _id: id } = dbresult;
               return res.json({ userLoginSessionID: response.data,
                                 id: id,
@@ -99,7 +90,7 @@ module.exports = {
   signup: function(req, res) {
     const password = bcrypt.hashSync(req.body.password, 10);
     const username = req.body.username;
-    console.log("signup: username=" + req.body.username + " password=" + password);
+    console.log("signup: username=" + req.body.username);
     db.user.findOne(
       { 
         where: { username: req.body.username } 

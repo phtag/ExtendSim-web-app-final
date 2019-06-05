@@ -1,5 +1,4 @@
 const jwt = require("jsonwebtoken");
-// jwt middleware
 module.exports = function (req, res, next) {
   const token = req.header("Authorization");
   if (!token) {
