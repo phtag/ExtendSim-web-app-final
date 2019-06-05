@@ -153,6 +153,10 @@ export class UserProvider extends React.Component {
       QuantityUtilization: [],
       Utilization: []
     },
+    chartProperties: {
+      axesLabelFontSize: 18,
+      titleFontSize: 30
+    }
   }
   chartReference = {};
 // Utilities
@@ -639,6 +643,7 @@ export class UserProvider extends React.Component {
     event.preventDefault();
     API.login(this.state)
     .then(res => {
+      this.setState({ currentUser: res.data} , () => alert('token=' + this.state.currentUser.token));
       this.setState({ userLoginSessionID: res.data.userLoginSessionID});
       // Enable scenario navbar link
       myValidationObjects[myValidationObjects.findIndex(obj => obj.name==="Scenario-navbar-option")].enabled = true;
@@ -1040,6 +1045,7 @@ export class UserProvider extends React.Component {
         userScenarios: this.state.userScenarios,
         errorLoginPage: this.state.errorLoginPage,
         errorSignupPage: this.state.errorSignupPage,
+        chartProperties: this.state.chartProperties,
         handleUserInputChange: this.handleUserInputChange,
         handleDropEvents: this.handleDropEvents,
         handleSignupSubmit: this.handleSignupSubmit,
