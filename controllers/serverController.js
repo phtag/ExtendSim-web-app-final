@@ -4,7 +4,6 @@ var db = require('../models');
 // =============================================================
 module.exports = {
   createscenario: function(req, res) {
-    // const { username, userLoginSessionID, scenarioName} = req.body;
     const { username, userLoginSessionID, scenarioName} = req.body;
     db.scenario.create({
       userLoginSessionID: userLoginSessionID,

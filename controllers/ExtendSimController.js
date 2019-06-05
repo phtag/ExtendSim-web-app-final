@@ -248,11 +248,12 @@ module.exports = {
                 scenarioResultsArray.pop();
                 console.log("scenarioResultsArray.length =" + scenarioResultsArray.length);
                 var row = 1;
-                scenarioResultsArray.forEach(function(element) {
+                scenarioResultsArray.forEach(function(element, index) {
                     db.cycletime.create({
                         username: req.body.username,
                         scenarioID: req.body.scenarioID,
                         userLoginSessionID: req.body.userLoginSessionID,
+                        sequenceNumber: index,
                         stepname: element[0],
                         resourceRequirement: element[1],
                         totalJobsProcessed: element[2],
@@ -282,7 +283,7 @@ module.exports = {
                 username: req.body.username
             },
             order: [
-                ['id', 'ASC']
+                ['sequenceNumber', 'ASC']
                 // ['totalWaitTime', 'DESC']
             ],
           }).then(function(dbresponse) {

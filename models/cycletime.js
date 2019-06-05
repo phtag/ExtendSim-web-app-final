@@ -3,6 +3,7 @@ module.exports = function(sequelize, DataTypes) {
     username: DataTypes.STRING,
     scenarioID: DataTypes.STRING,
     userLoginSessionID: DataTypes.STRING,
+    sequenceNumber: DataTypes.INTEGER,
     stepname: DataTypes.STRING,
     resourceRequirement: DataTypes.STRING,
     totalJobsProcessed: DataTypes.INTEGER,

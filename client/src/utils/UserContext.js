@@ -666,10 +666,8 @@ export class UserProvider extends React.Component {
         
     })
     .catch(err => {
-        alert("Error");
         console.log(JSON.stringify(err.response.data.msg));
         this.setState({ errorLoginPage: err.response.data.msg }, this.resetLoginPage);
-        
       });
     };
 
