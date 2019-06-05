@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 var axios = require("axios");
 var fs = require("fs");
 var reader = require('filereader');
+const dotenv = require('dotenv');
 
 const saltRounds = 10;
 
@@ -110,7 +111,8 @@ module.exports = {
             .create({ username, password })
             .then(function(dbResponse) {
               console.log("dbResponse=" + JSON.stringify(dbResponse));
-              var token = jwt.sign({ username: dbresult.bRes }, process.env.TOKEN_SECRET);
+              console.log('TOKEN_SECRET=' + process.env.TOKEN_SECRET);
+              var token = jwt.sign({ username: dbResponse.bRes }, process.env.TOKEN_SECRET);
               return res.json({response: dbResponse,
                                token: token});
             })

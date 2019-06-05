@@ -6,6 +6,7 @@
 // =============================================================
 var express = require('express');
 const routes = require('./routes');
+const dotenv = require('dotenv').config(); 
 
 // Sets up the Express App
 // =============================================================
