@@ -639,7 +639,6 @@ export class UserProvider extends React.Component {
     event.preventDefault();
     API.login(this.state)
     .then(res => {
-      alert('Token=' + res.data.token);
       this.setState({ userLoginSessionID: res.data.userLoginSessionID});
       // Enable scenario navbar link
       myValidationObjects[myValidationObjects.findIndex(obj => obj.name==="Scenario-navbar-option")].enabled = true;
@@ -673,8 +672,6 @@ export class UserProvider extends React.Component {
     event.preventDefault();
     API.signup(this.state)
     .then(res => {
-      alert('Token=' + res.data.token);
-
       this.handleLoginSubmit(event, history);
         // history.push('/login');
     })
@@ -835,11 +832,9 @@ export class UserProvider extends React.Component {
         history.push('/resource-results');
       });
     } else if (resultType === "Pools") {
-      alert('getting pool data');
       API.getPoolData (scenarioID, username) 
       .then(res1 => {
         console.log('scenario resourceData=' + res1.data.poolData);
-        alert('got pool data');
         this.setState({poolData: res1.data.poolData});
         this.setState({poolChartData: 
           {

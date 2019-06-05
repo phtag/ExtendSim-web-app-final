@@ -85,7 +85,10 @@ module.exports = {
               //   scenarioCompletionDataTime: null
               // }).
               // then(function(dbResponse) {
+              const { _id: id } = dbresult;
               return res.json({ userLoginSessionID: response.data,
+                                id: id,
+                                username: req.body.username,
                                 token: token });
             });
           };
@@ -113,7 +116,10 @@ module.exports = {
               console.log("dbResponse=" + JSON.stringify(dbResponse));
               console.log('TOKEN_SECRET=' + process.env.TOKEN_SECRET);
               var token = jwt.sign({ username: dbResponse.bRes }, process.env.TOKEN_SECRET);
+              const { _id: id} = dbResponse;
               return res.json({response: dbResponse,
+                               id: id,
+                               username: username,
                                token: token});
             })
             .catch(function(err) {
