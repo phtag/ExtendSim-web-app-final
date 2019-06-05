@@ -643,7 +643,7 @@ export class UserProvider extends React.Component {
     event.preventDefault();
     API.login(this.state)
     .then(res => {
-      this.setState({ currentUser: res.data} , () => alert('token=' + this.state.currentUser.token));
+      this.setState({ currentUser: res.data});
       this.setState({ userLoginSessionID: res.data.userLoginSessionID});
       // Enable scenario navbar link
       myValidationObjects[myValidationObjects.findIndex(obj => obj.name==="Scenario-navbar-option")].enabled = true;

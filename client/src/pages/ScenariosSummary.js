@@ -1,9 +1,12 @@
 import React from 'react';
 import { Beforeunload } from 'react-beforeunload';
+import { Redirect } from "react-router-dom";
 import API from '../utils/API';
 import UserContext from '../utils/UserContext'; 
 
 class ScenariosSummary extends React.Component {
+  static contextType = UserContext;
+
   state = {
   };
 
@@ -33,7 +36,11 @@ class ScenariosSummary extends React.Component {
   }
 
   render() {
+    const { user } = this.context;
+
     return (
+      user 
+      ? (
       <UserContext.Consumer>
         {({
             renderUserScenariosTableData,
@@ -76,6 +83,8 @@ class ScenariosSummary extends React.Component {
           </div>
         )}
       </UserContext.Consumer>
+      )
+      : <Redirect to="/login" />     
     );
   }
 }

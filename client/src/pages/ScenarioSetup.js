@@ -1,16 +1,17 @@
 import React from 'react';
+import { Redirect } from "react-router-dom";
 import API from '../utils/API';
 import BasicDropArea from '../components/BasicDropArea';
 import UserContext from '../utils/UserContext'; 
 
-
 class ScenarioSetup extends React.Component {
+  static contextType = UserContext;
+
   state = {
   };
-
+  
   handleBeforeUnload = (event) => {
     event.preventDefault();
-    alert("Unload that page, baby!");
   }
   handleChange = (event, key, onChangeFunction, validationObjects) => {
     const { name, value } = event.target;
@@ -29,7 +30,10 @@ class ScenarioSetup extends React.Component {
 
   render() {
     const { username, password, error } = this.state;
+    const { user } = this.context;
     return (
+      user 
+      ? (
       <UserContext.Consumer>
         {({handleUserInputChange, 
            handleDropEvents, 
@@ -91,6 +95,8 @@ class ScenarioSetup extends React.Component {
           </div>
         )}
       </UserContext.Consumer>
+      )
+      : <Redirect to="/login" />  
     );
   }
 }
