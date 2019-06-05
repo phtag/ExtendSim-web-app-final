@@ -4,20 +4,34 @@ import UserContext from './UserContext';
 import {Bar, Line} from 'react-chartjs-2';
 
 class ResourceBarChart extends React.Component {
+    static contextType = UserContext;
+    state = {
+        dataSeries1: [],
+        dataSeries2: []
+    }
+    componentDidMount () {
+        const { resourceChartData } = this.context;
+        this.dataSeries1 = resourceChartData.TotalBusyTime;
+        this.dataSeries2 = resourceChartData.TotalIdleTime;
+        alert('this.dataSeries2.length=' + this.dataSeries2.length);
+    };
     render() {
         const {resourceChartData} = this.props;
         const ChartData = {
-            labels: resourceChartData.TotalIdleTime.map(element => (element.label)),
+            // labels: resourceChartData.TotalIdleTime.map(element => (element.label)),
+            labels: this.dataSeries1.map(element => (element.label)),
             datasets: [
                 {
                     label: 'Total Busy Time',
-                    data: resourceChartData.TotalBusyTime.map(element => (element.value)),
+                    // data: resourceChartData.TotalBusyTime.map(element => (element.value)),
+                    data: this.dataSeries1.map(element => (element.value)),
                     backgroundColor: 
                         'rgba(0, 0, 255, .75)'
                 },
                 {
                     label: 'Total Idle Time',
-                    data: resourceChartData.TotalIdleTime.map(element => (element.value)),
+                    // data: resourceChartData.TotalIdleTime.map(element => (element.value)),
+                    data: this.dataSeries2.map(element => (element.value)),
                     backgroundColor: 
                         'rgba(255, 0, 0, .75)'
                 },               
