@@ -36,7 +36,7 @@ class PoolBarChart extends React.Component {
                         title:{
                             display: true,
                             fontSize: 30,
-                            text: 'Total Idle Time/Total Busy Time by Resource'
+                            text: 'Total Idle Time/Total Busy Time by Pool'
                         },
                         scales: {
                             xAxes: [
@@ -45,7 +45,7 @@ class PoolBarChart extends React.Component {
                                     stacked: true ,
                                     scaleLabel: {
                                         display: true,
-                                        labelString: 'Resources',
+                                        labelString: 'Pools',
                                         fontSize: 24
                                     }
                                 }],
