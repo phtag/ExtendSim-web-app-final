@@ -48,7 +48,7 @@ module.exports = {
           if (!bRes) {
             res.status(400).send({ msg: 'Invalid  Password' });
           } else {
-            var token = jwt.sign({ username: dbresult.bRes }, 'shhhhh');
+            var token = jwt.sign({ username: dbresult.bRes }, process.env.TOKEN_SECRET);
             var queryURL = "http://" + IPaddress + ":8090/StreamingService/web/LoginToServer";
             myMethod = "POST"   
             var myheaders = { 
@@ -110,7 +110,9 @@ module.exports = {
             .create({ username, password })
             .then(function(dbResponse) {
               console.log("dbResponse=" + JSON.stringify(dbResponse));
-              return res.json({response: dbResponse});
+              var token = jwt.sign({ username: dbresult.bRes }, process.env.TOKEN_SECRET);
+              return res.json({response: dbResponse,
+                               token: token});
             })
             .catch(function(err) {
               console.log("Error: " + err);
