@@ -6,6 +6,9 @@ import {Bar, Line} from 'react-chartjs-2';
 class ResourceBarChart extends React.Component {
     static contextType = UserContext;
     state = {
+        chartTitle: "",
+        XaxisTitle: "",
+        YaxisTitle: "",
         dataSeries1: [],
         dataSeries2: [],
         dataSeriesDisplay: [],
@@ -24,11 +27,11 @@ class ResourceBarChart extends React.Component {
     };
     render() {
         const {chartType, chartTitle} = this.props;
-        // this.dataSeries1 = resourceChartData.TotalBusyTime;
-        // this.dataSeries2 = resourceChartData.TotalIdleTime;
         const { resourceChartData } = this.context;
-
         if (chartType == "idle-busy") {
+            this.state.chartTitle = 'Total Idle-Time/Total Busy-Time by Resource';
+            this.state.YaxisTitle = 'Time (hrs)'
+            this.state.XaxisTitle = 'Resources'
             this.state.dataSeries1  = resourceChartData.TotalBusyTime;
             this.state.dataSeries2  = resourceChartData.TotalIdleTime;
             this.state.dataSeriesLabels[0] = 'Total Busy Time';
@@ -37,20 +40,36 @@ class ResourceBarChart extends React.Component {
             this.state.dataSeriesDisplay[1] = true;
             this.state.dataSeriesBorderWidths[0] = 2;
             this.state.dataSeriesBorderWidths[1] = 2;
-            this.state.dataSeriesBackgroundColors[0] = 'rgba(0, 0, 255, .75)';
-            this.state.dataSeriesBackgroundColors[1] = 'rgba(255, 0, 0, .75)';
-        } else  if (chartType == "utilization") {
+            this.state.dataSeriesBackgroundColors[0] = 'rgba(255, 0, 0, .75)';
+            this.state.dataSeriesBackgroundColors[1] = 'rgba(0, 0, 255, .75)';
+        } else  if (chartType === "utilization") {
+            this.state.chartTitle = 'Utilization by Resource';
+            this.state.YaxisTitle = 'Utilization'
+            this.state.XaxisTitle = 'Resources'
             this.state.dataSeries1  = resourceChartData.Utilization;
-            this.state.dataSeries2  = resourceChartData.Utilization;
             this.state.dataSeriesLabels[0] = 'Utilization';
             this.state.dataSeriesLabels[1] = '';
             this.state.dataSeriesDisplay[0] = true;
             this.state.dataSeriesDisplay[1] = false;
             this.state.dataSeriesBorderWidths[0] = 2;
             this.state.dataSeriesBorderWidths[1] = 0;
-            this.state.dataSeriesBackgroundColors[0] = 'rgba(0, 0, 255, .75)';
+            this.state.dataSeriesBackgroundColors[0] = 'rgba(255, 100, 100, 1)';
+            this.state.dataSeriesBackgroundColors[1] = 'rgba(0, 0, 0, 0)';
+        }  else  if (chartType == "total-orders-serviced") {
+            this.state.chartTitle = 'Total Orders Serviced by Resource';
+            this.state.YaxisTitle = 'Orders Serviced'
+            this.state.XaxisTitle = 'Resources'
+            this.state.dataSeries1  = resourceChartData.TotalOrdersServiced;
+            this.state.dataSeriesLabels[0] = 'Total Orders Serviced';
+            this.state.dataSeriesLabels[1] = '';
+            this.state.dataSeriesDisplay[0] = true;
+            this.state.dataSeriesDisplay[1] = false;
+            this.state.dataSeriesBorderWidths[0] = 2;
+            this.state.dataSeriesBorderWidths[1] = 0;
+            this.state.dataSeriesBackgroundColors[0] = 'rgba(0, 255, 0, 1)';
             this.state.dataSeriesBackgroundColors[1] = 'rgba(0, 0, 0, 0)';
         }
+
         var ChartData = {
             // labels: resourceChartData.TotalIdleTime.map(element => (element.label)),
             labels: this.state.dataSeries1.map(element => (element.label)),
@@ -88,7 +107,7 @@ class ResourceBarChart extends React.Component {
                         title:{
                             display: true,
                             fontSize: chartProperties.titleFontSize,
-                            text: chartTitle
+                            text: this.state.chartTitle
                             // text: 'Total Idle Time/Total Busy Time by Resource'
                         },
                         scales: {
@@ -98,7 +117,7 @@ class ResourceBarChart extends React.Component {
                                     stacked: true ,
                                     scaleLabel: {
                                         display: true,
-                                        labelString: 'Resources',
+                                        labelString: this.state.XaxisTitle,
                                         fontSize: chartProperties.axesLabelFontSize
                                     }
                                 }],
@@ -108,7 +127,7 @@ class ResourceBarChart extends React.Component {
                                     stacked: true ,
                                     scaleLabel: {
                                         display: true,
-                                        labelString: 'Time (hrs)',
+                                        labelString: this.state.YaxisTitle,
                                         fontSize: chartProperties.axesLabelFontSize
                                     }
                                 }
