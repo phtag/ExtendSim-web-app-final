@@ -23,6 +23,7 @@ export class UserProvider extends React.Component {
     password: "",
     reenteredpassword: "",
     activationkey: "",
+    pathname: "/scenario-setup",
     webpage: "",
     error: "",
     errorSignupPage: "",
@@ -677,8 +678,9 @@ export class UserProvider extends React.Component {
           }
           this.setState({userScenarios: userScenarios,
                          webPage: "scenarioSetup"},
-            () => history.push('/scenario-setup'));
-        })
+              () => history.push('/'));
+              // () => history.push('/scenario-setup'));
+          })
         .catch(function(error){
           /* potentially some code for generating an error specific message here */
           this.setState({userScenarios: userScenarios});
@@ -817,6 +819,7 @@ export class UserProvider extends React.Component {
         this.setState({cycleTimeChartData: 
           {
             totalJobsProcessed: this.makeCycleTimeChartData(res1.data.cycleTimeData, 'totalJobsProcessed'),
+            totalProcessTime: this.makeCycleTimeChartData(res1.data.cycleTimeData, 'totalProcessTime'),
             totalWaitTime: this.makeCycleTimeChartData(res1.data.cycleTimeData, 'totalWaitTime'),
             avgProcessTime: this.makeCycleTimeChartData(res1.data.cycleTimeData, 'avgProcessTime'),
             avgWaitTime: this.makeCycleTimeChartData(res1.data.cycleTimeData, 'avgWaitTime'),
@@ -1079,6 +1082,7 @@ export class UserProvider extends React.Component {
         chartProperties: this.state.chartProperties,
         resourceChartDataSeries1: this.state.resourceChartDataSeries1,
         resourceChartDataSeries2: this.state.resourceChartDataSeries2,
+        pathname: this.state.pathname,
         handleUserInputChange: this.handleUserInputChange,
         handleDropEvents: this.handleDropEvents,
         handleChartTypeChange: this.handleChartTypeChange,

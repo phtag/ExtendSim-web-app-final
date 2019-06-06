@@ -6,8 +6,8 @@ class CycleTimeResults extends React.Component {
   state = {
     displayShowChartButton: true,
     displayShowTableButton: false,
-    chartType: "wait-process",
-    chartTitle: "Total Wait-Time/Total Process-Time by Resource"
+    chartType: "avg-wait-process",
+    // chartTitle: "Avg. Wait-Time/Avg. Process-Time by Resource"
   };
 
   constructor(props) {
@@ -90,9 +90,10 @@ class CycleTimeResults extends React.Component {
                         </button>  
                         <label htmlFor="cyle-time-chart-type" class="drop-down-label">Chart Type:</label>
                         <select class="chart-type-drop-down" id="cycle-time-chart-type" onChange={(event) => this.handleDropDownChange(event)}>
-                          <option value="wait-process">Wait/Process Time</option>
-                          <option value="utilization">Utilization</option>
-                          <option value="total-orders-serviced">Total Orders Serviced</option>
+                          <option value="avg-wait-process">Avg. Wait/Process Time</option>
+                          <option value="total-wait-process">Total Wait/Process Time</option>
+                          <option value="total-jobs-processed">Total Jobs Processed</option>
+                          <option value="covarrivals-covdepartures">Coefficient of Variation Arrivals/Departures</option>
                         </select>            
                         <CycleTimeBarChart chartType={this.state.chartType}></CycleTimeBarChart>
                         {/* <CycleTimeBarChart cycleTimeChartData={cycleTimeChartData}></CycleTimeBarChart> */}

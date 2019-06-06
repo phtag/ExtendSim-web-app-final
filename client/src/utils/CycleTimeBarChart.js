@@ -32,13 +32,26 @@ class CycleTimeBarChart extends React.Component {
   
         const {chartType} = this.props;
         const { cycleTimeChartData } = this.context;
-        alert('chartType=' + chartType);
-        if (chartType == "wait-process") {
-            this.state.chartTitle = 'Total Wait-Time/Total Process-Time by Resource';
+        if (chartType == "avg-wait-process") {
+            this.state.chartTitle = 'Avg. Wait-Time/Avg. Process-Time by Process Step';
             this.state.YaxisTitle = 'Time (hrs)'
             this.state.XaxisTitle = 'Process Steps'
             this.state.dataSeries1  = cycleTimeChartData.avgProcessTime;
             this.state.dataSeries2  = cycleTimeChartData.avgWaitTime;
+            this.state.dataSeriesLabels[0] = 'Avg. Process Time';
+            this.state.dataSeriesLabels[1] = 'Avg. Wait Time';
+            this.state.dataSeriesDisplay[0] = true;
+            this.state.dataSeriesDisplay[1] = true;
+            this.state.dataSeriesBorderWidths[0] = 2;
+            this.state.dataSeriesBorderWidths[1] = 2;
+            this.state.dataSeriesBackgroundColors[0] = 'rgba(255, 0, 0, .75)';
+            this.state.dataSeriesBackgroundColors[1] = 'rgba(0, 0, 255, .75)';
+        } else if (chartType == "total-wait-process") {
+            this.state.chartTitle = 'Total Wait-Time/Total Process-Time by Process Step';
+            this.state.YaxisTitle = 'Time (hrs)'
+            this.state.XaxisTitle = 'Process Steps'
+            this.state.dataSeries1  = cycleTimeChartData.totalProcessTime;
+            this.state.dataSeries2  = cycleTimeChartData.totalWaitTime;
             this.state.dataSeriesLabels[0] = 'Total Process Time';
             this.state.dataSeriesLabels[1] = 'Total Wait Time';
             this.state.dataSeriesDisplay[0] = true;
@@ -47,25 +60,12 @@ class CycleTimeBarChart extends React.Component {
             this.state.dataSeriesBorderWidths[1] = 2;
             this.state.dataSeriesBackgroundColors[0] = 'rgba(255, 0, 0, .75)';
             this.state.dataSeriesBackgroundColors[1] = 'rgba(0, 0, 255, .75)';
-        } else  if (chartType === "utilization") {
-            this.state.chartTitle = 'Utilization by Resource';
-            this.state.YaxisTitle = 'Utilization'
-            this.state.XaxisTitle = 'Resources'
-            this.state.dataSeries1  = cycleTimeChartData.Utilization;
-            this.state.dataSeriesLabels[0] = 'Utilization';
-            this.state.dataSeriesLabels[1] = '';
-            this.state.dataSeriesDisplay[0] = true;
-            this.state.dataSeriesDisplay[1] = false;
-            this.state.dataSeriesBorderWidths[0] = 2;
-            this.state.dataSeriesBorderWidths[1] = 0;
-            this.state.dataSeriesBackgroundColors[0] = 'rgba(255, 100, 100, 1)';
-            this.state.dataSeriesBackgroundColors[1] = 'rgba(0, 0, 0, 0)';
-        }  else  if (chartType == "total-orders-serviced") {
-            this.state.chartTitle = 'Total Orders Serviced by Resource';
-            this.state.YaxisTitle = 'Orders Serviced'
-            this.state.XaxisTitle = 'Resources'
-            this.state.dataSeries1  = cycleTimeChartData.TotalOrdersServiced;
-            this.state.dataSeriesLabels[0] = 'Total Orders Serviced';
+        } else  if (chartType === "total-jobs-processed") {
+            this.state.chartTitle = 'Total Jobs Processed by Process Step';
+            this.state.YaxisTitle = 'Jobs Processed'
+            this.state.XaxisTitle = 'Process Steps'
+            this.state.dataSeries1  = cycleTimeChartData.totalJobsProcessed;
+            this.state.dataSeriesLabels[0] = 'Total Jobs Processed';
             this.state.dataSeriesLabels[1] = '';
             this.state.dataSeriesDisplay[0] = true;
             this.state.dataSeriesDisplay[1] = false;
@@ -73,6 +73,20 @@ class CycleTimeBarChart extends React.Component {
             this.state.dataSeriesBorderWidths[1] = 0;
             this.state.dataSeriesBackgroundColors[0] = 'rgba(0, 255, 0, 1)';
             this.state.dataSeriesBackgroundColors[1] = 'rgba(0, 0, 0, 0)';
+        }  else  if (chartType == "covarrivals-covdepartures") {
+            this.state.chartTitle = 'Coefficient of Variation Arrivals/Departures by Process Step';
+            this.state.YaxisTitle = 'CoV Arrivals/CoV Departures'
+            this.state.XaxisTitle = 'Process Step'
+            this.state.dataSeries1  = cycleTimeChartData.CoVarrivals;
+            this.state.dataSeries2  = cycleTimeChartData.CoVdepartures;
+            this.state.dataSeriesLabels[0] = 'CoV Arrivals';
+            this.state.dataSeriesLabels[1] = 'CoV Departures';
+            this.state.dataSeriesDisplay[0] = true;
+            this.state.dataSeriesDisplay[1] = true;
+            this.state.dataSeriesBorderWidths[0] = 2;
+            this.state.dataSeriesBorderWidths[1] = 2;
+            this.state.dataSeriesBackgroundColors[0] = 'rgba(150, 50, 200, 1)';
+            this.state.dataSeriesBackgroundColors[1] = 'rgba(0, 150, 25, 1)';
         }
 
         var ChartData = {
