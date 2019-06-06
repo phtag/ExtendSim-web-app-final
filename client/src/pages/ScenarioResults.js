@@ -33,7 +33,7 @@ class ScenariosResults extends React.Component {
                     <table id='scenario-result-types-table' border="1">
                         <thead>
                             <tr>
-                                <th className="table-headers" id="scenario-result-types-table-col1">Type</th>
+                                <th className="table-headers" id="scenario-result-types-table-col1">Result Type</th>
                                 <th className="table-headers" id="scenario-result-types-table-col2"></th>
                             </tr>
                         </thead>
