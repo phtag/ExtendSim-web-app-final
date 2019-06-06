@@ -3,9 +3,13 @@ import UserContext from '../utils/UserContext';
 import ResourceBarChart from '../utils/ResourceBarChart'; 
 
 class ResourceResults extends React.Component {
+  static contextType = UserContext;
+
   state = {
     displayShowChartButton: true,
-    displayShowTableButton: false
+    displayShowTableButton: false,
+    chartType: "idle-busy",
+    chartTitle: "Total Idle-Time/Total Busy-Time by Resource"
   };
 
   constructor(props) {
@@ -14,6 +18,18 @@ class ResourceResults extends React.Component {
     this.resourceTable = React.createRef(); // Create a ref    
   }
 
+  handleDropDownChange = (event, handleChartTypeChange) => {
+    const { history } = this.props;
+
+    handleChartTypeChange(event.target.value, history);
+    alert(event.target.value);
+    this.setState({chartType: event.target.value});
+    if (event.target.value === "idle-busy") {
+      this.setState({chartTitle: "Total Idle-Time/Total Busy-Time by Resource"});
+    } else if (event.target.value === "utilization") {
+      this.setState({chartTitle: "Utilization by Resource"});
+    }
+  }
   handleButtonClick = (event, myRef) => {
     myRef.current.scrollIntoView();
     if (myRef.current.id === "home") {
@@ -38,7 +54,8 @@ class ResourceResults extends React.Component {
             resourceChartData,
             renderResourcesTableData,
             scenarioID,
-            scenarioName
+            scenarioName,
+            handleChartTypeChange
         }) => (
           <div id="home" ref={this.resourceTable}>
             <div className="container my-scenario-container">
@@ -83,10 +100,15 @@ class ResourceResults extends React.Component {
                     </div>
                   ) : (
                     <div id="show-chart" ref={this.resourceChart}>
-                       <button class="resource-results-button" onClick={(event) => this.handleButtonClick(event, this.resourceTable)}>
+                       <button id={this.state.refreshPage} class="resource-results-button" onClick={(event) => this.handleButtonClick(event, this.resourceTable)}>
                           View table data
-                        </button>                   
-                      <ResourceBarChart resourceChartData={resourceChartData}></ResourceBarChart>
+                        </button>  
+                        <label htmlFor="resource-chart-type" class="drop-down-label">Chart Type:</label>
+                        <select class="chart-type-drop-down" id="resource-chart-type" onChange={(event) => this.handleDropDownChange(event, handleChartTypeChange)}>
+                          <option value="idle-busy">Idle/Busy Time</option>
+                          <option value="utilization">Utilization</option>
+                        </select>            
+                      <ResourceBarChart resourceChartData={resourceChartData} chartTitle={this.state.chartTitle} chartType={this.state.chartType}></ResourceBarChart>
                     </div> )}
                 </div>
               </div>

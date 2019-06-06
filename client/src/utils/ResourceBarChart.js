@@ -9,15 +9,31 @@ class ResourceBarChart extends React.Component {
         dataSeries1: [],
         dataSeries2: []
     }
+
+    handlePopupChange = (event) => {
+
+    }
     componentDidMount () {
         const { resourceChartData } = this.context;
         this.dataSeries1 = resourceChartData.TotalBusyTime;
         this.dataSeries2 = resourceChartData.TotalIdleTime;
-        alert('this.dataSeries2.length=' + this.dataSeries2.length);
     };
     render() {
-        const {resourceChartData} = this.props;
-        const ChartData = {
+        const {chartType, chartTitle} = this.props;
+        // this.dataSeries1 = resourceChartData.TotalBusyTime;
+        // this.dataSeries2 = resourceChartData.TotalIdleTime;
+        const { resourceChartData, resourceChartDataSeries1, resourceChartDataSeries2 } = this.context;
+
+        if (chartType == "idle-busy") {
+            this.dataSeries1  = resourceChartData.TotalBusyTime;
+            this.dataSeries2  = resourceChartData.TotalIdleTime;
+        } else  if (chartType == "utilization") {
+            this.dataSeries1  = resourceChartData.TotalOrdersServiced;
+            this.dataSeries2  = resourceChartData.TotalOrdersServiced;           
+        }
+        alert('Resource bar chart: chartType=' + chartType);
+
+        var ChartData = {
             // labels: resourceChartData.TotalIdleTime.map(element => (element.label)),
             labels: this.dataSeries1.map(element => (element.label)),
             datasets: [
@@ -52,7 +68,8 @@ class ResourceBarChart extends React.Component {
                         title:{
                             display: true,
                             fontSize: chartProperties.titleFontSize,
-                            text: 'Total Idle Time/Total Busy Time by Resource'
+                            text: chartTitle
+                            // text: 'Total Idle Time/Total Busy Time by Resource'
                         },
                         scales: {
                             xAxes: [

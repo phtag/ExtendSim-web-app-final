@@ -103,6 +103,8 @@ export class UserProvider extends React.Component {
     resourceData: [],
     poolData: [],
     modelData: [],
+    resourceChartDataSeries1: [],
+    resourceChartDataSeries2: [],    
     cycleTimeChartData: {
       totalJobsProcessed: [],
       totalProcessTime: [],
@@ -636,6 +638,25 @@ export class UserProvider extends React.Component {
                    () => this.ValidatePageElements());
   }
 
+  handleChartTypeChange = (chartType, route, history) => {
+    if (chartType === "Wait/Busy Time") {
+      this.setState(
+        {
+          resourceChartDataSeries1: this.state.resourceChartData.TotalBusyTime,
+          resourceChartDataSeries2: this.state.resourceChartData.TotalIdleTime
+        }
+      );
+    } else if (chartType === "Utilization") {
+      this.setState(
+        {
+          resourceChartDataSeries1: this.state.resourceChartData.Utilization,
+          resourceChartDataSeries2: this.state.resourceChartData.Utilization
+        }
+      );
+    }
+    return true;
+  }
+
   handleLoginSubmit = (event, history) => {
     var myValidationObjects = this.state.validationObjects;
     var userScenarios = [];
@@ -811,28 +832,41 @@ export class UserProvider extends React.Component {
       .then(res1 => {
         console.log('scenario resourceData=' + res1.data.resourceData);
         this.setState({resourceData: res1.data.resourceData});
-        this.setState({resourceChartData: 
+        this.setState(
           {
-            TotalOrdersServiced: this.makeResourceChartData(res1.data.resourceData, 'TotalOrdersServiced'),
-            TotalIdleTime: this.makeResourceChartData(res1.data.resourceData, 'TotalIdleTime'),
-            TotalBusyTime: this.makeResourceChartData(res1.data.resourceData, 'TotalBusyTime'),
-            TotalBusyOffShiftTime: this.makeResourceChartData(res1.data.resourceData, 'TotalBusyOffShiftTime'),
-            TotalReservedTime: this.makeResourceChartData(res1.data.resourceData, 'TotalReservedTime'),
-            TotalDownTime: this.makeResourceChartData(res1.data.resourceData, 'TotalDownTime'),
-            TotalOffShiftTime: this.makeResourceChartData(res1.data.resourceData, 'TotalOffShiftTime'),
-            TotalDisabledTime: this.makeResourceChartData(res1.data.resourceData, 'TotalDisabledTime'),
-            TotalAllocatedTime: this.makeResourceChartData(res1.data.resourceData, 'TotalAllocatedTime'),
-            TotalCost: this.makeResourceChartData(res1.data.resourceData, 'TotalCost'),
-            TotalFailedTime: this.makeResourceChartData(res1.data.resourceData, 'TotalFailedTime'),
-            TotalQuantityAllocated: this.makeResourceChartData(res1.data.resourceData, 'TotalQuantityAllocated'),
-            TotalQuantityAllocationTime: this.makeResourceChartData(res1.data.resourceData, 'TotalQuantityAllocationTime'),
-            TotalReassignedTime: this.makeResourceChartData(res1.data.resourceData, 'TotalReassignedTime'),
-            TotalScheduledDownTime: this.makeResourceChartData(res1.data.resourceData, 'TotalScheduledDownTime'),
-            TotalUnscheduledDownTime: this.makeResourceChartData(res1.data.resourceData, 'TotalUnscheduledDownTime'),
-            QuantityUtilization: this.makeResourceChartData(res1.data.resourceData, 'QuantityUtilization'),
-            Utilization: this.makeResourceChartData(res1.data.resourceData, 'Utilization')
-          }});
-        history.push('/resource-results');
+            resourceChartData: 
+              {
+                TotalOrdersServiced: this.makeResourceChartData(res1.data.resourceData, 'TotalOrdersServiced'),
+                TotalIdleTime: this.makeResourceChartData(res1.data.resourceData, 'TotalIdleTime'),
+                TotalBusyTime: this.makeResourceChartData(res1.data.resourceData, 'TotalBusyTime'),
+                TotalBusyOffShiftTime: this.makeResourceChartData(res1.data.resourceData, 'TotalBusyOffShiftTime'),
+                TotalReservedTime: this.makeResourceChartData(res1.data.resourceData, 'TotalReservedTime'),
+                TotalDownTime: this.makeResourceChartData(res1.data.resourceData, 'TotalDownTime'),
+                TotalOffShiftTime: this.makeResourceChartData(res1.data.resourceData, 'TotalOffShiftTime'),
+                TotalDisabledTime: this.makeResourceChartData(res1.data.resourceData, 'TotalDisabledTime'),
+                TotalAllocatedTime: this.makeResourceChartData(res1.data.resourceData, 'TotalAllocatedTime'),
+                TotalCost: this.makeResourceChartData(res1.data.resourceData, 'TotalCost'),
+                TotalFailedTime: this.makeResourceChartData(res1.data.resourceData, 'TotalFailedTime'),
+                TotalQuantityAllocated: this.makeResourceChartData(res1.data.resourceData, 'TotalQuantityAllocated'),
+                TotalQuantityAllocationTime: this.makeResourceChartData(res1.data.resourceData, 'TotalQuantityAllocationTime'),
+                TotalReassignedTime: this.makeResourceChartData(res1.data.resourceData, 'TotalReassignedTime'),
+                TotalScheduledDownTime: this.makeResourceChartData(res1.data.resourceData, 'TotalScheduledDownTime'),
+                TotalUnscheduledDownTime: this.makeResourceChartData(res1.data.resourceData, 'TotalUnscheduledDownTime'),
+                QuantityUtilization: this.makeResourceChartData(res1.data.resourceData, 'QuantityUtilization'),
+                Utilization: this.makeResourceChartData(res1.data.resourceData, 'Utilization')
+              }
+            },
+            () => this.setState(
+              {
+                resourceChartDataSeries1: this.state.resourceChartData.TotalBusyTime,
+                resourceChartDataSeries2: this.state.resourceChartData.TotalIdleTime
+              },
+              () => {
+                alert('resourceChartDataSeries1.length=' + this.state.resourceChartDataSeries1.length);
+                history.push('/resource-results')
+              }
+            )
+          );
       });
     } else if (resultType === "Pools") {
       API.getPoolData (scenarioID, username) 
@@ -1044,8 +1078,11 @@ export class UserProvider extends React.Component {
         errorLoginPage: this.state.errorLoginPage,
         errorSignupPage: this.state.errorSignupPage,
         chartProperties: this.state.chartProperties,
+        resourceChartDataSeries1: this.state.resourceChartDataSeries1,
+        resourceChartDataSeries2: this.state.resourceChartDataSeries2,
         handleUserInputChange: this.handleUserInputChange,
         handleDropEvents: this.handleDropEvents,
+        handleChartTypeChange: this.handleChartTypeChange,
         handleSignupSubmit: this.handleSignupSubmit,
         handleLoginSubmit: this.handleLoginSubmit,
         handleSubmitSimulationScenario: this.handleSubmitSimulationScenario,

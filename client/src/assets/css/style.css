@@ -161,3 +161,12 @@ tr:nth-child(even) {
   color: red;
   z-index: 1;
 }
+
+.chart-type-drop-down {
+  margin: 5px;
+}
+.drop-down-label {
+  margin-left: 40px;
+  font-weight: bold;
+  font-size: 20px;
+}
