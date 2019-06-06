@@ -9,7 +9,9 @@ class ResourceBarChart extends React.Component {
         dataSeries1: [],
         dataSeries2: [],
         dataSeriesDisplay: [],
-        dataSeriesLabels: []
+        dataSeriesLabels: [],
+        dataSeriesBorderWidths: [],
+        dataSeriesBackgroundColors: []
     }
 
     handlePopupChange = (event) => {
@@ -33,13 +35,21 @@ class ResourceBarChart extends React.Component {
             this.state.dataSeriesLabels[1] = 'Total Idle Time';
             this.state.dataSeriesDisplay[0] = true;
             this.state.dataSeriesDisplay[1] = true;
+            this.state.dataSeriesBorderWidths[0] = 2;
+            this.state.dataSeriesBorderWidths[1] = 2;
+            this.state.dataSeriesBackgroundColors[0] = 'rgba(0, 0, 255, .75)';
+            this.state.dataSeriesBackgroundColors[1] = 'rgba(255, 0, 0, .75)';
         } else  if (chartType == "utilization") {
             this.state.dataSeries1  = resourceChartData.Utilization;
             this.state.dataSeries2  = resourceChartData.Utilization;
             this.state.dataSeriesLabels[0] = 'Utilization';
+            this.state.dataSeriesLabels[1] = '';
             this.state.dataSeriesDisplay[0] = true;
             this.state.dataSeriesDisplay[1] = false;
-
+            this.state.dataSeriesBorderWidths[0] = 2;
+            this.state.dataSeriesBorderWidths[1] = 0;
+            this.state.dataSeriesBackgroundColors[0] = 'rgba(0, 0, 255, .75)';
+            this.state.dataSeriesBackgroundColors[1] = 'rgba(0, 0, 0, 0)';
         }
         var ChartData = {
             // labels: resourceChartData.TotalIdleTime.map(element => (element.label)),
@@ -49,15 +59,17 @@ class ResourceBarChart extends React.Component {
                     label: this.state.dataSeriesLabels[0],
                     // data: resourceChartData.TotalBusyTime.map(element => (element.value)),
                     data: this.state.dataSeries1.map(element => (element.value)),
-                    backgroundColor: 'rgba(0, 0, 255, .75)',
-                    hidden:  !this.state.dataSeriesDisplay[0]
+                    backgroundColor: this.state.dataSeriesBackgroundColors[0],
+                    hidden:  !this.state.dataSeriesDisplay[0],
+                    borderWidth: this.state.dataSeriesBorderWidths[0]
                 },
                 {
                     label: this.state.dataSeriesLabels[1],
                     // data: resourceChartData.TotalIdleTime.map(element => (element.value)),
                     data: this.state.dataSeries2.map(element => (element.value)),
-                    backgroundColor: 'rgba(255, 0, 0, .75)',
-                    hidden:  !this.state.dataSeriesDisplay[1]
+                    backgroundColor: this.state.dataSeriesBackgroundColors[1],
+                    hidden:  !this.state.dataSeriesDisplay[1],
+                    borderWidth: this.state.dataSeriesBorderWidths[1]
                 },               
             ] 
 
