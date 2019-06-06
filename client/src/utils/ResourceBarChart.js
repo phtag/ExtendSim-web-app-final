@@ -7,7 +7,9 @@ class ResourceBarChart extends React.Component {
     static contextType = UserContext;
     state = {
         dataSeries1: [],
-        dataSeries2: []
+        dataSeries2: [],
+        dataSeriesDisplay: [],
+        dataSeriesLabels: []
     }
 
     handlePopupChange = (event) => {
@@ -22,34 +24,40 @@ class ResourceBarChart extends React.Component {
         const {chartType, chartTitle} = this.props;
         // this.dataSeries1 = resourceChartData.TotalBusyTime;
         // this.dataSeries2 = resourceChartData.TotalIdleTime;
-        const { resourceChartData, resourceChartDataSeries1, resourceChartDataSeries2 } = this.context;
+        const { resourceChartData } = this.context;
 
         if (chartType == "idle-busy") {
-            this.dataSeries1  = resourceChartData.TotalBusyTime;
-            this.dataSeries2  = resourceChartData.TotalIdleTime;
+            this.state.dataSeries1  = resourceChartData.TotalBusyTime;
+            this.state.dataSeries2  = resourceChartData.TotalIdleTime;
+            this.state.dataSeriesLabels[0] = 'Total Busy Time';
+            this.state.dataSeriesLabels[1] = 'Total Idle Time';
+            this.state.dataSeriesDisplay[0] = true;
+            this.state.dataSeriesDisplay[1] = true;
         } else  if (chartType == "utilization") {
-            this.dataSeries1  = resourceChartData.TotalOrdersServiced;
-            this.dataSeries2  = resourceChartData.TotalOrdersServiced;           
-        }
-        alert('Resource bar chart: chartType=' + chartType);
+            this.state.dataSeries1  = resourceChartData.Utilization;
+            this.state.dataSeries2  = resourceChartData.Utilization;
+            this.state.dataSeriesLabels[0] = 'Utilization';
+            this.state.dataSeriesDisplay[0] = true;
+            this.state.dataSeriesDisplay[1] = false;
 
+        }
         var ChartData = {
             // labels: resourceChartData.TotalIdleTime.map(element => (element.label)),
-            labels: this.dataSeries1.map(element => (element.label)),
+            labels: this.state.dataSeries1.map(element => (element.label)),
             datasets: [
                 {
-                    label: 'Total Busy Time',
+                    label: this.state.dataSeriesLabels[0],
                     // data: resourceChartData.TotalBusyTime.map(element => (element.value)),
-                    data: this.dataSeries1.map(element => (element.value)),
-                    backgroundColor: 
-                        'rgba(0, 0, 255, .75)'
+                    data: this.state.dataSeries1.map(element => (element.value)),
+                    backgroundColor: 'rgba(0, 0, 255, .75)',
+                    hidden:  !this.state.dataSeriesDisplay[0]
                 },
                 {
-                    label: 'Total Idle Time',
+                    label: this.state.dataSeriesLabels[1],
                     // data: resourceChartData.TotalIdleTime.map(element => (element.value)),
-                    data: this.dataSeries2.map(element => (element.value)),
-                    backgroundColor: 
-                        'rgba(255, 0, 0, .75)'
+                    data: this.state.dataSeries2.map(element => (element.value)),
+                    backgroundColor: 'rgba(255, 0, 0, .75)',
+                    hidden:  !this.state.dataSeriesDisplay[1]
                 },               
             ] 
 
@@ -79,7 +87,7 @@ class ResourceBarChart extends React.Component {
                                     scaleLabel: {
                                         display: true,
                                         labelString: 'Resources',
-                                        fontSize: chartProperties.axesFontSize
+                                        fontSize: chartProperties.axesLabelFontSize
                                     }
                                 }],
                             yAxes: [
@@ -89,7 +97,7 @@ class ResourceBarChart extends React.Component {
                                     scaleLabel: {
                                         display: true,
                                         labelString: 'Time (hrs)',
-                                        fontSize: chartProperties.axesFontSize
+                                        fontSize: chartProperties.axesLabelFontSize
                                     }
                                 }
                             ]
@@ -97,6 +105,14 @@ class ResourceBarChart extends React.Component {
                         legend: {
                             display: true,
                             position: 'right',
+                            labels: {
+                                filter: () => function(legendItem, ChartData) {
+                                 if (this.state.dataSeriesDisplay[legendItem.datasetIndex]) {
+                                   return false;
+                                 }
+                                return true;
+                                }
+                             }
                         },
                         layout: {}
                     }}

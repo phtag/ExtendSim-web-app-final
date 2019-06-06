@@ -156,7 +156,7 @@ export class UserProvider extends React.Component {
       Utilization: []
     },
     chartProperties: {
-      axesLabelFontSize: 18,
+      axesLabelFontSize: 24,
       titleFontSize: 30
     }
   }
@@ -862,7 +862,6 @@ export class UserProvider extends React.Component {
                 resourceChartDataSeries2: this.state.resourceChartData.TotalIdleTime
               },
               () => {
-                alert('resourceChartDataSeries1.length=' + this.state.resourceChartDataSeries1.length);
                 history.push('/resource-results')
               }
             )

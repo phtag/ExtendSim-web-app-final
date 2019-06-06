@@ -22,7 +22,6 @@ class ResourceResults extends React.Component {
     const { history } = this.props;
 
     handleChartTypeChange(event.target.value, history);
-    alert(event.target.value);
     this.setState({chartType: event.target.value});
     if (event.target.value === "idle-busy") {
       this.setState({chartTitle: "Total Idle-Time/Total Busy-Time by Resource"});
