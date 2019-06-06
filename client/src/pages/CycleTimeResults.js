@@ -5,13 +5,19 @@ import CycleTimeBarChart from '../utils/CycleTimeBarChart';
 class CycleTimeResults extends React.Component {
   state = {
     displayShowChartButton: true,
-    displayShowTableButton: false
+    displayShowTableButton: false,
+    chartType: "wait-process",
+    chartTitle: "Total Wait-Time/Total Process-Time by Resource"
   };
 
   constructor(props) {
     super(props);
     this.cycleTimeTable = React.createRef(); // Create a ref    
     this.cycleTimeChart = React.createRef(); // Create a ref    
+  }
+
+  handleDropDownChange = (event) => {
+    this.setState({chartType: event.target.value});
   }
 
   handleButtonClick = (event, myRef) => {
@@ -81,8 +87,15 @@ class CycleTimeResults extends React.Component {
                     <div id="show-chart" ref={this.cycleTimeChart}>
                        <button class="cycle-time-results-button" onClick={(event) => this.handleButtonClick(event, this.cycleTimeTable)}>
                           View table data
-                        </button>                   
-                      <CycleTimeBarChart cycleTimeChartData={cycleTimeChartData}></CycleTimeBarChart>
+                        </button>  
+                        <label htmlFor="cyle-time-chart-type" class="drop-down-label">Chart Type:</label>
+                        <select class="chart-type-drop-down" id="cycle-time-chart-type" onChange={(event) => this.handleDropDownChange(event)}>
+                          <option value="wait-process">Wait/Process Time</option>
+                          <option value="utilization">Utilization</option>
+                          <option value="total-orders-serviced">Total Orders Serviced</option>
+                        </select>            
+                        <CycleTimeBarChart chartType={this.state.chartType}></CycleTimeBarChart>
+                        {/* <CycleTimeBarChart cycleTimeChartData={cycleTimeChartData}></CycleTimeBarChart> */}
                     </div> )}
                 </div>
               </div>
