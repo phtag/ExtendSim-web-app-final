@@ -29,12 +29,16 @@ After completing the above two steps, a submit simulation button will appear for
 This page provides a list of all scenarios that have been created and completed their run on the ExtendSim server. Click on the "Show" buttons to view the results generated for the associated scenario. Click on the Delete button to remove the scenario from the list of completed scenarios.
 
 The next phase of this project will greatly expand the reports page by providing users with several different reports at the detailed and summary levels and charting of results.
-### Scenario Results Page
-![Inputs page Screenshot](/images/ExtendSimWebAppScenarioResultsPage.jpeg)
 
-The next phase of this project will greatly expand the reports page by providing users with several different reports at the detailed and summary levels and charting of results.
+### Scenario Result Types Page
+![Inputs page Screenshot](/client/src/assets/images/ScenarioResultTypesPage-screenshot.jpg)
 
-NOTE: This project is referenced on my portfolio page at [my portfolio](https://phtag.github.io/Updated-portfolio/)
+The page displays the list of different types of results available for viewing for the selected scenario. Click on the show button of a result type to show table data and charts for the result type.
+
+### Cycle-Time Result Type Page
+![CycleTimeResultType page Screenshot](/client/src/assets/images/CycleTimeResults-screenshot.jpg)
+
+The page displays cycle-time results for the selected scenario. Click on the "View table data" button to toggle to a table-based view of the cycle-time data. Click on the "chart type" drop down menu to view other types of cycle-time charts. 
 
 ### Purpose
 The purpose of this project was to create a web-based simulation capability so that users can run the ExtendSim simulation without having to install it on their computers.
