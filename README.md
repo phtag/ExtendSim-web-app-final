@@ -12,17 +12,23 @@ are processed by the ExtendSim application. A new server was created using Expre
 
 The architecture consists of a web-based client-side interface where users create simulation scenarios to test how a system they are analyzing will perform under different circumstances. These scenarios are submitted from the browser to the Node.js server and passed on to the ExtendSim server. The results of the simulation run are stored in a MySQL database and are available for review by the user in the browser.
 
-### Login Page of the ExtendSim Web Simulation
-The starting point for a user session is the login. The user provides a username and password to login to the ExtendSim server. This is required to determine which simulation models the user has access to on the server. For this demonstration, the user is not provided with an ability to select which model they want to run a simulation for, but a future version will provide this capability. 
-![Login page Screenshot](/images/ExtendSimWebAppLoginPage.jpeg)
+### Home Page of the ExtendSim Web Simulation
+To use the ExtendSim web simulation, a user must be registered in the system. To do this, select the Signup option from the navigation bar. Once a user is signed up, the starting point for a user session is the login page. The user provides a username and password to login to the ExtendSim server. This is required to determine which simulation models the user has access to on the server. For this demonstration, the user is not provided with an ability to select which model they want to run a simulation for, but a future version will provide this capability. 
+![Home page Screenshot](/client/src/assets/images/FinalProjectHomePage-screenshot.jpg)
 
-### Scenario Inputs Page
-The scenarion inputs page is where the user configures the scenario that will be submitted to the ExtendSim server. Currently, this is done as a two step process:
+### Scenario Setup Page
+The Scenario Setup page is where the user configures the scenario that will be submitted to the ExtendSim server. Currently, this is done as a two step process:
 - Specify a scenario name
-- Drag and drop input files into the drop zone
-![Inputs page Screenshot](/images/ExtendSimWebAppScenarioInputsPage.jpeg)
+- Drag and drop or click to navigate to input files into the drop zone
+![Scenario Setup Page Screenshot](/client/src/assets/images/ScenarioSetupPage-screenshot.jpg)
 After completing the above two steps, a submit simulation button will appear for submitting the configured scenario. When the submit button is clicked, the input files will be pushed to the ExtendSim server and copied to a folder from which the scenario will be run. The user will be informed when the scenario has completed its run and presented with a button to click to view simulation results
 
+### Scenarios Summary Page
+![Scenarios_summary_page Screenshot](/client/src/assets/images/ScenariosSummaryPage-screenshot.jpg)
+
+This page provides a list of all scenarios that have been created and completed their run on the ExtendSim server. Click on the "Show" buttons to view the results generated for the associated scenario. Click on the Delete button to remove the scenario from the list of completed scenarios.
+
+The next phase of this project will greatly expand the reports page by providing users with several different reports at the detailed and summary levels and charting of results.
 ### Scenario Results Page
 ![Inputs page Screenshot](/images/ExtendSimWebAppScenarioResultsPage.jpeg)
 
