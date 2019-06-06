@@ -26,7 +26,7 @@ class ResourceBarChart extends React.Component {
         this.dataSeries2 = resourceChartData.TotalIdleTime;
     };
     render() {
-        const {chartType, chartTitle} = this.props;
+        const {chartType} = this.props;
         const { resourceChartData } = this.context;
         if (chartType == "idle-busy") {
             this.state.chartTitle = 'Total Idle-Time/Total Busy-Time by Resource';
@@ -108,7 +108,6 @@ class ResourceBarChart extends React.Component {
                             display: true,
                             fontSize: chartProperties.titleFontSize,
                             text: this.state.chartTitle
-                            // text: 'Total Idle Time/Total Busy Time by Resource'
                         },
                         scales: {
                             xAxes: [

@@ -45,7 +45,7 @@ class ScenariosResults extends React.Component {
                 </div>
               </div>
             </div>
-          // </div>
+          </div>
         )}
       </UserContext.Consumer>
     );

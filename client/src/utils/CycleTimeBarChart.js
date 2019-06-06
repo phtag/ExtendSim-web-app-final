@@ -13,13 +13,13 @@ class CycleTimeBarChart extends React.Component {
                     label: 'Avg. Process Time',
                     data: cycleTimeChartData.avgProcessTime.map(element => (element.value)),
                     backgroundColor: 
-                        'rgba(0, 0, 255, .75)'
+                        'rgba(255, 0, 0, .75)'
                 },
                 {
                     label: 'Avg. Wait Time',
                     data: cycleTimeChartData.avgWaitTime.map(element => (element.value)),
                     backgroundColor: 
-                        'rgba(255, 0, 0, .75)'
+                        'rgba(0, 0, 255, .75)'
                 },               
             ] 
 

@@ -13,21 +13,17 @@ class PoolBarChart extends React.Component {
                     label: 'Total Busy Time',
                     data: poolChartData.TotalBusyTime.map(element => (element.value)),
                     backgroundColor: 
-                        'rgba(0, 0, 255, .75)'
+                        'rgba(255, 0, 0, .75)'
                 },
                 {
                     label: 'Total Idle Time',
                     data: poolChartData.TotalIdleTime.map(element => (element.value)),
                     backgroundColor: 
-                        'rgba(255, 0, 0, .75)'
+                        'rgba(0, 0, 255, .75)'
                 },               
             ] 
 
         }
-        const legendItems = [
-            { title: 'Total Idle Time', color: 'red', stroke: '#fff', strokeWidth: '10' },
-            { title: 'Total Busy Time', color: 'blue', stroke: '#fff', strokeWidth: '2' }
-        ];
         return (
             <UserContext.Consumer>
             {({chartProperties}) => (

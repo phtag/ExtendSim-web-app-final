@@ -108,7 +108,8 @@ class ResourceResults extends React.Component {
                           <option value="utilization">Utilization</option>
                           <option value="total-orders-serviced">Total Orders Serviced</option>
                         </select>            
-                      <ResourceBarChart resourceChartData={resourceChartData} chartType={this.state.chartType}></ResourceBarChart>
+                      <ResourceBarChart chartType={this.state.chartType}></ResourceBarChart>
+                      {/* <ResourceBarChart resourceChartData={resourceChartData} chartType={this.state.chartType}></ResourceBarChart> */}
                     </div> )}
                 </div>
               </div>
