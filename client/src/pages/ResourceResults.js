@@ -18,17 +18,10 @@ class ResourceResults extends React.Component {
     this.resourceTable = React.createRef(); // Create a ref    
   }
 
-  handleDropDownChange = (event, handleChartTypeChange) => {
-    const { history } = this.props;
-
-    handleChartTypeChange(event.target.value, history);
+  handleDropDownChange = (event) => {
     this.setState({chartType: event.target.value});
-    if (event.target.value === "idle-busy") {
-      this.setState({chartTitle: "Total Idle-Time/Total Busy-Time by Resource"});
-    } else if (event.target.value === "utilization") {
-      this.setState({chartTitle: "Utilization by Resource"});
-    }
   }
+
   handleButtonClick = (event, myRef) => {
     myRef.current.scrollIntoView();
     if (myRef.current.id === "home") {
@@ -50,11 +43,9 @@ class ResourceResults extends React.Component {
     return (
       <UserContext.Consumer>
         {({
-            resourceChartData,
             renderResourcesTableData,
             scenarioID,
-            scenarioName,
-            handleChartTypeChange
+            scenarioName
         }) => (
           <div id="home" ref={this.resourceTable}>
             <div className="container my-scenario-container">
@@ -103,13 +94,12 @@ class ResourceResults extends React.Component {
                           View table data
                         </button>  
                         <label htmlFor="resource-chart-type" class="drop-down-label">Chart Type:</label>
-                        <select class="chart-type-drop-down" id="resource-chart-type" onChange={(event) => this.handleDropDownChange(event, handleChartTypeChange)}>
+                        <select class="chart-type-drop-down" id="resource-chart-type" onChange={(event) => this.handleDropDownChange(event)}>
                           <option value="idle-busy">Idle/Busy Time</option>
                           <option value="utilization">Utilization</option>
                           <option value="total-orders-serviced">Total Orders Serviced</option>
                         </select>            
                       <ResourceBarChart chartType={this.state.chartType}></ResourceBarChart>
-                      {/* <ResourceBarChart resourceChartData={resourceChartData} chartType={this.state.chartType}></ResourceBarChart> */}
                     </div> )}
                 </div>
               </div>

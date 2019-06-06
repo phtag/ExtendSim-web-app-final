@@ -3,7 +3,7 @@ import React from 'react';
 import UserContext from './UserContext'; 
 import {Bar, Line} from 'react-chartjs-2';
 
-class PoolBarChart extends React.Component {
+class ResourceBarChart extends React.Component {
     static contextType = UserContext;
     state = {
         chartTitle: "",
@@ -18,19 +18,19 @@ class PoolBarChart extends React.Component {
     }
 
     componentDidMount () {
-        const { poolChartData } = this.context;
-        this.dataSeries1 = poolChartData.TotalBusyTime;
-        this.dataSeries2 = poolChartData.TotalIdleTime;
+        const { resourceChartData } = this.context;
+        this.dataSeries1 = resourceChartData.TotalBusyTime;
+        this.dataSeries2 = resourceChartData.TotalIdleTime;
     };
     render() {
         const {chartType} = this.props;
-        const { poolChartData } = this.context;
+        const { resourceChartData } = this.context;
         if (chartType == "idle-busy") {
-            this.state.chartTitle = 'Total Idle-Time/Total Busy-Time by Pool';
+            this.state.chartTitle = 'Total Idle-Time/Total Busy-Time by Resource';
             this.state.YaxisTitle = 'Time (hrs)'
-            this.state.XaxisTitle = 'Pools'
-            this.state.dataSeries1  = poolChartData.TotalBusyTime;
-            this.state.dataSeries2  = poolChartData.TotalIdleTime;
+            this.state.XaxisTitle = 'Resources'
+            this.state.dataSeries1  = resourceChartData.TotalBusyTime;
+            this.state.dataSeries2  = resourceChartData.TotalIdleTime;
             this.state.dataSeriesLabels[0] = 'Total Busy Time';
             this.state.dataSeriesLabels[1] = 'Total Idle Time';
             this.state.dataSeriesDisplay[0] = true;
@@ -40,10 +40,10 @@ class PoolBarChart extends React.Component {
             this.state.dataSeriesBackgroundColors[0] = 'rgba(255, 0, 0, .75)';
             this.state.dataSeriesBackgroundColors[1] = 'rgba(0, 0, 255, .75)';
         } else  if (chartType === "utilization") {
-            this.state.chartTitle = 'Utilization by Pool';
+            this.state.chartTitle = 'Utilization by Resource';
             this.state.YaxisTitle = 'Utilization'
-            this.state.XaxisTitle = 'Pools'
-            this.state.dataSeries1  = poolChartData.Utilization;
+            this.state.XaxisTitle = 'Resources'
+            this.state.dataSeries1  = resourceChartData.Utilization;
             this.state.dataSeriesLabels[0] = 'Utilization';
             this.state.dataSeriesLabels[1] = '';
             this.state.dataSeriesDisplay[0] = true;
@@ -53,10 +53,10 @@ class PoolBarChart extends React.Component {
             this.state.dataSeriesBackgroundColors[0] = 'rgba(255, 100, 100, 1)';
             this.state.dataSeriesBackgroundColors[1] = 'rgba(0, 0, 0, 0)';
         }  else  if (chartType == "total-orders-serviced") {
-            this.state.chartTitle = 'Total Orders Serviced by Pool';
+            this.state.chartTitle = 'Total Orders Serviced by Resource';
             this.state.YaxisTitle = 'Orders Serviced'
-            this.state.XaxisTitle = 'Pools'
-            this.state.dataSeries1  = poolChartData.TotalOrdersServiced;
+            this.state.XaxisTitle = 'Resources'
+            this.state.dataSeries1  = resourceChartData.TotalOrdersServiced;
             this.state.dataSeriesLabels[0] = 'Total Orders Serviced';
             this.state.dataSeriesLabels[1] = '';
             this.state.dataSeriesDisplay[0] = true;
@@ -68,10 +68,12 @@ class PoolBarChart extends React.Component {
         }
 
         var ChartData = {
+            // labels: resourceChartData.TotalIdleTime.map(element => (element.label)),
             labels: this.state.dataSeries1.map(element => (element.label)),
             datasets: [
                 {
                     label: this.state.dataSeriesLabels[0],
+                    // data: resourceChartData.TotalBusyTime.map(element => (element.value)),
                     data: this.state.dataSeries1.map(element => (element.value)),
                     backgroundColor: this.state.dataSeriesBackgroundColors[0],
                     hidden:  !this.state.dataSeriesDisplay[0],
@@ -79,6 +81,7 @@ class PoolBarChart extends React.Component {
                 },
                 {
                     label: this.state.dataSeriesLabels[1],
+                    // data: resourceChartData.TotalIdleTime.map(element => (element.value)),
                     data: this.state.dataSeries2.map(element => (element.value)),
                     backgroundColor: this.state.dataSeriesBackgroundColors[1],
                     hidden:  !this.state.dataSeriesDisplay[1],
@@ -147,4 +150,4 @@ class PoolBarChart extends React.Component {
         );
     }
 }
-export default PoolBarChart;
+export default ResourceBarChart;

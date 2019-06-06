@@ -5,13 +5,19 @@ import PoolBarChart from '../utils/PoolBarChart';
 class PoolResults extends React.Component {
   state = {
     displayShowChartButton: true,
-    displayShowTableButton: false
+    displayShowTableButton: false,
+    chartType: "idle-busy",
+    chartTitle: "Total Idle-Time/Total Busy-Time by Resource"
   };
 
   constructor(props) {
     super(props);
     this.poolChart = React.createRef(); // Create a ref    
     this.poolTable = React.createRef(); // Create a ref    
+  }
+
+  handleDropDownChange = (event) => {
+    this.setState({chartType: event.target.value});
   }
 
   handleButtonClick = (event, myRef) => {
@@ -38,7 +44,8 @@ class PoolResults extends React.Component {
             poolChartData,
             renderPoolsTableData,
             scenarioID,
-            scenarioName
+            scenarioName,
+            handleChartTypeChange
         }) => (
           <div id="home" ref={this.poolTable}>
             <div className="container my-scenario-container">
@@ -84,8 +91,14 @@ class PoolResults extends React.Component {
                     <div id="show-chart" ref={this.poolChart}>
                        <button class="resource-results-button" onClick={(event) => this.handleButtonClick(event, this.poolTable)}>
                           View table data
-                        </button>                   
-                      <PoolBarChart poolChartData={poolChartData}></PoolBarChart>
+                        </button>
+                        <label htmlFor="pool-chart-type" class="drop-down-label">Chart Type:</label>
+                        <select class="chart-type-drop-down" id="pool-chart-type" onChange={(event) => this.handleDropDownChange(event)}>
+                          <option value="idle-busy">Idle/Busy Time</option>
+                          <option value="utilization">Utilization</option>
+                          <option value="total-orders-serviced">Total Orders Serviced</option>
+                        </select>                             
+                      <PoolBarChart chartType={this.state.chartType}></PoolBarChart>
                     </div> )}
                 </div>
               </div>
