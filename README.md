@@ -44,7 +44,7 @@ The page displays cycle-time results for the selected scenario. Click on the "Vi
 The purpose of this project was to create a web-based simulation capability so that users can run the ExtendSim simulation without having to install it on their computers.
 
 ### Getting Started
-To use the ExtendSim web application, go to the Heruko link: https://extendsim-webapp.herokuapp.com/. Use admin as the username and model as the password in the login page. After logging in, the scenario inputs page will appear. Type any name for your scenario and use the 4 text files located in the input files folder in my project on GitHub https://github.com/phtag/ExtendSim-WebApp.git
+To use the ExtendSim web application, go to the Heruko link: https://sheltered-ridge-29320.herokuapp.com/. Use admin as the username and model as the password in the login page. After logging in, the scenario inputs page will appear. Type any name for your scenario and use the 4 text files located in the input files folder in my project on GitHub https://github.com/phtag/ExtendSim-WebApp.git
 
 Once you have setup the scenario inputs, click the "Submit simulation scenario" button. Observe the status of the simulation. When it completes, click on the "Show scenario results" button to view a table of cycle-time data for the 10 process steps being represented in the simulation model.
 
